@@ -1,0 +1,39 @@
+== Prüfungstermine Eintragen ==
+
+Anmerkung:
+Ampel greift nur für Prüfungsfenster auf Ebene der Studiengänge
+
+Text: Bitte tragen Sie ihre(n) Prüfungstermin(e) ein
+
+
+SQL:
+SELECT
+    distinct mitarbeiter_uid as uid
+FROM
+    lehre.tbl_lehreinheitmitarbeiter
+    JOIN lehre.tbl_lehreinheit USING(lehreinheit_id)
+    JOIN lehre.tbl_lehrveranstaltung USING(lehrveranstaltung_id)
+    JOIN public.tbl_studiengang USING(studiengang_kz)
+WHERE
+    tbl_lehreinheit.studiensemester_kurzbz = (SELECT studiensemester_kurzbz FROM campus.tbl_pruefungsfenster WHERE start=(now()+'14 days'::interval)::date)
+    AND tbl_studiengang.oe_kurzbz = (SELECT oe_kurzbz FROM campus.tbl_pruefungsfenster WHERE start=(now()+'14 days'::interval)::date);
+	
+	
+== Prüfungstermine Eintragen ==
+
+Anmerkung:
+
+Ampel für Prüfungsfenster auf oberster Ebene
+
+Text: Bitte tragen Sie ihre(n) Prüfungstermin(e) ein
+
+SQL:
+SELECT
+    distinct mitarbeiter_uid as uid
+FROM
+    lehre.tbl_lehreinheitmitarbeiter
+    JOIN lehre.tbl_lehreinheit USING(lehreinheit_id)
+    JOIN lehre.tbl_lehrveranstaltung USING(lehrveranstaltung_id)
+    JOIN public.tbl_studiengang USING(studiengang_kz)
+WHERE
+    tbl_lehreinheit.studiensemester_kurzbz = (SELECT studiensemester_kurzbz FROM campus.tbl_pruefungsfenster WHERE start=(now()+'14 days'::interval)::date)

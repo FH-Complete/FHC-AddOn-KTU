@@ -1,0 +1,13 @@
+== Prüfungen fixieren ==
+
+Titel: Finalisierung der Prüfungsanmeldung
+Text: 
+Die Anmeldefrist zur Prüfung XY am tt.mm.jjjj von ss:mm bis ss:mm Uhr ist abgelaufen. Bitte finalisieren sie diese indem sie die Reihung festlegen, die Anmeldungen bestätigen und den Raum fixieren.
+<Link zur Prüfung>
+
+SQL:
+SELECT
+	mitarbeiter_uid as uid
+FROM campus.tbl_pruefung
+	JOIN campus.tbl_pruefungstermin USING(pruefung_id)
+WHERE von::date=(now()+'3 days'::interval)::date;
