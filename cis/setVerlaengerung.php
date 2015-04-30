@@ -151,7 +151,7 @@ echo "<form action='".$_SERVER['PHP_SELF']."' method=POST>";
 echo "Art des Studienbeitrags:</br>";
 
 //Definition welche Buchungstypen angezeigt werden sollen
-$whitelist = array("gast","stgbL","stgbReg","stgbCP","stgbDoppel");
+$whitelist = array("gast","stgbL","stgbReg","stgbCP","stgbDoppel","stg1LV");
 echo "<table>";
 foreach($konto->result as $buchungstyp)
 {
