@@ -80,26 +80,62 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
     $konto->insertamum = $datum;
     $konto->mahnspanne = 0;
     $konto->new = true;
-
     
-	$prestudent_status->status_kurzbz = 'Student'; 
-	$prestudent_status->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz; 
-	$prestudent_status->insertamum = $datum; 
-	$prestudent_status->insertvon = $uid; 
-	$prestudent_status->updateamum = $datum; 
-	$prestudent_status->updatevon = $uid; 
-	$prestudent_status->ausbildungssemester = $pre_lastStatus->ausbildungssemester; 
-	$prestudent_status->datum = $datum; 
-	$prestudent_status->ext_id = ''; 
-	$prestudent_status->new = true; 
+    //Status wird manuell vorgerückt
+//	$prestudent_status->status_kurzbz = 'Student'; 
+//	$prestudent_status->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz; 
+//	$prestudent_status->insertamum = $datum; 
+//	$prestudent_status->insertvon = $uid; 
+//	$prestudent_status->updateamum = $datum; 
+//	$prestudent_status->updatevon = $uid; 
+//	$prestudent_status->ausbildungssemester = $pre_lastStatus->ausbildungssemester; 
+//	$prestudent_status->datum = $datum; 
+//	$prestudent_status->ext_id = ''; 
+//	$prestudent_status->new = true; 
+	
+	$bereitsverlaengert = false;
+	$konto->getBuchungen($prestudent_status->person_id, "offene", $prestudent_status->studiengang_kz); 
+	foreach($konto->result as $b)
+	{
+	    foreach($b as $c)
+	    {
+		if(!is_array($c))
+		{
+		    if($c->studiensemester_kurzbz == $studiensemester->studiensemester_kurzbz)
+		    $bereitsverlaengert = true;
+		}
+	    }
+	}
 
 //	 check ob es den Status schon gibt
-	if(!$prestudent_status->load_rolle($prestudent_status->prestudent_id, $prestudent_status->status_kurzbz, $prestudent_status->studiensemester_kurzbz, $prestudent_status->ausbildungssemester))
+	if((!$prestudent_status->load_rolle($prestudent_status->prestudent_id, $prestudent_status->status_kurzbz, $prestudent_status->studiensemester_kurzbz, $prestudent_status->ausbildungssemester)) && !$bereitsverlaengert)
 	{
+	    if($buchungstyp->buchungstyp_kurzbz != "gast")
+	    {
+		$buchungstyp->getBuchungstyp(TRUE, "oeh");
+		if(!empty($buchungstyp->result))
+		{
+		    $buchungstyp = $buchungstyp->result[0];
+		}
+		$konto2 = new konto();
+		$konto2->person_id = $prestudent_status->person_id;
+		$konto2->studiengang_kz = $prestudent_status->studiengang_kz;
+		$konto2->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz;
+		$konto2->betrag = $buchungstyp->standardbetrag;
+		$konto2->buchungsdatum = $datum;
+		$konto2->buchungstext = $prestudent_status->studiengang_kz." ".$studiensemester->studiensemester_kurzbz." ".$buchungstyp->standardtext;
+		$konto2->buchungstyp_kurzbz = $buchungstyp->buchungstyp_kurzbz;
+		$konto2->credit_points = $buchungstyp->credit_points;
+		$konto2->insertvon = $uid;
+		$konto2->insertamum = $datum;
+		$konto2->mahnspanne = 0;
+		$konto2->new = true;
+		$konto2->save();
+	    }
 	    if($konto->save())
 	    {
-		if($prestudent_status->save_rolle())
-		{
+//		if($prestudent_status->save_rolle())
+//		{
 		    // Email senden
 		    $stg = new studiengang(); 
 		    $stg->load($prestudent_status->studiengang_kz); 
@@ -109,11 +145,11 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 		    else
 			$msg='<span id="error">Fehler beim Senden der Verlängerungsemail aufgetreten</span>'; 
 
-		}
-		else
-		{
-		    $msg ='<span id="error">Fehler beim Verlängern aufgetreten</span>';
-		}
+//		}
+//		else
+//		{
+//		    $msg ='<span id="error">Fehler beim Verlängern aufgetreten</span>';
+//		}
 	    }
 	    else
 	    {
