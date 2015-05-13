@@ -17,7 +17,8 @@
  *
  * Authors: Andreas Oesterreicher <andreas.oesterreicher@technikum-wien.at>
  */
-
+require_once(dirname(__FILE__).'/../../externeAusweise/include/idCard.class.php');
+ 
 // Raumtyp der per Default am Infoterminal angezeigt wird
 $ServiceTerminalDefaultRaumtyp='HS';
 
@@ -34,23 +35,45 @@ $ServiceTerminalRaumtypen=array(
  * @param $uid
  * @return Array mit boolean und Errormsg
  */
-function ServiceTerminalCheckVerlaengerung($uid)
+function ServiceTerminalCheckVerlaengerung($uid, $cardnumber=NULL)
 {
-	if(!check_lektor($uid))	
+    if(!empty($cardnumber))
     {
-
-		$konto = new konto(); 
-		if($aktSemester= $konto->getLastStSemBuchungstypen($uid,array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg')))
+	$idCard = new idCard();
+	if($idCard->loadByCardnumber($cardnumber))
+	{
+	    $cardDate = new datum();
+	    $diff = substr($cardDate->DateDiff(date("Y-m-d"), substr($idCard->ablaufdatum,0,10)),1);
+	    if($diff>0)
 	    {
-			return array(true,'Studienbeitrag für Semester '.$aktSemester.' bezahlt');
-		}
-		else
-		{
-			return array(false,'Verlängerung der Karte ist derzeit nicht möglich da der Studienbeitrag noch nicht bezahlt wurde');
-		}
+		return array(true, "Karte kann verlängert werden");
+	    }
+	    else
+	    {
+		return array(false, "Karte kann nicht verlängert werden. Ablaufdatum liegt in der Vergangenheit.");
+	    }
+	}
+	else
+	    return array(false, "Unbekannte Karte.");
+    }
+    else
+    {
+	if(!check_lektor($uid))	
+	{
+
+	    $konto = new konto(); 
+	    if($aktSemester= $konto->getLastStSemBuchungstypen($uid,array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg')))
+	    {
+		    return array(true,'Studienbeitrag für Semester '.$aktSemester.' bezahlt');
+	    }
+	    else
+	    {
+		    return array(false,'Verlängerung der Karte ist derzeit nicht möglich da der Studienbeitrag noch nicht bezahlt wurde');
+	    }
 	}
 	else
 		return array(false,'Für Mitarbeiter ist eine Kartenverlängerung nicht möglich');
+    }
 }
 
 /**
@@ -58,15 +81,17 @@ function ServiceTerminalCheckVerlaengerung($uid)
  * @param $uid UID des Users
  * @return array mit Datum/Drucktext und errorMessage
  */ 
-function ServiceTerminalGetDrucktext($uid)
+function ServiceTerminalGetDrucktext($uid, $cardnumber=NULL)
 {
+    if(is_null($cardnumber))
+    {
 	// hole Semester des letzten eingezahlten Studienbeitrages
 	$konto = new konto(); 
 	if(!$aktSemester= $konto->getLastStSemBuchungstypen($uid, array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg','Studiengebuehr')))
 	{
 	    return array('datum'=>'', 'errorMessage'=>$konto->errormsg);  
 	}  
-	
+
 	$stsem = new studiensemester();
 	$stsem->load($aktSemester);
 
@@ -77,5 +102,20 @@ function ServiceTerminalGetDrucktext($uid)
 		$datum = '30.9.'.$datum_obj->formatDatum($stsem->ende,'Y');
 
 	return array('datum'=>$datum, 'errorMessage'=>'');  
+    }
+    else
+    {
+	$idCard = new idCard();
+	$datum_obj = new datum();
+	if($idCard->loadByCardnumber($cardnumber))
+	{
+	    $datum = $datum_obj->formatDatum($idCard->ablaufdatum, "d.m.Y");
+	    return array('datum'=>$datum." ".$idCard->cardtext, 'errorMessage'=>'');
+	}
+	else
+	{
+	    return array('datum'=>'', 'errorMessage'=>$idCard->errormsg);
+	}
+    }
 }
 ?>
