@@ -245,7 +245,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 				<text:sequence-decl text:display-outline-level="0" text:name="Text"/>
 				<text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
 			</text:sequence-decls>
-			<text:p text:style-name="P1">An die Verwaltung der Katholisch-Theologischen Privatuniversität Linz</text:p>
+			<text:p text:style-name="P1">An die Verwaltung der Katholischen Privat-Universität Linz</text:p>
 			<text:p text:style-name="P2"/>
 			<text:p text:style-name="P4">Honorierung eines Lehrauftrages</text:p>
 			<text:p text:style-name="P2"/>
