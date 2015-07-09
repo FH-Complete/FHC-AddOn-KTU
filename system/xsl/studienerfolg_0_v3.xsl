@@ -154,7 +154,7 @@
 					
 					<fo:block-container position="absolute" top="87mm" left="16mm">
 						<fo:block text-align="left" line-height="10pt" font-family="sans-serif" font-size="10pt" font-weight="bold">
-							<xsl:value-of select="studiensemester_aktuell_beschreigung" />
+							<xsl:value-of select="studiensemester_aktuell_beschreibung" />
 						</fo:block>
 					</fo:block-container>
 					

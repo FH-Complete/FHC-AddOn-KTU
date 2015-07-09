@@ -118,7 +118,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 					<fo:block-container position="absolute" top="190pt" left="30pt" height="30pt">
 						<fo:block text-align="left" line-height="12pt" font-family="sans-serif" font-size="14pt">
-							Studienbestätigung Katholisch-Theologische Privatuniversität Linz
+							Studienbestätigung Katholische Privat-Universität Linz
 						</fo:block>
 					</fo:block-container> 
 
@@ -215,7 +215,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 					<fo:block-container position="absolute" top="340pt" left="30pt" height="30pt">
 						<fo:block text-align="left" line-height="12pt" font-family="sans-serif" font-size="14pt">
-					Studienbestätigung Katholisch-Theologische Privatuniversität Linz
+					Studienbestätigung Katholische Privat-Universität Linz
 						</fo:block>
 					</fo:block-container> 
 
@@ -313,7 +313,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 					<fo:block-container position="absolute" top="490pt" left="30pt" height="30pt">
 						<fo:block text-align="left" line-height="12pt" font-family="sans-serif" font-size="14pt">
-							Studienbestätigung Katholisch-Theologische Privatuniversität Linz
+							Studienbestätigung Katholische Privat-Universität Linz
                         </fo:block>
 					</fo:block-container> 
 
@@ -412,7 +412,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 					<fo:block-container position="absolute" top="640pt" left="30pt" height="30pt">
 						<fo:block text-align="left" line-height="12pt" font-family="sans-serif" font-size="14pt">
-							Studienbestätigung Katholisch-Theologische Privatuniversität Linz
+							Studienbestätigung Katholische Privat-Universität Linz
                         </fo:block>
 					</fo:block-container> 
 
