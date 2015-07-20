@@ -1,2 +1,2 @@
-# FHC-Addon-KTU
-KTU Addon
+# FHC-Addon-KU
+KU Addon
