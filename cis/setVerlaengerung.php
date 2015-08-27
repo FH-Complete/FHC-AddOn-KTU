@@ -43,7 +43,8 @@ if($uid == '')
     die('Ungültige uid'); 
 
 $studiensemester = new studiensemester(); 
-$studiensemester->getNextStudiensemester();
+$stud_sem_kurzbz = $studiensemester->getaktorNext();
+$studiensemester->load($stud_sem_kurzbz);
 
 if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 {
@@ -73,7 +74,7 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
     $konto->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz;
     $konto->betrag = $buchungstyp->standardbetrag;
     $konto->buchungsdatum = $datum;
-    $konto->buchungstext = $prestudent_status->studiengang_kz." ".$studiensemester->studiensemester_kurzbz." ".$buchungstyp->standardtext;
+    $konto->buchungstext = $prestudent_status->studiengang_kz." ".$studiensemester->beschreibung." ".$buchungstyp->standardtext;
     $konto->buchungstyp_kurzbz = $buchungstyp->buchungstyp_kurzbz;
     $konto->credit_points = $buchungstyp->credit_points;
     $konto->insertvon = $uid;
@@ -123,7 +124,7 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 		$konto2->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz;
 		$konto2->betrag = $buchungstyp->standardbetrag;
 		$konto2->buchungsdatum = $datum;
-		$konto2->buchungstext = $prestudent_status->studiengang_kz." ".$studiensemester->studiensemester_kurzbz." ".$buchungstyp->standardtext;
+		$konto2->buchungstext = $prestudent_status->studiengang_kz." ".$studiensemester->beschreibung." ".$buchungstyp->standardtext;
 		$konto2->buchungstyp_kurzbz = $buchungstyp->buchungstyp_kurzbz;
 		$konto2->credit_points = $buchungstyp->credit_points;
 		$konto2->insertvon = $uid;
@@ -141,7 +142,7 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 		    $stg->load($prestudent_status->studiengang_kz); 
 
 		    if(sendMail($prestudent_status->prestudent_id))
-			$msg = '<span id="ok">Ihre Email wurde erfolgreich an '.$stg->email.' gesendet und wird bearbeitet.</span>';
+			$msg = '<span id="ok">Vielen Dank! Sobald der Studienbeitrag an der KU eingegangen ist wird die Studienverlängerung bestätigt. Infos siehe Menüpunkt Zahlungen.</span>';
 		    else
 			$msg='<span id="error">Fehler beim Senden der Verlängerungsemail aufgetreten</span>'; 
 
@@ -158,7 +159,7 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 	}
 	else
 	{
-	    $msg = '<span id="error">Sie haben bereites für das Studiensemester '.$prestudent_status->studiensemester_kurzbz.' verlängert</span>';
+	    $msg = '<span id="error">Sie haben bereites für das Studiensemester '.$prestudent_status->beschreibung.' verlängert</span>';
 	}
 }
 else if(isset($_POST['btn_verlaengerung']) && !isset($_POST['buchungstyp']))
@@ -182,13 +183,15 @@ $konto = new konto();
 $konto->getBuchungstyp();
 
 echo "<p><b>Verlängerung Studiensemester</b></p><br>"; 
-echo "Ich möchte mein Studium für den Studiengang: <b>".$studiengang->bezeichnung.'</b> für das Semester '.$studiensemester->studiensemester_kurzbz.' verlängern.</br></br>';
+echo "Ich möchte mein Studium für den Studiengang: <b>".$studiengang->bezeichnung.'</b> für das Semester '.$studiensemester->beschreibung.' verlängern.</br></br>';
 echo "<form action='".$_SERVER['PHP_SELF']."' method=POST>";
 echo "Art des Studienbeitrags:</br>";
 
 //Definition welche Buchungstypen angezeigt werden sollen
 $whitelist = array("gast","stgbL","stgbReg","stgbCP","stgbDoppel","stg1LV");
 echo "<table>";
+
+usort($konto->result, "cmp");
 foreach($konto->result as $buchungstyp)
 {
     if(in_array($buchungstyp->buchungstyp_kurzbz, $whitelist))
@@ -224,6 +227,16 @@ function sendMail($prestudent_id)
 		return false; 
 	else
 		return true; 
+}
+
+function cmp($a, $b)
+{
+    if($a->standardbetrag == $b->standardbetrag)
+    {
+	return 0;
+    }
+    
+    return($a->standardbetrag < $b->standardbetrag) ? -1 : 1;
 }
 
 ?>
