@@ -45,9 +45,18 @@ if($uid == '')
 $studiensemester = new studiensemester(); 
 $stud_sem_kurzbz = $studiensemester->getaktorNext();
 $studiensemester->load($stud_sem_kurzbz);
+$stsem_array = array();
+array_push($stsem_array, $studiensemester);
+
+$studiensemester_temp = new studiensemester();
+$temp = $studiensemester_temp->getNextFrom($stud_sem_kurzbz);
+$studiensemester_temp->load($temp);
+array_push($stsem_array, $studiensemester_temp);
 
 if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 {
+    $studiensemester_kurzbz = filter_input(INPUT_POST, "stdsem");
+    $studiensemester->load($studiensemester_kurzbz);
     $timestamp = time(); 
     $datum = date("Y-m-d H:i:s",$timestamp); 
     
@@ -159,7 +168,7 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 	}
 	else
 	{
-	    $msg = '<span id="error">Sie haben bereites für das Studiensemester '.$prestudent_status->beschreibung.' verlängert</span>';
+	    $msg = '<span id="error">Sie haben bereites für das Studiensemester '.$studiensemester->beschreibung.' verlängert</span>';
 	}
 }
 else if(isset($_POST['btn_verlaengerung']) && !isset($_POST['buchungstyp']))
@@ -178,13 +187,25 @@ if(!$prestudent->load($student->prestudent_id))
 $studiengang = new studiengang(); 
     if(!$studiengang->load($prestudent->studiengang_kz))
         die('Konnte Studiengang nicht laden');
+    
+$stud_sem_kurzbz = $studiensemester->getaktorNext();
+$studiensemester->load($stud_sem_kurzbz);
 
 $konto = new konto();
 $konto->getBuchungstyp();
 
-echo "<p><b>Verlängerung Studiensemester</b></p><br>"; 
-echo "Ich möchte mein Studium für den Studiengang: <b>".$studiengang->bezeichnung.'</b> für das Semester '.$studiensemester->beschreibung.' verlängern.</br></br>';
 echo "<form action='".$_SERVER['PHP_SELF']."' method=POST>";
+echo "<p><b>Verlängerung Studiensemester</b></p><br>"; 
+echo "Ich möchte mein Studium für den Studiengang: <b>".$studiengang->bezeichnung.'</b> für das Semester ';
+echo "<select name='stdsem' id='stdsem'>".$studiensemester->beschreibung;
+foreach($stsem_array as $sem)
+{
+    echo "<option value='".$sem->studiensemester_kurzbz."'>".$sem->bezeichnung."</option>";
+}
+
+echo "</select>";
+echo ' verlängern.</br></br>';
+
 echo "Art des Studienbeitrags:</br>";
 
 //Definition welche Buchungstypen angezeigt werden sollen
