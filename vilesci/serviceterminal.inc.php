@@ -62,7 +62,17 @@ function ServiceTerminalCheckVerlaengerung($uid, $cardnumber=NULL)
 	{
 
 	    $konto = new konto(); 
-	    if($aktSemester= $konto->getLastStSemBuchungstypen($uid,array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg')))
+	    if(defined("CIS_DOKUMENTE_STUDIENBEITRAG_TYPEN"))
+	    {
+		$buchungstypen = unserialize (CIS_DOKUMENTE_STUDIENBEITRAG_TYPEN);
+	    }
+	    else
+	    {
+		$buchungstypen = array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg','Studiengebuehr');
+		
+	    }
+	    
+	    if($aktSemester = $konto->getLastStSemBuchungstypen($uid,$buchungstypen))
 	    {
 		    return array(true,'Studienbeitrag für Semester '.$aktSemester.' bezahlt');
 	    }
@@ -85,9 +95,19 @@ function ServiceTerminalGetDrucktext($uid, $cardnumber=NULL)
 {
     if(is_null($cardnumber))
     {
+	if(defined("CIS_DOKUMENTE_STUDIENBEITRAG_TYPEN"))
+	{
+	    $buchungstypen = unserialize (CIS_DOKUMENTE_STUDIENBEITRAG_TYPEN);
+	}
+	else
+	{
+	    $buchungstypen = array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg','Studiengebuehr');
+
+	}
+	
 	// hole Semester des letzten eingezahlten Studienbeitrages
 	$konto = new konto(); 
-	if(!$aktSemester= $konto->getLastStSemBuchungstypen($uid, array('stgbCP','stgbDoppel','stgbL','stgbRed','stgbReg','Studiengebuehr')))
+	if(!$aktSemester= $konto->getLastStSemBuchungstypen($uid, $buchungstypen))
 	{
 	    return array('datum'=>'', 'errorMessage'=>$konto->errormsg);  
 	}  
