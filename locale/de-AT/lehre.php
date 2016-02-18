@@ -1,4 +1,4 @@
 <?php
 
-$this->phrasen['lehre/Lehrbeauftrager']='Lehrende(r)';
+$this->phrasen['lehre/lehrbeauftragter']='Lehrende(r)';
 
