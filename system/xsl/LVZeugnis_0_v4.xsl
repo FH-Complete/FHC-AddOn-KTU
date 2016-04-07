@@ -62,7 +62,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 			<style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.05pt solid #000000" fo:border-right="0.05pt solid #000000" fo:border-top="none" fo:border-bottom="none"/>
 		</style:style>
 		<style:style style:name="Tabelle2.A3" style:family="table-cell">
-			<style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.05pt solid #000000" fo:border-right="none" fo:border-top="none" fo:border-bottom="0.05pt solid #000000"/>
+			<style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.05pt solid #000000" fo:border-right="0.05pt solid #000000" fo:border-top="none" fo:border-bottom="0.05pt solid #000000"/>
 		</style:style>
 		<style:style style:name="Tabelle2.D3" style:family="table-cell">
 			<style:table-cell-properties fo:padding="0.097cm" fo:border-left="none" fo:border-right="0.05pt solid #000000" fo:border-top="none" fo:border-bottom="0.05pt solid #000000"/>
@@ -319,7 +319,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 						<text:p text:style-name="P3">Art <text:note text:id="ftn1" text:note-class="footnote">
 								<text:note-citation>1</text:note-citation>
 								<text:note-body>
-									<text:p text:style-name="P12">VL (Vorlesung), SV (Spezialvorlesung), VL+KO bzw. SV+KO (Spezial/Vorlesung mit Konversatorium), PS (Proseminar), SE (Seminar), AG (Arbeitsgemeinschaft), UE (Übung), PK (Praktikum), EX (Exkursion), PA (Projektarbeit), KO (Konversatorium)</text:p>
+									<text:p text:style-name="P12"><xsl:value-of select="lehrform_bezeichnung" /></text:p>
 									<text:p text:style-name="P2"/>
 								</text:note-body>
 							</text:note>
@@ -349,31 +349,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 				</table:table-row>
 				<table:table-row>
 					<table:table-cell table:style-name="Tabelle2.A2" table:number-columns-spanned="5" office:value-type="string">
-						<text:p text:style-name="P4">anzurechnen in einem Modul des <text:span text:style-name="T3">
-							<xsl:choose>
-								<xsl:when test="lv_studiengang_typ='b'">
-									Bachelorstudiums
-								</xsl:when>
-								<xsl:when test="lv_studiengang_typ='m'">
-									Masterstudiums
-								</xsl:when>
-								<xsl:when test="lv_studiengang_typ='d'">
-									Diplomstudiums
-								</xsl:when>
-								<xsl:when test="lv_studiengang_typ='l'">
-									Lehramtsstudiums
-								</xsl:when>
-								<xsl:when test="lv_studiengang_typ='r'">
-									Doktorstudiums
-								</xsl:when>
-								<xsl:when test="lv_studiengang_typ='z'">
-									Lizentiatsstudiums
-								</xsl:when>
-								<xsl:otherwise>
-									Studiums
-								</xsl:otherwise>
-							</xsl:choose>
-						</text:span>
+						<text:p text:style-name="P4">Angerechnet für: 
 						</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
@@ -382,36 +358,24 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 					<table:covered-table-cell/>
 				</table:table-row>
 				<table:table-row>
-					<table:table-cell table:style-name="Tabelle2.A3" table:number-columns-spanned="3" office:value-type="string">
+					<table:table-cell table:style-name="Tabelle2.A3" table:number-columns-spanned="5" office:value-type="string">
+						<text:p text:style-name="P7">
+							<xsl:if test="studienverpflichtung!=''">
+									<xsl:value-of select="studienverpflichtung"/>
+							</xsl:if>
+							<xsl:if test="studienverpflichtung=''">
+									<xsl:value-of select="bezeichnung"/>
+							</xsl:if>
+						</text:p>
 						<text:list xml:id="list8747366111745292750" text:style-name="L1">
 							<xsl:apply-templates select="module" mode="even"/>
 						</text:list>
 					</table:table-cell>
-					<table:covered-table-cell/>
-					<table:covered-table-cell/>
-					<table:table-cell table:style-name="Tabelle2.D3" table:number-columns-spanned="2" office:value-type="string">
+					<!--<table:table-cell table:style-name="Tabelle2.D3" table:number-columns-spanned="2" office:value-type="string">
 						<text:list xml:id="list6036136511463885427" text:style-name="L2">
 							<xsl:apply-templates select="module" mode="odd"/>
 						</text:list>
-					</table:table-cell>
-					<table:covered-table-cell/>
-				</table:table-row>
-				<table:table-row>
-					<table:table-cell table:style-name="Tabelle2.A4" table:number-columns-spanned="5" office:value-type="string">
-						<text:p text:style-name="P3">Wortlaut der Studienverpflichtung gemäß Studienplan (nur eintragen, wenn der Lehrveranstaltungstitel damit nicht identisch ist)</text:p>
-						<text:p text:style-name="P7">
-						<xsl:if test="studienverpflichtung!=''">
-								<xsl:value-of select="studienverpflichtung"/>
-						</xsl:if>
-						<xsl:if test="studienverpflichtung=''">
-								<xsl:value-of select="bezeichnung"/>
-						</xsl:if>
-						</text:p>
-					</table:table-cell>
-					<table:covered-table-cell/>
-					<table:covered-table-cell/>
-					<table:covered-table-cell/>
-					<table:covered-table-cell/>
+					</table:table-cell>-->
 				</table:table-row>
 			</table:table>
 			<text:p text:style-name="Standard"/>
@@ -471,7 +435,19 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 		<xsl:for-each select='modul'>
 				<xsl:if test="position() mod 2 = 0">
 					<text:list-item>
-						<text:p text:style-name="P13"><xsl:value-of select="modul_bezeichnung"/></text:p>
+						<text:p text:style-name="P13"><xsl:value-of select="modul_bezeichnung"/> TEST</text:p>
+						<text:unordered-list>
+							<text:list-item>
+								<text:p text:style-name="P13">
+									<xsl:if test="studienverpflichtung!=''">
+											<xsl:value-of select="studienverpflichtung"/>
+									</xsl:if>
+									<xsl:if test="studienverpflichtung=''">
+											<xsl:value-of select="bezeichnung"/>
+									</xsl:if>
+								</text:p>
+							</text:list-item>
+						</text:unordered-list>
 					</text:list-item>
 				</xsl:if>
 		</xsl:for-each>
