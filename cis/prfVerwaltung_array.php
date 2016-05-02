@@ -26,3 +26,5 @@ $fakultaeten = array(
 
 $noteCode_uef = "11";
 $maxAnzahlVersuche = 2;
+
+$pruefungstyp_kurzbzArray = array("Termin1","Termin2","Termin3","kommPruef");
