@@ -104,6 +104,16 @@ addon.push(
 		
 		var zeugnis = document.getElementById("menu-dokumente-pruefungszeugnis:command");
 		zeugnis.setAttribute("oncommand", "AddonKTUStudentAbschlusspruefungPrintPruefungszeugnisMultiple('deutsch')");
+                
+                // Menuepunkt "Zeugnisnote eintragen" hinzufuegen
+		extrasmenue = document.getElementById("menu-extras-popup");
+
+		var menuentry = document.createElement("menuitem");
+		menuentry.setAttribute("id","addons-sfu-zeugnisnote");
+		menuentry.setAttribute("label","Zeugnisnote eintragen");
+		menuentry.addEventListener("command",AddZeugnisnote, true);
+	
+		extrasmenue.appendChild(menuentry);
 		
 	},
 	selectMitarbeiter: function(person_id, mitarbeiter_uid)
@@ -422,4 +432,19 @@ function AddonKTUStudentAbschlusspruefungPrintPruefungszeugnisMultiple(sprache)
 	}
 
 	window.open('<?php echo APP_ROOT; ?>/content/pdfExport.php?xml=ktu_abschlusszeugnis.rdf.php&xsl='+xsl+'&abschlusspruefung_id='+abschlusspruefung_id+'&ss=SS2014&output=pdf','Pruefungsprotokoll', 'height=200,width=350,left=0,top=0,hotkeys=0,resizable=yes,status=no,scrollbars=yes,toolbar=no,location=no,menubar=no,dependent=yes');
+}
+
+function AddZeugnisnote()
+{
+	var tree = document.getElementById('student-tree');
+    if (tree.currentIndex == -1)
+    {
+        alert("Bitte wählen Sie einen Studenten aus.");
+        return false;
+    }
+        
+    var col = tree.columns ? tree.columns["student-treecol-uid"] : "student-treecol-uid";
+	var uid = tree.view.getCellText(tree.currentIndex,col);
+    
+    window.open('../addons/ku/vilesci/zeugnisnote.php?uid='+uid);
 }
