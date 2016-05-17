@@ -15,7 +15,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  *
- * Authors: Andreas Oesterreicher <andreas.oesterreicher@technikum-wien.at> 
+ * Authors: Andreas Oesterreicher <andreas.oesterreicher@technikum-wien.at> and
+ *          Andreas Moik <moik@technikum-wien.at>.
  *
  */
 /**
@@ -45,13 +46,13 @@ if(isset($_GET['uid']))
 else
 	$uid='';
 
-$qry = "SELECT  
-			vorname, nachname, uid, gebdatum, (SELECT matrikelnr FROM public.tbl_student WHERE student_uid=tbl_benutzer.uid) as matrikelnr, alias,
+$qry = "SELECT
+			vorname, nachname, uid, gebdatum, (SELECT perskz FROM public.tbl_prestudent WHERE uid=tbl_benutzer.uid) as perskz, alias,
 			(SELECT lektor FROM public.tbl_mitarbeiter WHERE mitarbeiter_uid=tbl_benutzer.uid) as lektor,
 			(SELECT fixangestellt FROM public.tbl_mitarbeiter WHERE mitarbeiter_uid=tbl_benutzer.uid) as fixangestellt,
-			(SELECT true FROM public.tbl_student WHERE student_uid=tbl_benutzer.uid) as student,
+			(SELECT true FROM public.tbl_prestudent WHERE uid=tbl_benutzer.uid) as student,
 			(SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='email' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as email_privat, aktivierungscode,
-			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_student USING(studiengang_kz) WHERE tbl_student.student_uid=tbl_benutzer.uid) as studiengang
+			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_prestudent USING(studiengang_kz) WHERE tbl_prestudent.uid=tbl_benutzer.uid) as studiengang
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
@@ -70,7 +71,7 @@ if($result = $db->db_query($qry))
 		//Suchen ob der User bereits vorhanden ist
 		if(!$dn = $ldap->GetUserDN($row->uid))
 		{
-			if($row->matrikelnr=='')
+			if($row->perskz=='')
 			{
 				//Mitarbeiter
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
@@ -81,7 +82,7 @@ if($result = $db->db_query($qry))
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
 
 			}
-			
+
 			//Active Directory will das Passwort in doppelten Hochkomma und UTF16LE codiert
 			$utf16_passwort = 	mb_convert_encoding('"'.ACCOUNT_ACTIVATION_PASSWORD.'"', "UTF-16LE", "UTF-8");
 
@@ -106,16 +107,16 @@ if($result = $db->db_query($qry))
 				$data['extensionAttribute2']='Bediensteter';
 			if($row->student=='t')
 				$data['extensionAttribute3']='Studierender';
-				
-			
+
+
 			//Passwort und UserAccountControl kann nicht beim Anlegen direkt gesetzt werden
 			//Es muss nach dem Anlegen des Users gesetzt werden
-			
+
 			// UserAccountControl gibt den Status des Accounts an. Per default sind diese deaktiviert (514)
 			// 512 = Normal Account
 			// http://support.microsoft.com/kb/305144/en-us
-			//$data["UserAccountControl"] = "512";  
-			//$data["unicodepwd"] = $utf16_passwort;			
+			//$data["UserAccountControl"] = "512";
+			//$data["unicodepwd"] = $utf16_passwort;
 
 			if(!$ldap->Add($dn, $data))
 			{
@@ -141,10 +142,10 @@ if($result = $db->db_query($qry))
 				{
 					echo "<br>Fehler beim Setzten von UserAccountControl und Passwort von $row->uid: ".$ldap->errormsg;
 					continue;
-				}					
+				}
 
 				echo "<br>$row->uid erfolgreich angelegt";
-				
+
 				/*
 				$to = $row->email_privat;
 				$from = 'no-reply@'.DOMAIN;
