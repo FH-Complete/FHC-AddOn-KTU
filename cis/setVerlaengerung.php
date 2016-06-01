@@ -28,21 +28,21 @@
 <body>
 
 <?php
-require_once('../../../config/cis.config.inc.php'); 
-require_once('../../../include/prestudent.class.php'); 
-require_once('../../../include/studiengang.class.php'); 
-require_once('../../../include/studiensemester.class.php'); 
-require_once('../../../include/student.class.php'); 
-require_once('../../../include/functions.inc.php'); 
+require_once('../../../config/cis.config.inc.php');
+require_once('../../../include/prestudent.class.php');
+require_once('../../../include/studiengang.class.php');
+require_once('../../../include/studiensemester.class.php');
+require_once('../../../include/student.class.php');
+require_once('../../../include/functions.inc.php');
 require_once('../../../include/mail.class.php');
-require_once('../../../include/konto.class.php'); 
+require_once('../../../include/konto.class.php');
 
-$uid= get_uid(); 
+$uid= get_uid();
 $msg = '<span>&nbsp;</span>';
 if($uid == '')
-    die('Ungültige uid'); 
+    die('Ungültige uid');
 
-$studiensemester = new studiensemester(); 
+$studiensemester = new studiensemester();
 $stud_sem_kurzbz = $studiensemester->getaktorNext();
 $studiensemester->load($stud_sem_kurzbz);
 $stsem_array = array();
@@ -57,17 +57,17 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 {
     $studiensemester_kurzbz = filter_input(INPUT_POST, "stdsem");
     $studiensemester->load($studiensemester_kurzbz);
-    $timestamp = time(); 
-    $datum = date("Y-m-d H:i:s",$timestamp); 
-    
-    $pre_lastStatus = new prestudent(); 
-    $pre_lastStatus->getLastStatus($_POST['prestudent_id']); 
-    
+    $timestamp = time();
+    $datum = date("Y-m-d H:i:s",$timestamp);
+
+    $pre_lastStatus = new prestudent();
+    $pre_lastStatus->getLastStatus($_POST['prestudent_id']);
+
     // Verlängerung Status anlegen
     $prestudent_id = filter_input(INPUT_POST, "prestudent_id");
-    $prestudent_status = new prestudent(); 
+    $prestudent_status = new prestudent();
     $prestudent_status->load($prestudent_id);
-    
+
     $konto = new konto();
     $buchungstyp = filter_input(INPUT_POST, "buchungstyp");
     $buchung = new konto();
@@ -90,21 +90,21 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
     $konto->insertamum = $datum;
     $konto->mahnspanne = 0;
     $konto->new = true;
-    
+
     //Status wird manuell vorgerückt
-//	$prestudent_status->status_kurzbz = 'Student'; 
-//	$prestudent_status->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz; 
-//	$prestudent_status->insertamum = $datum; 
-//	$prestudent_status->insertvon = $uid; 
-//	$prestudent_status->updateamum = $datum; 
-//	$prestudent_status->updatevon = $uid; 
-//	$prestudent_status->ausbildungssemester = $pre_lastStatus->ausbildungssemester; 
-//	$prestudent_status->datum = $datum; 
-//	$prestudent_status->ext_id = ''; 
-//	$prestudent_status->new = true; 
-	
+//	$prestudent_status->status_kurzbz = 'Student';
+//	$prestudent_status->studiensemester_kurzbz = $studiensemester->studiensemester_kurzbz;
+//	$prestudent_status->insertamum = $datum;
+//	$prestudent_status->insertvon = $uid;
+//	$prestudent_status->updateamum = $datum;
+//	$prestudent_status->updatevon = $uid;
+//	$prestudent_status->ausbildungssemester = $pre_lastStatus->ausbildungssemester;
+//	$prestudent_status->datum = $datum;
+//	$prestudent_status->ext_id = '';
+//	$prestudent_status->new = true;
+
 	$bereitsverlaengert = false;
-	$konto->getBuchungen($prestudent_status->person_id, "offene", $prestudent_status->studiengang_kz); 
+	$konto->getBuchungen($prestudent_status->person_id, "offene", $prestudent_status->studiengang_kz);
 	foreach($konto->result as $b)
 	{
 	    foreach($b as $c)
@@ -147,13 +147,13 @@ if(isset($_POST['btn_verlaengerung']) && isset($_POST['buchungstyp']))
 //		if($prestudent_status->save_rolle())
 //		{
 		    // Email senden
-		    $stg = new studiengang(); 
-		    $stg->load($prestudent_status->studiengang_kz); 
+		    $stg = new studiengang();
+		    $stg->load($prestudent_status->studiengang_kz);
 
 		    if(sendMail($prestudent_status->prestudent_id))
 			$msg = '<span id="ok">Vielen Dank! Sobald der Studienbeitrag an der KU eingegangen ist wird die Studienverlängerung bestätigt. Infos siehe Menüpunkt Zahlungen.</span>';
 		    else
-			$msg='<span id="error">Fehler beim Senden der Verlängerungsemail aufgetreten</span>'; 
+			$msg='<span id="error">Fehler beim Senden der Verlängerungsemail aufgetreten</span>';
 
 //		}
 //		else
@@ -176,18 +176,18 @@ else if(isset($_POST['btn_verlaengerung']) && !isset($_POST['buchungstyp']))
     $msg = '<span id="error">Sie müssen eine Studiengebühr auswählen.</span>';
 }
 
-$student = new student(); 
+$student = new student(); 		// TODO EINE nicht eindeutig
 if(!$student->load($uid))
-    die('Keinen Studenten gefunden'); 
+    die('Keinen Studenten gefunden');
 
-$prestudent= new prestudent(); 
+$prestudent= new prestudent();
 if(!$prestudent->load($student->prestudent_id))
-    die('Keinen Prestudenten gefunden'); 
+    die('Keinen Prestudenten gefunden');
 
-$studiengang = new studiengang(); 
+$studiengang = new studiengang();
     if(!$studiengang->load($prestudent->studiengang_kz))
         die('Konnte Studiengang nicht laden');
-    
+
 $stud_sem_kurzbz = $studiensemester->getaktorNext();
 $studiensemester->load($stud_sem_kurzbz);
 
@@ -195,7 +195,7 @@ $konto = new konto();
 $konto->getBuchungstyp();
 
 echo "<form action='".$_SERVER['PHP_SELF']."' method=POST>";
-echo "<p><b>Verlängerung Studiensemester</b></p><br>"; 
+echo "<p><b>Verlängerung Studiensemester</b></p><br>";
 echo "Ich möchte mein Studium für den Studiengang: <b>".$studiengang->bezeichnung.'</b> für das Semester ';
 echo "<select name='stdsem' id='stdsem'>".$studiensemester->beschreibung;
 foreach($stsem_array as $sem)
@@ -220,34 +220,34 @@ foreach($konto->result as $buchungstyp)
 }
 
 echo "</table></br><input type='submit' value='Verlängern' name='btn_verlaengerung'>";
-echo "<input type='hidden' name='prestudent_id' value='".$prestudent->prestudent_id."'>"; 
-echo "</form>"; 
+echo "<input type='hidden' name='prestudent_id' value='".$prestudent->prestudent_id."'>";
+echo "</form>";
 echo "<br><br";
-echo $msg; 
-echo "<br><a href='".APP_ROOT."cis/private/profile/index.php'>Zurück zum Profil</a>"; 
+echo $msg;
+echo "<br><a href='".APP_ROOT."cis/private/profile/index.php'>Zurück zum Profil</a>";
 
 
 function sendMail($prestudent_id)
 {
-    $prestudent = new prestudent(); 
+    $prestudent = new prestudent();
     if(!$prestudent->load($prestudent_id))
-        die('Konnte Prestudent nicht laden'); 
-    
-    $studiengang = new studiengang(); 
+        die('Konnte Prestudent nicht laden');
+
+    $studiengang = new studiengang();
     if(!$studiengang->load($prestudent->studiengang_kz))
-        die('Konnte Studiengang nicht laden'); 
-    
+        die('Konnte Studiengang nicht laden');
+
     $email = 'Ein Student hat um eine Verlängerung seines Studiums angefragt. <br>';
     $email.= 'Name: '.$prestudent->vorname.' '.$prestudent->nachname.'<br>';
     $email.= 'Studiengang: '.$studiengang->bezeichnung.'<br><br>';
-    $email.= 'Für mehr Details, verwenden Sie die Personenansicht im FAS.'; 
-    
+    $email.= 'Für mehr Details, verwenden Sie die Personenansicht im FAS.';
+
     $mail = new mail($studiengang->email, 'no-reply', 'Verlängerung Studium '.$prestudent->vorname.' '.$prestudent->nachname, 'Bitte sehen Sie sich die Nachricht in HTML Sicht an, um den Link vollständig darzustellen.');
-	$mail->setHTMLContent($email); 
+	$mail->setHTMLContent($email);
 	if(!$mail->send())
-		return false; 
+		return false;
 	else
-		return true; 
+		return true;
 }
 
 function cmp($a, $b)
@@ -256,7 +256,7 @@ function cmp($a, $b)
     {
 	return 0;
     }
-    
+
     return($a->standardbetrag < $b->standardbetrag) ? -1 : 1;
 }
 
