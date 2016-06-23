@@ -197,7 +197,7 @@ function AddonKTUprintLVLehrveranstaltungszeugnis()
 		    col = tree.columns ? tree.columns["lehrveranstaltung-noten-tree-prestudent_id"] : "lehrveranstaltung-noten-tree-prestudent_id";
 		    prestudent_id = tree.view.getCellText(v,col);
 		    paramList += ';'+prestudent_id;
-		    anzahl = anzahl+1;alert(prestudent_id);//TODO EINE(testen, ob aufgerufen wird)
+		    anzahl = anzahl+1;
 		    col = tree.columns ? tree.columns["lehrveranstaltung-noten-tree-lehrveranstaltung_id"] : "lehrveranstaltung-noten-tree-lehrveranstaltung_id";
 		    lvid = tree.view.getCellText(v,col);
 	    }

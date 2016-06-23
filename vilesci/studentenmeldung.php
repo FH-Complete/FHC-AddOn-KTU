@@ -20,17 +20,19 @@ if(!isset($_GET["download"]))
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  *
- * Authors: Stefan Puraner 	< stefan.puraner@technikum-wien.at >
+ * Authors: Stefan Puraner 	< stefan.puraner@technikum-wien.at > and
+ *          Andreas Moik <moik@technikum-wien.at>.
  */
 
 require_once('../../../config/vilesci.config.inc.php');
 require_once('../../../include/studiensemester.class.php');
 require_once('../../../include/datum.class.php');
 require_once('../../../include/studiengang.class.php');
-require_once('../../../include/student.class.php');
 require_once('../../../include/prestudent.class.php');
 require_once('../../../include/adresse.class.php');
+require_once('../../../include/basis_db.class.php');
 
+$db = new basis_db();
 
 ?>
 <html>
@@ -61,10 +63,10 @@ require_once('../../../include/adresse.class.php');
 	    <input type="submit" value="Senden"/>
 	</form>
 	<?php
-	    if(isset($_POST["stichtag"]) && !is_null($_POST["stichtag"]))
-	    {
+	if(isset($_POST["stichtag"]) && !is_null($_POST["stichtag"]))
+	{
+
 		set_time_limit(300);
-		$student = new student();
 		$studiensemester = new studiensemester();
 		$aktStdSem = $studiensemester->getakt();
 
@@ -77,11 +79,32 @@ require_once('../../../include/adresse.class.php');
 		$year = $datum->checkformatDatum($zeitraumEnde, "Y");
 		$zeitraumStart = ((int) $year) -1;
 		$zeitraumStart .= "-11-15";
-		$uids = $student->getStudentUidsForMeldung($aktStdSem, $previousStdSem, $beforePreviousStdSem, $zeitraumStart, $zeitraumEnde);
-//		echo $student->errormsg;
-		$student = new student();
+		$prestudent_id_arr = array();
+
+		$qry = "SELECT DISTINCT ON(prestudent_id)* FROM public.tbl_prestudent
+				JOIN public.tbl_prestudentstatus ps USING(prestudent_id)
+			WHERE
+				bismelden
+				AND ps.studiensemester_kurzbz
+				IN(".$db->db_add_param($aktStdSem).","
+				.$db->db_add_param($previousStdSem).","
+				.$db->db_add_param($beforePreviousStdSem).")
+				AND ps.datum > ".$db->db_add_param($zeitraumStart)."
+				AND ps.datum <= ".$db->db_add_param($zeitraumEnde)."
+				AND ps.status_kurzbz IN('Student','Unterbrecher','Abbrecher','Absolvent');";
+
+		if(!$result = $db->db_query($qry))
+			die("fehler bei der Datenbankabrage");
+
+		while($row = $db->db_fetch_object($result))
+		{
+			array_push($prestudent_id_arr, $row->prestudent_id);
+		}
+
+
+
+		$prestudent = new prestudent();
 		$adresse = new adresse();
-		$person = new person();
 		$lastStatus = new prestudent();
 		$firstStatus = new prestudent();
 		$studiengang = new studiengang();
@@ -102,11 +125,11 @@ require_once('../../../include/adresse.class.php');
 		$absart_fehler = array();
 
 		$datei = "SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
-		foreach($uids as $uid)
+		foreach($prestudent_id_arr as $pid)
 		{
-		    $student->load($uid);
-		    $studiengang->load($student->studiengang_kz);
-		    $adresse->load_pers($student->person_id);
+		    $prestudent->load($pid);
+		    $studiengang->load($prestudent->studiengang_kz);
+		    $adresse->load_pers($prestudent->person_id);
 		    $heimatadresse;
 		    foreach($adresse->result as $adr)
 		    {
@@ -115,9 +138,8 @@ require_once('../../../include/adresse.class.php');
 			    $heimatadresse = $adr;
 			}
 		    }
-		    $student->load_person($student->person_id, $student->studiengang_kz);
-		    $firstStatus->getFirstStatus($student->prestudent_id, "Student");		// TODO EINE nicht eindeutig!
-		    $lastStatus->getLastStatus($student->prestudent_id);		// TODO EINE nicht eindeutig!
+		    $firstStatus->getFirstStatus($prestudent->prestudent_id, "Student");
+		    $lastStatus->getLastStatus($prestudent->prestudent_id);
 
 		    switch($studiengang->typ)
 		    {
@@ -140,39 +162,39 @@ require_once('../../../include/adresse.class.php');
 			    $sart = "Typ nicht gefunden";
 			    break;
 		    }
-		    if($student->svnr === NULL && $student->ersatzkennzeichen === NULL)
+		    if($prestudent->svnr === NULL && $prestudent->ersatzkennzeichen === NULL)
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($svnr_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    $geb = mb_substr($student->gebdatum, 0, 4);
+		    $geb = mb_substr($prestudent->gebdatum, 0, 4);
 		    $year = (int) date("Y");
 		    $geb = $year - $geb;
 
 		    if(!($geb < 80 && $geb > 15))
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($gebdat_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
-		    if($student->geschlecht != 'm' && $student->geschlecht != "w")
+		    if($prestudent->geschlecht != 'm' && $prestudent->geschlecht != "w")
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($geschlecht_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
-		    if($student->staatsbuergerschaft == NULL || $student->staatsbuergerschaft == "")
+		    if($prestudent->staatsbuergerschaft == NULL || $prestudent->staatsbuergerschaft == "")
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($staat_fehler, $temp);
 			$plausiFehler = true;
 		    }
 		    if($heimatadresse->nation == NULL || $heimatadresse->nation == "")
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($nation_fehler, $temp);
 			$plausiFehler = true;
 		    }
@@ -180,46 +202,46 @@ require_once('../../../include/adresse.class.php');
 		    if($heimatadresse->plz == NULL || $heimatadresse->plz == "")
 		    {
 			$heimatadresse->plz = "XXXX";
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($plz_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
 		    if($heimatadresse->ort == NULL || $heimatadresse->ort == "")
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($ort_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
 		    if(!($sArt <= 7 && $sArt >= 1))
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($sart_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
-		    $sBez = "UP001".str_pad($student->studiengang_kz."", 3, "0", STR_PAD_LEFT);
+		    $sBez = "UP001".str_pad($prestudent->studiengang_kz."", 3, "0", STR_PAD_LEFT);
 
 		    if(strlen($sBez) != 8)
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($sbez_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
-		    if(!$datum->between($student->gebdatum, $zeitraumEnde, $firstStatus->datum))
+		    if(!$datum->between($prestudent->gebdatum, $zeitraumEnde, $firstStatus->datum))
 		    {
-			$temp = clone $student;
+			$temp = clone $prestudent;
 			array_push($sbeg_fehler, $temp);
 			$plausiFehler = true;
 		    }
 
-		    $datei .= ($student->svnr === NULL ? "" : $student->svnr).";"
-			    .($student->svnr === NULL ? $student->ersatzkennzeichen : "").";"
-			    .str_replace("-", "", $student->gebdatum).";"
-			    .$student->geschlecht.";"
-			    .$student->staatsbuergerschaft.";"
+		    $datei .= ($prestudent->svnr === NULL ? "" : $prestudent->svnr).";"
+			    .($prestudent->svnr === NULL ? $prestudent->ersatzkennzeichen : "").";"
+			    .str_replace("-", "", $prestudent->gebdatum).";"
+			    .$prestudent->geschlecht.";"
+			    .$prestudent->staatsbuergerschaft.";"
 			    .$heimatadresse->nation.";"
 			    .$heimatadresse->plz.";"
 			    .$heimatadresse->ort.";"
@@ -228,7 +250,7 @@ require_once('../../../include/adresse.class.php');
 			    .str_replace("-","",$firstStatus->datum).";";
 
 		    $rollen = new prestudent();
-		    $rollen->getPrestudentRolle($student->prestudent_id, "Aufgenommener");
+		    $rollen->getPrestudentRolle($prestudent->prestudent_id, "Aufgenommener");
 
 		    if($datum->between($zeitraumStart, $zeitraumEnde, $lastStatus->datum))
 		    {
@@ -240,7 +262,7 @@ require_once('../../../include/adresse.class.php');
 			else
 			{
 			    $rollen = new prestudent();
-			    $rollen->getPrestudentRolle($student->prestudent_id, "Absolvent");
+			    $rollen->getPrestudentRolle($prestudent->prestudent_id, "Absolvent");
     //			var_dump($rollen->result);
 			    if(isset($rollen->result[0]) && ($rollen->result[0]->studiensemester_kurzbz == $aktStdSem || $rollen->result[0]->studiensemester_kurzbz == $previousStdSem || $rollen->result[0]->studiensemester_kurzbz == $beforePreviousStdSem))
 			    {
@@ -251,7 +273,7 @@ require_once('../../../include/adresse.class.php');
 			    else
 			    {
 				$rollen = new prestudent();
-				$rollen->getPrestudentRolle($student->prestudent_id, "Abbrecher");
+				$rollen->getPrestudentRolle($prestudent->prestudent_id, "Abbrecher");
     //			    var_dump($rollen->result);
 				if((!empty($rollen->result)) && ($rollen->result[0]->studiensemester_kurzbz == $aktStdSem || $rollen->result[0]->studiensemester_kurzbz == $previousStdSem || $rollen->result[0]->studiensemester_kurzbz == $beforePreviousStdSem))
 				{
@@ -262,7 +284,7 @@ require_once('../../../include/adresse.class.php');
 				else
 				{
 				    $rollen = new prestudent();
-				    $rollen->getPrestudentRolle($student->prestudent_id, "Unterbrecher");
+				    $rollen->getPrestudentRolle($prestudent->prestudent_id, "Unterbrecher");
     //				var_dump($rollen->result);
 				    if((!empty($rollen->result)) && ($rollen->result[0]->studiensemester_kurzbz == $aktStdSem || $rollen->result[0]->studiensemester_kurzbz == $previousStdSem || $rollen->result[0]->studiensemester_kurzbz == $beforePreviousStdSem))
 				    {
@@ -288,7 +310,7 @@ require_once('../../../include/adresse.class.php');
 			case 0:
 			    if(!$datum->between($firstStatus->datum, $zeitraumEnde, $lastStatus->datum))
 			    {
-				$temp = clone $student;
+				$temp = clone $prestudent;
 				array_push($abschluss_fehler, $temp);
 				$plausiFehler = true;
 			    }
@@ -307,9 +329,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben weder eine SVNR noch ein Ersatzkennzeichen ('.  count($svnr_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($svnr_fehler as $student)
+		    foreach($svnr_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -319,9 +341,9 @@ require_once('../../../include/adresse.class.php');
 		    echo '<h4>Folgende Studenten haben ein unplausibles Geburtsdatum ('.  count($gebdat_fehler).'):</h4>';
 		    echo '<span style="font-size:10px;">(Kalenderjahr - Geubrtsjahr < 80 und > 15)</span>';
 		    echo '<ul>';
-		    foreach($gebdat_fehler as $student)
+		    foreach($gebdat_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -330,9 +352,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben ein unplausibles Geschlecht ('.  count($geschlecht_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($geschlecht_fehler as $student)
+		    foreach($geschlecht_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -341,9 +363,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben keine Staatsbürgerschaft ('.  count($staat_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($staat_fehler as $student)
+		    foreach($staat_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -352,9 +374,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben keine Nation bei Ihrer Heimatadresse ('.  count($nation_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($nation_fehler as $student)
+		    foreach($nation_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -363,9 +385,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben keine PLZ ('.  count($plz_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($plz_fehler as $student)
+		    foreach($plz_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -374,9 +396,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben keinen Ort bei ihrer Heimatadresse ('.  count($ort_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($ort_fehler as $student)
+		    foreach($ort_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -385,9 +407,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben eine unplausible Studienart ('.  count($sart_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($sart_fehler as $student)
+		    foreach($sart_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -397,9 +419,9 @@ require_once('../../../include/adresse.class.php');
 		    echo '<h4>Folgende Studenten haben eine unplausible Studiumsbezeichnung ('.  count($sbez_fehler).'):</h4>';
 		    echo '<span style="font-size:10px;">Bereichscode + Studiengang-Code; max 8 Zeichen</span>';
 		    echo '<ul>';
-		    foreach($sbez_fehler as $student)
+		    foreach($sbez_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -408,9 +430,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben einen unplausiblen Studienbeginn ('.  count($sbeg_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($sbeg_fehler as $student)
+		    foreach($sbeg_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
@@ -419,9 +441,9 @@ require_once('../../../include/adresse.class.php');
 		{
 		    echo '<h4>Folgende Studenten haben ein unplausibles Studienende (Datum) ('.  count($abschluss_fehler).'):</h4>';
 		    echo '<ul>';
-		    foreach($abschluss_fehler as $student)
+		    foreach($abschluss_fehler as $prestudent)
 		    {
-			echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			echo "<li>".$prestudent->vorname." ".$prestudent->nachname." (".$prestudent->uid.")</li>";
 		    }
 		    echo "</ul>";
 		}
