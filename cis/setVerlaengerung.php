@@ -209,7 +209,7 @@ echo ' verlängern.</br></br>';
 echo "Art des Studienbeitrags:</br>";
 
 //Definition welche Buchungstypen angezeigt werden sollen
-$whitelist = array("gast","stgbL","stgbReg","stgbCP","stgbDoppel","stg1LV");
+$whitelist = array("gast","stgbL","stgbReg","stgbCP","stgbDoppel","stgb1LV");
 echo "<table>";
 
 usort($konto->result, "cmp");
