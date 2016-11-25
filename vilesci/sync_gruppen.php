@@ -68,7 +68,6 @@ foreach($gruppen as $row_gruppen)
 	if($row_gruppen['cn'][0]!='')
 	{
 		$name = $row_gruppen['cn'][0];
-		echo $name.'<br>';
 		$liste[$name]['member']=array();
 		$liste[$name]['dn']=$row_gruppen['dn'];
 		$member = $ldap->getGroupMember($row_gruppen['cn'][0],LDAP_BASE_DN,'objectClass=Group');
@@ -78,15 +77,14 @@ foreach($gruppen as $row_gruppen)
 			{
 				if($key!=='count')
 				{
-					echo "\t".$row_member."<br>";
-					$liste[$name]['member'][]=mb_strtolower($row_member);
+					$liste[$name]['member'][]=$row_member;
 				}
 			}
 		}
 	}
 }
 //var_dump($liste);
-echo 'anzahl:'.count($liste);
+
 if($result = $db->db_query($qry))
 {
 	while($row = $db->db_fetch_object($result))
@@ -96,8 +94,7 @@ if($result = $db->db_query($qry))
 		{
 			// Wenn die Gruppe im LDAP nicht vorhanden ist
 			// dann alegen
-			//GruppeAnlegen($row->gruppe_kurzbz, $row->gid);
-			echo "AddGroup $row->gruppe_kurzbz";
+			GruppeAnlegen($row->gruppe_kurzbz, $row->gid);
 			$liste[$row->gruppe_kurzbz]=array();
 			$liste[$row->gruppe_kurzbz]['member']=array();
 		}
@@ -112,17 +109,15 @@ if($result = $db->db_query($qry))
 		{
 			while($row_member = $db->db_fetch_object($result_member))
 			{
-				echo '<br> - '.$row_member->uid.' ';
+				//echo '<br> - '.$row_member->uid.' ';
 
 				// Wenn Person nicht in der LDAP Gruppe ist
 				// dann hinzufuegen
-				if(!in_array(mb_strtolower('CN='.$row_member->uid.','.LDAP_BASE_DN), $liste[$row->gruppe_kurzbz]['member']))
+				if(!in_array('cn='.$row_member->uid.','.LDAP_BASE_DN, $liste[$row->gruppe_kurzbz]['member']))
 				{
-					echo "addMemeber ".$row_member->uid." ".$row->gruppe_kurzbz." <br>";
-					echo 'CN='.$row_member->uid.','.LDAP_BASE_DN;
-					//addMember($row_member->uid, $row->gruppe_kurzbz);
+					addMember($row_member->uid, $row->gruppe_kurzbz);
 				}
-				$memberlist[]=mb_strtolower('CN='.$row_member->uid.','.LDAP_BASE_DN);
+				$memberlist[]=$row_member->uid;
 			}
 
 			// Alle Teilnehmer die im LDAP der Gruppe zugeteilt sind
@@ -130,8 +125,7 @@ if($result = $db->db_query($qry))
 			$diff = array_diff($liste[$row->gruppe_kurzbz]['member'],$memberlist);
 			foreach($diff as $user)
 			{
-				echo "removeMember ".$user." ".$row->gruppe_kurzbz."<br>";
-				//removeMember($user, $row->gruppe_kurzbz);
+				removeMember($user, $row->gruppe_kurzbz);
 			}
 		}
 	}
@@ -203,7 +197,7 @@ foreach($lvbgruppen as $gruppe_kurzbz=>$row)
 		{
 			// Wenn Person nicht in der LDAP Gruppe ist
 			// dann hinzufuegen
-			if(!in_array(mb_strtolower('cn='.$row_member.','.LDAP_BASE_DN, $liste[$gruppe_kurzbz]['member'])))
+			if(!in_array('cn='.$row_member.','.LDAP_BASE_DN, $liste[$gruppe_kurzbz]['member']))
 			{
 				addMember($row_member, $gruppe_kurzbz);
 			}
