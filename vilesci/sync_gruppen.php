@@ -68,6 +68,7 @@ foreach($gruppen as $row_gruppen)
 	if($row_gruppen['cn'][0]!='')
 	{
 		$name = $row_gruppen['cn'][0];
+//		echo $name.'<br>';
 		$liste[$name]['member']=array();
 		$liste[$name]['dn']=$row_gruppen['dn'];
 		$member = $ldap->getGroupMember($row_gruppen['cn'][0],LDAP_BASE_DN,'objectClass=Group');
@@ -77,14 +78,15 @@ foreach($gruppen as $row_gruppen)
 			{
 				if($key!=='count')
 				{
-					$liste[$name]['member'][]=$row_member;
+//					echo "\t".$row_member."<br>";
+					$liste[$name]['member'][]=mb_strtolower($row_member);
 				}
 			}
 		}
 	}
 }
 //var_dump($liste);
-
+//echo 'anzahl:'.count($liste);
 if($result = $db->db_query($qry))
 {
 	while($row = $db->db_fetch_object($result))
@@ -94,7 +96,8 @@ if($result = $db->db_query($qry))
 		{
 			// Wenn die Gruppe im LDAP nicht vorhanden ist
 			// dann alegen
-			GruppeAnlegen($row->gruppe_kurzbz, $row->gid);
+			//GruppeAnlegen($row->gruppe_kurzbz, $row->gid);
+//			echo "AddGroup $row->gruppe_kurzbz";
 			$liste[$row->gruppe_kurzbz]=array();
 			$liste[$row->gruppe_kurzbz]['member']=array();
 		}
@@ -109,15 +112,15 @@ if($result = $db->db_query($qry))
 		{
 			while($row_member = $db->db_fetch_object($result_member))
 			{
-				//echo '<br> - '.$row_member->uid.' ';
+//				echo '<br> - '.$row_member->uid.' ';
 
 				// Wenn Person nicht in der LDAP Gruppe ist
 				// dann hinzufuegen
-				if(!in_array('cn='.$row_member->uid.','.LDAP_BASE_DN, $liste[$row->gruppe_kurzbz]['member']))
+				if(!in_array(mb_strtolower('CN='.$row_member->uid.','.LDAP_BASE_DN), $liste[$row->gruppe_kurzbz]['member']))
 				{
 					addMember($row_member->uid, $row->gruppe_kurzbz);
 				}
-				$memberlist[]=$row_member->uid;
+				$memberlist[]=mb_strtolower('CN='.$row_member->uid.','.LDAP_BASE_DN);
 			}
 
 			// Alle Teilnehmer die im LDAP der Gruppe zugeteilt sind
@@ -197,7 +200,7 @@ foreach($lvbgruppen as $gruppe_kurzbz=>$row)
 		{
 			// Wenn Person nicht in der LDAP Gruppe ist
 			// dann hinzufuegen
-			if(!in_array('cn='.$row_member.','.LDAP_BASE_DN, $liste[$gruppe_kurzbz]['member']))
+			if(!in_array(mb_strtolower('cn='.$row_member.','.LDAP_BASE_DN), $liste[$gruppe_kurzbz]['member']))
 			{
 				addMember($row_member, $gruppe_kurzbz);
 			}
@@ -284,7 +287,7 @@ function addMember($uid, $gruppe_kurzbz)
 
 	$group_dn = "cn=$gruppe_kurzbz,".LDAP_BASE_DN;
 	$user_dn = "cn=$uid,".LDAP_BASE_DN;
-
+	
 	$data=array();
 	$data['member'][] = $user_dn;
 
@@ -303,8 +306,8 @@ function removeMember($uid, $gruppe_kurzbz)
 	global $ldap;
 	
 	echo "<br> REMOVE MEMBER $uid from $gruppe_kurzbz";
-	$group_dn = "cn=$gruppe_kurzbz,".LDAP_BASE_DN;
-	$user_dn = "cn=$uid,".LDAP_BASE_DN;
+	$group_dn = mb_strtolower("cn=$gruppe_kurzbz,".LDAP_BASE_DN);
+	$user_dn = $uid;
 
 	$data=array();
 	$data['member'][] = $user_dn;
