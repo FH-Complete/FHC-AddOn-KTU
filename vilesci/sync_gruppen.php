@@ -96,7 +96,7 @@ if($result = $db->db_query($qry))
 		{
 			// Wenn die Gruppe im LDAP nicht vorhanden ist
 			// dann alegen
-			//GruppeAnlegen($row->gruppe_kurzbz, $row->gid);
+			GruppeAnlegen($row->gruppe_kurzbz, $row->gid);
 //			echo "AddGroup $row->gruppe_kurzbz";
 			$liste[$row->gruppe_kurzbz]=array();
 			$liste[$row->gruppe_kurzbz]['member']=array();
