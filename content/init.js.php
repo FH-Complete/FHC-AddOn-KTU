@@ -29,13 +29,13 @@ addon.push(
 		var kleriker = document.getElementById("mitarbeiter-detail-checkbox-kleriker");
 		kleriker.setAttribute("hidden",false);
 		
-		//Reihungstest ausblenden
-                var reihungstest = document.getElementById("student-detail-groupbox-reihungstest");
-                reihungstest.setAttribute("hidden",true);
+		//Reihungstest ausblenden (auskommentiert da es nicht mehr existiert)
+        //var reihungstest = document.getElementById("student-detail-groupbox-reihungstest");
+        //reihungstest.setAttribute("hidden",true);
 		
 		//Umbenennung "Sponsion" auf "Verleihung AkadGrad"
-                var sponsion = document.getElementById("student-abschlusspruefung-datum-sponsion-label");
-                sponsion.setAttribute("value","Verleihung AkadGrad");
+        var sponsion = document.getElementById("student-abschlusspruefung-datum-sponsion-label");
+        sponsion.setAttribute("value","Verleihung AkadGrad");
 		
 		//Feld Personalnummer editierbar machen
 		var personalnummer = document.getElementById("mitarbeiter-detail-textbox-personalnummer");
@@ -58,11 +58,11 @@ addon.push(
 		ele.setAttribute("hidden", true);
 		ele.previousSibling.setAttribute("hidden", true);
 		
-		//Mitarbeiter-Stammdaten: Resturlaub ausblenden
-		var restUrlaub = document.getElementById("mitarbeiter-detail-textbox-resturlaubstage");
-		restUrlaub.setAttribute("hidden", true);
-		console.log(restUrlaub.parentNode.previousSibling.lastChild);
-		restUrlaub.parentNode.previousSibling.lastChild.setAttribute("hidden", true);
+		//Mitarbeiter-Stammdaten: Resturlaub ausblenden (auskommentiert da es nicht mehr existiert)
+		//var restUrlaub = document.getElementById("mitarbeiter-detail-textbox-resturlaubstage");
+		//restUrlaub.setAttribute("hidden", true);
+		//console.log(restUrlaub.parentNode.previousSibling.lastChild);
+		//restUrlaub.parentNode.previousSibling.lastChild.setAttribute("hidden", true);
 		
 		// Menuepunkt hinzufuegen
 		dokumentemenue = document.getElementById("menu-dokumente-popup");
