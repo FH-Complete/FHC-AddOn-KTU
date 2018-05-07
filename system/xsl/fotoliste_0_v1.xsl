@@ -201,9 +201,6 @@
                         <text:sequence-decl text:display-outline-level="0" text:name="Text"/>
                         <text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
                     </text:sequence-decls>
-                    <draw:frame draw:style-name="fr2" draw:name="logo" text:anchor-type="page" text:anchor-page-number="1" svg:x="14.81cm" svg:y="2.939cm" svg:width="4.2cm" svg:height="2.24cm" draw:z-index="5">
-                        <draw:image xlink:href="Pictures/10000201000000FD00000082B4907F4517CEC4AC.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
-                    </draw:frame>
                     <text:p text:style-name="P9">Fotoliste <xsl:value-of select="lehrveranstaltung" /></text:p>
                     <text:p text:style-name="P6"/>
                     <text:p text:style-name="P7">Studiengang: <xsl:value-of select="studiengang" /> - <xsl:value-of select="studiengangs_typ" /></text:p>
