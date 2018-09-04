@@ -192,7 +192,7 @@ $stud_sem_kurzbz = $studiensemester->getaktorNext();
 $studiensemester->load($stud_sem_kurzbz);
 
 $konto = new konto();
-$konto->getBuchungstyp();
+$konto->getBuchungstyp(true);
 
 echo "<form action='".$_SERVER['PHP_SELF']."' method=POST>";
 echo "<p><b>Verlängerung Studiensemester</b></p><br>"; 
