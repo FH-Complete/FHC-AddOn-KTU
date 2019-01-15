@@ -30,6 +30,7 @@ require_once('../../../include/studiengang.class.php');
 require_once('../../../include/student.class.php');
 require_once('../../../include/prestudent.class.php');
 require_once('../../../include/adresse.class.php');
+require_once('../../../include/person.class.php');
 
 
 ?>
@@ -100,10 +101,12 @@ require_once('../../../include/adresse.class.php');
 		$status_fehler = array();
 		$abschluss_fehler = array();
 		$absart_fehler = array();
+		$matrnr_fehler = array();
 		
-		$datei = "SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
+		$datei = "SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;MATRNR;\n";
 		foreach($uids as $uid)
 		{
+            $person->getPersonFromBenutzer($uid);
 		    $student->load($uid);
 		    $studiengang->load($student->studiengang_kz);
 		    $adresse->load_pers($student->person_id);
@@ -214,6 +217,13 @@ require_once('../../../include/adresse.class.php');
 			array_push($sbeg_fehler, $temp);
 			$plausiFehler = true;
 		    }
+
+		    if($person->matr_nr == '')
+            {
+            $temp = clone $student;
+            array_push($matrnr_fehler, $temp);
+            $plausiFehler = true;
+            }
 		    
 		    $datei .= ($student->svnr === NULL ? "" : $student->svnr).";"
 			    .($student->svnr === NULL ? $student->ersatzkennzeichen : "").";"
@@ -293,15 +303,16 @@ require_once('../../../include/adresse.class.php');
 				$plausiFehler = true;
 			    }
 			    $datei .= str_replace("-", "", $lastStatus->datum).";";
-			    $datei .= $absArt.";\n";
+			    $datei .= $absArt.";";
 			    break;
 			default:
-			    $datei .= ";;\n";
+			    $datei .= ";;";
 			    break;
 		    }
 //			    . "STATUS;"
 //			    . "ABSCHLUSS;"
 //			    . "ABSART;\n";	
+		$datei .= $person->matr_nr.";\n";
 		}
 		if(!empty($svnr_fehler))
 		{
@@ -425,6 +436,17 @@ require_once('../../../include/adresse.class.php');
 		    }
 		    echo "</ul>";
 		}
+
+        if(!empty($matrnr_fehler))
+        {
+            echo '<h4>Folgende Studenten haben keine Matrikelnummer ('.  count($matrnr_fehler).'):</h4>';
+            echo '<ul>';
+            foreach($matrnr_fehler as $student)
+            {
+                echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+            }
+            echo "</ul>";
+        }
 		
 		$dateiname = "UP001_STUD.csv";
 		$id = uniqid();
