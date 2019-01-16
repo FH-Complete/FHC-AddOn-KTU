@@ -103,7 +103,7 @@ require_once('../../../include/person.class.php');
 		$absart_fehler = array();
 		$matrnr_fehler = array();
 		
-		$datei = "SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;MATRNR;\n";
+		$datei = "MATRNR;SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
 		foreach($uids as $uid)
 		{
             $person->getPersonFromBenutzer($uid);
@@ -225,7 +225,8 @@ require_once('../../../include/person.class.php');
             $plausiFehler = true;
             }
 		    
-		    $datei .= ($student->svnr === NULL ? "" : $student->svnr).";"
+		    $datei .= $person->matr_nr.";"
+                .($student->svnr === NULL ? "" : $student->svnr).";"
 			    .($student->svnr === NULL ? $student->ersatzkennzeichen : "").";"
 			    .str_replace("-", "", $student->gebdatum).";"
 			    .$student->geschlecht.";"
@@ -303,17 +304,17 @@ require_once('../../../include/person.class.php');
 				$plausiFehler = true;
 			    }
 			    $datei .= str_replace("-", "", $lastStatus->datum).";";
-			    $datei .= $absArt.";";
+			    $datei .= $absArt.";\n";
 			    break;
 			default:
-			    $datei .= ";;";
+			    $datei .= ";;\n";
 			    break;
 		    }
 //			    . "STATUS;"
 //			    . "ABSCHLUSS;"
-//			    . "ABSART;\n";	
-		$datei .= $person->matr_nr.";\n";
+//			    . "ABSART;\n";
 		}
+		
 		if(!empty($svnr_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben weder eine SVNR noch ein Ersatzkennzeichen ('.  count($svnr_fehler).'):</h4>';
