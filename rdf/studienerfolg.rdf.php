@@ -21,18 +21,20 @@
  *			Gerald Raab <gerald.raab@technikum-wien.at>.
  */
 header("Content-type: application/xhtml+xml");
-require_once('../config/vilesci.config.inc.php');
-require_once('../include/functions.inc.php');
-require_once('../include/zeugnisnote.class.php');
-require_once('../include/datum.class.php');
-require_once('../include/note.class.php');
-require_once('../include/studiensemester.class.php');
-require_once('../include/studiengang.class.php');
-require_once('../include/mitarbeiter.class.php');
-require_once('../include/prestudent.class.php');
-require_once('../include/student.class.php');
-require_once('../include/studienordnung.class.php');
-require_once('../include/studienplan.class.php');
+require_once('../../../config/vilesci.config.inc.php');
+require_once('../../../include/functions.inc.php');
+require_once('../../../include/zeugnisnote.class.php');
+require_once('../../../include/datum.class.php');
+require_once('../../../include/note.class.php');
+require_once('../../../include/studiensemester.class.php');
+require_once('../../../include/studiengang.class.php');
+require_once('../../../include/mitarbeiter.class.php');
+require_once('../../../include/prestudent.class.php');
+require_once('../../../include/student.class.php');
+require_once('../../../include/studienordnung.class.php');
+require_once('../../../include/studienplan.class.php');
+require_once('../../../include/anrechnung.class.php');
+require_once('../../../include/lehrveranstaltung.class.php');
 
 $datum = new datum();
 $db = new basis_db();
@@ -241,6 +243,25 @@ function draw_studienerfolg($uid, $studiensemester_kurzbz)
 				if($db->db_query($qry))
 					if($row_wochen = $db->db_fetch_object())
 						$wochen = $row_wochen->wochen;
+
+				// ECTS der kompatiblen LV übernehmen falls vorhanden
+				$anrechnung = new anrechnung();
+				$anrechnung->getAnrechnungPrestudent($student->prestudent_id, null, $row->lehrveranstaltung_id);
+
+				$lehrveranstaltung_id_kompatibel = "";
+				if(count($anrechnung->result) === 1)
+				{
+					$lehrveranstaltung_id_kompatibel = $anrechnung->result[0]->lehrveranstaltung_id;
+				}
+
+				if($lehrveranstaltung_id_kompatibel != "")
+				{
+					$lv = new lehrveranstaltung($lehrveranstaltung_id_kompatibel);
+					if(($lv->ects !== $row->ects) && ($lv->ects != "") && ($lv->ects != null))
+					{
+						$row->ects = $lv->ects;
+					}
+				}
 
 				$xml .= "			<unterrichtsfach>";
 				$xml .= "				<bezeichnung><![CDATA[".$row->lehrveranstaltung_bezeichnung."]]></bezeichnung>";
