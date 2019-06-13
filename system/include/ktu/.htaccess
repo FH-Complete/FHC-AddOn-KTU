@@ -1,0 +1,7 @@
+AuthBasicProvider ldap
+AuthType Basic
+AuthName "KU Linz"
+AuthLDAPURL ldaps://10.192.135.12:636/OU=FHComplete,DC=ktu,DC=local?sAMAccountName?sub
+AuthLDAPBindDN "fhcr@ktu.local"
+AuthLDAPBindPassword "nUngVAVs74rRzP"
+require valid-user
