@@ -193,7 +193,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 			<style:table-cell-properties fo:padding="0.097cm" fo:border="none"/>
 		</style:style>
 		<style:style style:name="P1" style:family="paragraph" style:parent-style-name="Standard">
-			<style:text-properties officeooo:rsid="00094cd9" officeooo:paragraph-rsid="000a79ac" style:font-name="Arial" fo:font-size="8pt" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+			<style:text-properties officeooo:rsid="00094cd9" officeooo:paragraph-rsid="000a79ac" style:font-name="Arial" fo:font-size="10pt" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
 		</style:style>
 		<style:style style:name="P2" style:family="paragraph" style:parent-style-name="Standard">
 			<style:paragraph-properties>

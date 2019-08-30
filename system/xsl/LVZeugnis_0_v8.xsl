@@ -113,7 +113,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 		</style:style>
 		<style:style style:name="P7" style:family="paragraph" style:parent-style-name="Table_20_Contents">
 			<style:paragraph-properties fo:line-height="130%"/>
-			<style:text-properties style:font-name="Arial" fo:font-size="12pt" officeooo:rsid="00156f39" officeooo:paragraph-rsid="00156f39" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+			<style:text-properties style:font-name="Arial" fo:font-size="10pt" officeooo:rsid="00156f39" officeooo:paragraph-rsid="00156f39" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
 		</style:style>
 		<style:style style:name="P8" style:family="paragraph" style:parent-style-name="Table_20_Contents">
 			<style:paragraph-properties fo:line-height="130%"/>
@@ -363,7 +363,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 				</table:table-row>
 				<table:table-row>
 					<table:table-cell table:style-name="Tabelle2.A3" table:number-columns-spanned="5" office:value-type="string">
-						<text:p text:style-name="P7">
+						<text:p text:style-name="P8">
 							<xsl:if test="studienverpflichtung!=''">
 									<xsl:value-of select="studienverpflichtung"/>
 							</xsl:if>
