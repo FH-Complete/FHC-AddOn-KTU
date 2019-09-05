@@ -205,7 +205,8 @@ function draw_studienerfolg($uid, $studiensemester_kurzbz)
 
 	$obj = new zeugnisnote();
 
-	if(!$obj->getZeugnisnoten($lehrveranstaltung_id=null, $uid, $studiensemester_kurzbz))
+	// immer alle Noten holen, gefiltert wird später
+	if(!$obj->getZeugnisnoten($lehrveranstaltung_id=null, $uid, null))
 		die('Fehler beim Laden der Noten:'.$obj->errormsg);
 
 
@@ -220,9 +221,28 @@ function draw_studienerfolg($uid, $studiensemester_kurzbz)
 	$notensumme_positiv=0;
 	$anzahl=0;
 	$anzahl_positiv=0;
+	$semesterArt = strtolower(substr($studiensemester_kurzbz, 0, 2));
+	$semesterJahr = substr($studiensemester_kurzbz, 2, 4);
 
 	foreach ($obj->result as $row)
 	{
+	    // filtern nach Benotungsdatum: SoSe 1.3.-30.9., WiSe 1.10.-28.2.
+        $monatBenotung = date('n',$datum->mktime_fromtimestamp($row->benotungsdatum));
+        $jahrBenotung = date('Y',$datum->mktime_fromtimestamp($row->benotungsdatum));
+
+        if ($semesterArt === 'ws')
+        {
+            if (!in_array($monatBenotung, [10,11,12,1,2]) ||
+               (in_array($monatBenotung, [10,11,12]) && $jahrBenotung - $semesterJahr != 0) ||
+               (in_array($monatBenotung, [1,2]) && ($jahrBenotung - $semesterJahr != 1)))
+                    continue;
+        }
+        else
+        {
+            if ($semesterJahr != $jahrBenotung || !in_array($monatBenotung, [3,4,5,6,7,8,9]))
+                continue;
+        }
+
 		if($row->zeugnis)
 		{
 			if (trim($row->note)!=='' && isset($note_arr[$row->note]))
