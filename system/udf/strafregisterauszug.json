@@ -1,0 +1,13 @@
+[
+  {
+    "name": "udf_strafregisterauszug",
+    "sort": 1,
+    "type": "checkbox",
+    "title": "udf/strafregisterauszugTitle",
+    "validation": {
+      "required": true
+    },
+    "description": "udf/trafregisterauszugDescription",
+    "defaultValue": false
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "udf_religionsbekenntnis",
+    "description": "udf/religionsbekenntnisDescription",
+    "placeholder": "udf/religionsbekenntnisPlaceholder",
+    "title": "udf/religionsbekenntnisTitle",
+    "type": "dropdown",
+    "sort": 1,
+    "defaultValue": "",
+    "listValues": {
+      "enum": [
+        "röm.-kath.",
+        "griech.-kath.",
+        "armen.-kath.",
+        "evang. A.B.",
+        "evang. H.B.",
+        "o.B.",
+        "altkath.",
+        "griech.-orth.",
+        "serb.-orth.",
+        "rumän.-orth.",
+        "russ.-orth.",
+        "bulg.-orth.",
+        "armen.-apostol.",
+        "neuapostol.",
+        "syr.-orth.",
+        "kopt.-orth.",
+        "islam."
+      ]
+    }
+  }
+]
