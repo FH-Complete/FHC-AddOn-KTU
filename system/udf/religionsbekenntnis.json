@@ -5,7 +5,7 @@
     "placeholder": "udf/religionsbekenntnisPlaceholder",
     "title": "udf/religionsbekenntnisTitle",
     "type": "dropdown",
-    "sort": 1,
+    "sort": 2,
     "defaultValue": "",
     "listValues": {
       "enum": [
