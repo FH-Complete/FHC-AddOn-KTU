@@ -3,8 +3,7 @@
     "name": "udf_strafregisterauszug",
     "sort": 1,
     "type": "checkbox",
-    "title": "udf/strafregisterauszugTitle",
-    "description": "udf/strafregisterauszugDescription",
+    "title": "strafregisterauszugTitle",
     "defaultValue": false
   }
 ]

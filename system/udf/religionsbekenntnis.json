@@ -1,9 +1,7 @@
 [
   {
     "name": "udf_religionsbekenntnis",
-    "description": "udf/religionsbekenntnisDescription",
-    "placeholder": "udf/religionsbekenntnisPlaceholder",
-    "title": "udf/religionsbekenntnisTitle",
+    "title": "religionsbekenntnisTitle",
     "type": "dropdown",
     "sort": 2,
     "defaultValue": "",
