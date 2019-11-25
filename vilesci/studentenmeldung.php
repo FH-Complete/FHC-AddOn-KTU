@@ -31,6 +31,7 @@ require_once('../../../include/student.class.php');
 require_once('../../../include/prestudent.class.php');
 require_once('../../../include/adresse.class.php');
 require_once('../../../include/person.class.php');
+require_once('../../../include/bisio.class.php');
 
 
 ?>
@@ -86,6 +87,7 @@ require_once('../../../include/person.class.php');
 		$lastStatus = new prestudent();
 		$firstStatus = new prestudent();
 		$studiengang = new studiengang();
+		$bisio = new bisio();
 		
 		// Arrays zum sammeln fehlerhafter Datensätze
 		$svnr_fehler = array();
@@ -102,8 +104,9 @@ require_once('../../../include/person.class.php');
 		$abschluss_fehler = array();
 		$absart_fehler = array();
 		$matrnr_fehler = array();
+		$bisio_fehler = array();
 		
-		$datei = "MATRNR;SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
+		$datei = "MATRNR;SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;MOBPROG;MOBPROG_LAND;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
 		foreach($uids as $uid)
 		{
             $person->getPersonFromBenutzer($uid);
@@ -121,6 +124,8 @@ require_once('../../../include/person.class.php');
 		    $student->load_person($student->person_id, $student->studiengang_kz);
 		    $firstStatus->getFirstStatus($student->prestudent_id, "Student");
 		    $lastStatus->getLastStatus($student->prestudent_id);
+		    $bisio->result = array(); // reset old results
+		    $bisio->getIOForPeriod($uid, $zeitraumStart, $zeitraumEnde);
 		    
 		    switch($studiengang->typ)
 		    {
@@ -224,7 +229,14 @@ require_once('../../../include/person.class.php');
             array_push($matrnr_fehler, $temp);
             $plausiFehler = true;
             }
-		    
+
+            if(count($bisio->result) > 1)
+            {
+                $temp = clone $student;
+                array_push($bisio_fehler, $temp);
+                $plausiFehler = true;
+            }
+
 		    $datei .= $person->matr_nr.";"
                 .($student->svnr === NULL ? "" : $student->svnr).";"
 			    .($student->svnr === NULL ? $student->ersatzkennzeichen : "").";"
@@ -233,7 +245,9 @@ require_once('../../../include/person.class.php');
 			    .$student->staatsbuergerschaft.";"
 			    .$heimatadresse->nation.";"
 			    .$heimatadresse->plz.";"
-			    .$heimatadresse->ort.";"
+                .$heimatadresse->ort.";"
+                .(empty($bisio->result) ? "" : $bisio->result[0]->mobilitaetsprogramm_code).";"
+                .(empty($bisio->result) ? "" : $bisio->result[0]->nation_code).";"
 			    .$sArt.";"
 			    .$sBez.";"
 			    .str_replace("-","",$firstStatus->datum).";";
@@ -392,6 +406,17 @@ require_once('../../../include/person.class.php');
 		    }
 		    echo "</ul>";
 		}
+
+        if(!empty($bisio_fehler))
+        {
+            echo '<h4>Folgende Studenten haben mehr als 1 Mobilitätsprogramm absolviert ('.  count($bisio_fehler).'):</h4>';
+            echo '<ul>';
+            foreach($bisio_fehler as $student)
+            {
+                echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+            }
+            echo "</ul>";
+        }
 		
 		if(!empty($sart_fehler))
 		{

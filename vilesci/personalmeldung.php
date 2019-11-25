@@ -88,6 +88,7 @@ $datumobj = new datum();
 	    $fteFehler = array();
 	    $verwendungFehler = array();
 	    $funktionFehler = array();
+	    $staatsbuergerschaftFehler = array();
 	    $funktion = new funktion();
 	    $i = 0;
 	    $verwendungFehlt = array();
@@ -200,6 +201,12 @@ $datumobj = new datum();
 		    array_push($funktionFehler, $m);
 		    $plausiFehler = true;
 		}
+
+		if(empty($m->staatsbuergerschaft))
+        {
+            array_push($staatsbuergerschaftFehler, $m);
+            $plausiFehler = true;
+        }
 	    }
 	    
 	    if(!empty($verwendungFehlt))
@@ -248,6 +255,22 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Geburtsjahr: OK</span><br/>";
 	    }
+
+        if(!empty($staatsbuergerschaftFehler))
+        {
+            echo "<h4>Die Staatsbürgerschaft bei folgenden Mitarbeitern ist nicht korrekt (".  count($staatsbuergerschaftFehler)."):</h4>";
+            echo "<span>Bedingung: Eingabe zwingend.</span>";
+            echo "<ul>";
+            foreach($staatsbuergerschaftFehler as $f)
+            {
+                echo "<li>".$f->vorname." ".$f->nachname." (Personalnummer: ".$f->personalnummer.")</li>";
+            }
+            echo "</ul>";
+        }
+        else
+        {
+            echo "<span>Datenfeld Staatsbürgerschaft: OK</span><br/>";
+        }
 	    
 	    if(!empty($ausbildungFehler))
 	    {
@@ -354,10 +377,10 @@ $datumobj = new datum();
 		{
 		    $fkt = property_exists($m, "fkt") ? $m->fkt : "";
 		    $fte = property_exists($m, "fte") ? $m->fte : "";
-		    $csvFileBody .= "UP001".$m->personalnummer.";".$m->geschlecht.";".substr($m->gebdatum,0,4).";".$m->ausbildungcode.";".$m->ba1code.";".$m->ba2code.";".$fte.";".$m->verwendung_code.";".$fkt.";\n";
+		    $csvFileBody .= "UP001".$m->personalnummer.";".$m->geschlecht.";".substr($m->gebdatum,0,4).";".$m->staatsbuergerschaft.";".$m->ausbildungcode.";".$m->ba1code.";".$m->ba2code.";".$fte.";".$m->verwendung_code.";".$fkt.";\n";
 		}
 
-		$csvFileHeader = "PERS;SEX;GEBJ;AUSB;TAET1;TAET2;FTE;VERW;FKT;\n";
+		$csvFileHeader = "PERS;SEX;GEBJ;STAAT;AUSB;TAET1;TAET2;FTE;VERW;FKT;\n";
 		$datei = $csvFileHeader.$csvFileBody;
 		$year = substr($jahr,2,2);
 		$year .= substr($jahr+1,2,2);
