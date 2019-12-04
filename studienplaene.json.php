@@ -21,7 +21,7 @@
  * im JSON Format aus.
  */
 
-require_once('../../config/system.config.inc.php');
+require_once('../../config/cis.config.inc.php');
 require_once('../../include/basis_db.class.php');
 
 $result = null;
