@@ -28,14 +28,19 @@
 <body>
 
 <?php
-require_once('../../../config/cis.config.inc.php'); 
+require_once('../../../config/cis.config.inc.php');
+require_once('../ku.config.inc.php');
 require_once('../../../include/prestudent.class.php'); 
 require_once('../../../include/studiengang.class.php'); 
 require_once('../../../include/studiensemester.class.php'); 
 require_once('../../../include/student.class.php'); 
 require_once('../../../include/functions.inc.php'); 
 require_once('../../../include/mail.class.php');
-require_once('../../../include/konto.class.php'); 
+require_once('../../../include/konto.class.php');
+
+// erlaube Verlängerung nur in definierten Zeitfenstern
+if(!checkTime())
+    die('Eine Verlängerung ist aktuell nicht möglich.');
 
 $uid= get_uid(); 
 $msg = '<span>&nbsp;</span>';
@@ -258,6 +263,22 @@ function cmp($a, $b)
     }
     
     return($a->standardbetrag < $b->standardbetrag) ? -1 : 1;
+}
+
+function checkTime()
+{
+    $wsStart = new DateTime(ADDON_KU_VERLAENGERUNG_WS_START);
+    $wsEnd = new DateTime(ADDON_KU_VERLAENGERUNG_WS_END);
+    $ssStart = new DateTime(ADDON_KU_VERLAENGERUNG_SS_START);
+    $ssEnd = new DateTime(ADDON_KU_VERLAENGERUNG_SS_END);
+    $now =  new DateTime();
+
+    $result = ($now >= $wsStart && $now <= $wsEnd) ? true : false;
+
+    if(!$result)
+        $result = ($now >= $ssStart && $now <= $ssEnd) ? true : false;
+
+    return $result;
 }
 
 ?>
