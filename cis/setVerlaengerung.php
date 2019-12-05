@@ -39,7 +39,13 @@ require_once('../../../include/mail.class.php');
 require_once('../../../include/konto.class.php');
 
 // erlaube Verlängerung nur in definierten Zeitfenstern
-if(!checkTime())
+$wsStart = new DateTime(ADDON_KU_VERLAENGERUNG_WS_START);
+$wsEnd = new DateTime(ADDON_KU_VERLAENGERUNG_WS_END);
+$ssStart = new DateTime(ADDON_KU_VERLAENGERUNG_SS_START);
+$ssEnd = new DateTime(ADDON_KU_VERLAENGERUNG_SS_END);
+$now =  new DateTime();
+
+if(!($now >= $wsStart && $now <= $wsEnd) && !($now >= $ssStart && $now <= $ssEnd))
     die('Eine Verlängerung ist aktuell nicht möglich.');
 
 $uid= get_uid(); 
@@ -264,23 +270,6 @@ function cmp($a, $b)
     
     return($a->standardbetrag < $b->standardbetrag) ? -1 : 1;
 }
-
-function checkTime()
-{
-    $wsStart = new DateTime(ADDON_KU_VERLAENGERUNG_WS_START);
-    $wsEnd = new DateTime(ADDON_KU_VERLAENGERUNG_WS_END);
-    $ssStart = new DateTime(ADDON_KU_VERLAENGERUNG_SS_START);
-    $ssEnd = new DateTime(ADDON_KU_VERLAENGERUNG_SS_END);
-    $now =  new DateTime();
-
-    $result = ($now >= $wsStart && $now <= $wsEnd) ? true : false;
-
-    if(!$result)
-        $result = ($now >= $ssStart && $now <= $ssEnd) ? true : false;
-
-    return $result;
-}
-
 ?>
 </body>
 </html>
