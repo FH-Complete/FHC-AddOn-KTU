@@ -121,7 +121,7 @@ $datumobj = new datum();
 		    $plausiFehler = true;
 		}
 		
-		if((!(($m->ausbildungcode <= 9) && ($m->ausbildungcode >= 1) && (is_numeric($m->ausbildungcode)))) || (is_null($m->ausbildungcode)))
+		if((!(($m->ausbildungcode <= 11) && ($m->ausbildungcode >= 1) && (is_numeric($m->ausbildungcode)))) || (is_null($m->ausbildungcode)))
 		{
 		    array_push($ausbildungFehler, $m);
 		    $plausiFehler = true;
@@ -275,7 +275,7 @@ $datumobj = new datum();
 	    if(!empty($ausbildungFehler))
 	    {
 		echo '<h4>Die "höchste abgeschlossene Ausbildung" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ausbildungFehler).'):</h4>';
-		echo '<span>Bedingung: nur 1 - 9 zulässig</span>';
+		echo '<span>Bedingung: nur 1 - 11 zulässig</span>';
 		echo "<ul>";
 		foreach($ausbildungFehler as $f)
 		{
