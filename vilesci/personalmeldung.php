@@ -70,8 +70,11 @@ $datumobj = new datum();
 	    $studiensemester->load($_POST["studienjahr"]);
 	    $jahr = $datumobj->formatDatum($studiensemester->start, 'Y');
 
-	    $meldungBeginn = date("Y-m-d",  mktime(0, 0, 0, 9, 1, $jahr));
-	    $meldungEnde=date("Y-m-d",  mktime(0, 0, 0, 9, 1, $jahr+1));
+        //Zeitraum auf Wunsch von Hr. Koller auf 1.1. - 31.12. geändert (07/2020)
+	    //$meldungBeginn = date("Y-m-d",  mktime(0, 0, 0, 9, 1, $jahr));
+	    //$meldungEnde=date("Y-m-d",  mktime(0, 0, 0, 9, 1, $jahr+1));
+        $meldungBeginn = date("Y-m-d",  mktime(0, 0, 0, 1, 1, $jahr));
+        $meldungEnde = date("Y-m-d",  mktime(23, 59, 59, 12, 31, $jahr));
 	    
 	    $mitarbeiter = new mitarbeiter();
 	    $personal = $mitarbeiter->getMitarbeiter();
