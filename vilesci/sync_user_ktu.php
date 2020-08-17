@@ -51,12 +51,18 @@ $qry = "SELECT
 			(SELECT fixangestellt FROM public.tbl_mitarbeiter WHERE mitarbeiter_uid=tbl_benutzer.uid) as fixangestellt,
 			(SELECT true FROM public.tbl_student WHERE student_uid=tbl_benutzer.uid) as student,
 			(SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='email' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as email_privat, aktivierungscode,
-			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_student USING(studiengang_kz) WHERE tbl_student.student_uid=tbl_benutzer.uid) as studiengang
+			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_student USING(studiengang_kz) WHERE tbl_student.student_uid=tbl_benutzer.uid) as studiengang,
+            (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='telefon' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_festnetz,
+            (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='mobil' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_mobil,
+            strasse, plz, ort, gebdatum, geschlecht
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
+            JOIN public.tbl_adresse USING(person_id)
 		WHERE
 			tbl_benutzer.aktiv
+        AND heimatadresse = true
+        AND zustelladresse = true
 		AND uid NOT IN('administrator','_DummyLektor')
 		";
 if($uid!='')
@@ -171,23 +177,26 @@ if($result = $db->db_query($qry))
 		}
 		else
 		{
-			// check if bPk needs to be updated
-			$entry = $ldap->getEntry($row->uid, 'extensionAttribute4');
+			$data = array(
+				'extensionAttribute4' => !empty($row->bpk) ? $row->bpk : array(),
+				'street' => !empty($row->strasse) ? $row->strasse : array(),
+				'telephoneNumber' => !empty($row->telefon_festnetz) ? $row->telefon_festnetz : array(),
+				'mobile' => !empty($row->telefon_mobil) ? $row->telefon_mobil : array(),
+				'postalCode' => !empty($row->plz) ? $row->plz : array(),
+				'extensionAttribute5' => !empty($row->gebdatum) ? $row->gebdatum : array(),
+				'extensionAttribute6' => !empty($row->geschlecht) ? $row->geschlecht : array(),
+				'l' => !empty($row->ort) ? $row->ort : array()
+			);
 
-			if (!isset($entry[0]['extensionattribute4'][0]) || $entry[0]['extensionattribute4'][0] != $row->bpk)
+			$dn = $ldap->GetUserDN($row->uid);
+
+			if(!$ldap->Modify($dn, $data))
 			{
-				$dn = $ldap->GetUserDN($row->uid);
-				$data = array();
-				$data['extensionAttribute4'] = $row->bpk;
-
-				if(!$ldap->Modify($dn, $data))
-				{
-					echo "<br>Fehler beim Aktualisieren des extensionAttribute4 von $row->uid: ".$ldap->errormsg;
-					continue;
-				}
-
-				echo "<br>extensionAttribute4 von $row->uid erfolgreich aktualisiert";
+				echo "<br>Fehler beim Aktualisieren der Person mit UID $row->uid: ".$ldap->errormsg;
+				continue;
 			}
+
+			echo "<br>Person mit UID $row->uid erfolgreich aktualisiert";
 		}
 	}
 }
