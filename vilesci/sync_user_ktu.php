@@ -46,7 +46,7 @@ else
 	$uid='';
 
 $qry = "SELECT  
-			vorname, nachname, uid, gebdatum, (SELECT matrikelnr FROM public.tbl_student WHERE student_uid=tbl_benutzer.uid) as matrikelnr, alias,
+			vorname, nachname, uid, gebdatum, (SELECT matrikelnr FROM public.tbl_student WHERE student_uid=tbl_benutzer.uid) as matrikelnr, alias, bpk,
 			(SELECT lektor FROM public.tbl_mitarbeiter WHERE mitarbeiter_uid=tbl_benutzer.uid) as lektor,
 			(SELECT fixangestellt FROM public.tbl_mitarbeiter WHERE mitarbeiter_uid=tbl_benutzer.uid) as fixangestellt,
 			(SELECT true FROM public.tbl_student WHERE student_uid=tbl_benutzer.uid) as student,
@@ -106,6 +106,8 @@ if($result = $db->db_query($qry))
 				$data['extensionAttribute2']='Bediensteter';
 			if($row->student=='t')
 				$data['extensionAttribute3']='Studierender';
+			if($row->bpk!='')
+				$data['extensionAttribute4']=$row->bpk;
 				
 			
 			//Passwort und UserAccountControl kann nicht beim Anlegen direkt gesetzt werden
@@ -165,6 +167,26 @@ if($result = $db->db_query($qry))
 				else
 					echo " Fehler beim senden des Mails an $to";
 				*/
+			}
+		}
+		else
+		{
+			// check if bPk needs to be updated
+			$entry = $ldap->getEntry($row->uid, 'extensionAttribute4');
+
+			if (!isset($entry[0]['extensionattribute4'][0]) || $entry[0]['extensionattribute4'][0] != $row->bpk)
+			{
+				$dn = $ldap->GetUserDN($row->uid);
+				$data = array();
+				$data['extensionAttribute4'] = $row->bpk;
+
+				if(!$ldap->Modify($dn, $data))
+				{
+					echo "<br>Fehler beim Aktualisieren des extensionAttribute4 von $row->uid: ".$ldap->errormsg;
+					continue;
+				}
+
+				echo "<br>extensionAttribute4 von $row->uid erfolgreich aktualisiert";
 			}
 		}
 	}
