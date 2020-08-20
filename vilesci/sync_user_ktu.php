@@ -54,14 +54,13 @@ $qry = "SELECT
 			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_student USING(studiengang_kz) WHERE tbl_student.student_uid=tbl_benutzer.uid) as studiengang,
             (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='telefon' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_festnetz,
             (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='mobil' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_mobil,
-            strasse, plz, ort, gebdatum, geschlecht
+            strasse, plz, ort, gebdatum, geschlecht, tbl_benutzer.aktiv
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
             JOIN public.tbl_adresse USING(person_id)
 		WHERE
-			tbl_benutzer.aktiv
-        AND heimatadresse = true
+			heimatadresse = true
         AND zustelladresse = true
 		AND uid NOT IN('administrator','_DummyLektor')
 		";
@@ -74,7 +73,9 @@ if($result = $db->db_query($qry))
 	{
 
 		//Suchen ob der User bereits vorhanden ist
-		if(!$dn = $ldap->GetUserDN($row->uid))
+		$ldapUserDN = $ldap->GetUserDN($row->uid);
+
+		if(!$ldapUserDN && $row->aktiv == 't')
 		{
 			if($row->matrikelnr=='')
 			{
@@ -114,6 +115,8 @@ if($result = $db->db_query($qry))
 				$data['extensionAttribute3']='Studierender';
 			if($row->bpk!='')
 				$data['extensionAttribute4']=$row->bpk;
+
+			$data['extensionAttribute7'] = 'aktiv';
 				
 			
 			//Passwort und UserAccountControl kann nicht beim Anlegen direkt gesetzt werden
@@ -177,6 +180,9 @@ if($result = $db->db_query($qry))
 		}
 		else
 		{
+			if (!$ldapUserDN)
+				continue;
+
 			$data = array(
 				'extensionAttribute4' => !empty($row->bpk) ? $row->bpk : array(),
 				'street' => !empty($row->strasse) ? $row->strasse : array(),
@@ -185,12 +191,11 @@ if($result = $db->db_query($qry))
 				'postalCode' => !empty($row->plz) ? $row->plz : array(),
 				'extensionAttribute5' => !empty($row->gebdatum) ? $row->gebdatum : array(),
 				'extensionAttribute6' => !empty($row->geschlecht) ? $row->geschlecht : array(),
-				'l' => !empty($row->ort) ? $row->ort : array()
+				'l' => !empty($row->ort) ? $row->ort : array(),
+				'extensionAttribute7' => $row->aktiv == 't' ? 'aktiv' : 'inaktiv'
 			);
 
-			$dn = $ldap->GetUserDN($row->uid);
-
-			if(!$ldap->Modify($dn, $data))
+			if(!$ldap->Modify($ldapUserDN, $data))
 			{
 				echo "<br>Fehler beim Aktualisieren der Person mit UID $row->uid: ".$ldap->errormsg;
 				continue;
