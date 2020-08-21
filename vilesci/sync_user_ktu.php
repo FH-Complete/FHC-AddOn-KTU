@@ -54,7 +54,7 @@ $qry = "SELECT
 			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_student USING(studiengang_kz) WHERE tbl_student.student_uid=tbl_benutzer.uid) as studiengang,
             (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='telefon' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_festnetz,
             (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='mobil' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_mobil,
-            strasse, plz, ort, gebdatum, geschlecht, tbl_benutzer.aktiv
+            strasse, plz, ort, gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
@@ -117,7 +117,23 @@ if($result = $db->db_query($qry))
 				$data['extensionAttribute4']=$row->bpk;
 
 			$data['extensionAttribute7'] = 'aktiv';
-				
+
+			if(!empty($row->strasse))
+				$data['street']=$row->strasse;
+			if(!empty($row->telefon_festnetz))
+				$data['telephoneNumber']=$row->telefon_festnetz;
+			if(!empty($row->telefon_mobil))
+				$data['mobile']=$row->telefon_mobil;
+			if(!empty($row->plz))
+				$data['postalCode']=$row->plz;
+			if(!empty($row->gebdatum))
+				$data['extensionAttribute5']=$row->gebdatum;
+			if(!empty($row->geschlecht))
+				$data['extensionAttribute6']=$row->geschlecht;
+			if(!empty($row->ort))
+				$data['l']=$row->ort;
+			if(!empty($row->matr_nr))
+				$data['extensionAttribute8']=$row->matr_nr;
 			
 			//Passwort und UserAccountControl kann nicht beim Anlegen direkt gesetzt werden
 			//Es muss nach dem Anlegen des Users gesetzt werden
@@ -192,7 +208,8 @@ if($result = $db->db_query($qry))
 				'extensionAttribute5' => !empty($row->gebdatum) ? $row->gebdatum : array(),
 				'extensionAttribute6' => !empty($row->geschlecht) ? $row->geschlecht : array(),
 				'l' => !empty($row->ort) ? $row->ort : array(),
-				'extensionAttribute7' => $row->aktiv == 't' ? 'aktiv' : 'inaktiv'
+				'extensionAttribute7' => $row->aktiv == 't' ? 'aktiv' : 'inaktiv',
+				'extensionAttribute8' => !empty($row->matr_nr) ? $row->matr_nr : array()
 			);
 
 			if(!$ldap->Modify($ldapUserDN, $data))
