@@ -54,15 +54,15 @@ $qry = "SELECT
 			(SELECT bezeichnung FROM public.tbl_studiengang JOIN public.tbl_student USING(studiengang_kz) WHERE tbl_student.student_uid=tbl_benutzer.uid) as studiengang,
             (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='telefon' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_festnetz,
             (SELECT kontakt FROM public.tbl_kontakt WHERE kontakttyp='mobil' AND person_id=tbl_benutzer.person_id ORDER BY zustellung desc LIMIT 1) as telefon_mobil,
-            strasse, plz, ort, gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr
+            (SELECT strasse FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as strasse,
+            (SELECT plz FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as plz,
+            (SELECT ort FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as ort,
+            gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
-            JOIN public.tbl_adresse USING(person_id)
 		WHERE
-			heimatadresse = true
-        AND zustelladresse = true
-		AND uid NOT IN('administrator','_DummyLektor')
+			uid NOT IN('administrator','_DummyLektor')
 		";
 if($uid!='')
 	$qry.=" AND uid=".$db->db_add_param($uid);
