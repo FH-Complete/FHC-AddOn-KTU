@@ -1,0 +1,9 @@
+[
+  {
+    "name":"udf_viaf",
+    "sort":4,
+    "type":"textfield",
+    "title":"viafTitle",
+    "defaultValue":""
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "name":"udf_verwendung",
+    "sort":5,
+    "type":"dropdown",
+    "title":"verwendungTitle",
+    "listValues":{
+      "enum":[
+        [
+          11,
+          "Universitätsprofessor/in (§ 98 UG)"
+        ],
+        [
+          14,
+          "habilitierte/r wissenschaftliche/r und künstlerische/r Mitarbeiter/in (Universitätsdozent/in)"
+        ],
+        [
+          17,
+          "nebenberuflich tätige/r Lektor/in (§ 100 Abs. 4 UG)"
+        ],
+        [
+          24,
+          "wissenschaftliche/r und künstlerische/r Projektmitarbeiter/in an Vorhaben gemäß § 26 Abs. 6 UG"
+        ],
+        [
+          25,
+          "wissenschaftliche/r und künstlerische/r Projektmitarbeiter/in an Vorhaben gemäß § 27 Abs. 1 Z 3 UG"
+        ],
+        [
+          27,
+          "Universitätsassistent/in (KV)"
+        ],
+        [
+          81,
+          "Universitätsprofessor/in (§ 99 Abs. 3 UG), bis sechs Jahre befristet und unbefristet"
+        ],
+        [
+          83,
+          "Assistenzprofessor/in (KV)"
+        ],
+        [
+          84,
+          "Senior Lecturer (KV)"
+        ]
+      ]
+    }
+  }
+]

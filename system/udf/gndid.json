@@ -1,0 +1,9 @@
+[
+  {
+    "name":"udf_gndid",
+    "sort":3,
+    "type":"textfield",
+    "title":"gndidTitle",
+    "defaultValue":""
+  }
+]
