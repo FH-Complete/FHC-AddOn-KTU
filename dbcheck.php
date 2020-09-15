@@ -69,7 +69,7 @@ echo '<h2>Gegenprüfung</h2>';
 
 // Liste der verwendeten Tabellen / Spalten des Addons
 $tabellen=array(
-//	"addon.tbl_template_items"  => array("template_items_kurzbz","bezeichnung"),
+	"addon.tbl_anwesenheit"  => array("kartennummer","erfasst"),
 );
 
 
