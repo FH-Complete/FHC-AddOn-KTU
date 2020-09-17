@@ -26,7 +26,7 @@ $result = null;
 if (!empty($_POST['kartennr']))
 {
     $db = new basis_db();
-    $qry = "INSERT INTO addon.tbl_anwesenheit (kartennummer) VALUES (" . $db->db_add_param($_POST['kartennr'], FHC_INTEGER) . ")";
+    $qry = "INSERT INTO addon.tbl_anwesenheit (kartennummer) VALUES (" . $db->db_add_param($_POST['kartennr'], FHC_STRING) . ")";
 
     if ($db->db_query($qry))
         $result = "<p>Kartennummer erfolgreich gespeichert</p>";
