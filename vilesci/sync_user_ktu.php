@@ -200,6 +200,14 @@ if($result = $db->db_query($qry))
 				continue;
 
 			$data = array(
+				'sn' => $row->nachname,
+				'givenName' => $row->vorname,
+				'displayName' => $row->vorname." ".$row->nachname,
+				'name' => $row->vorname." ".$row->nachname,
+				'mail' => $row->alias.'@'.DOMAIN,
+				'extensionAttribute1' => $row->lektor == 't' ? 'Lehrender' : array(),
+				'extensionAttribute2' => $row->fixangestellt == 't' ? 'Bediensteter' : array(),
+				'extensionAttribute3' => $row->student == 't' ? 'Studierender' : array(),
 				'extensionAttribute4' => !empty($row->bpk) ? $row->bpk : array(),
 				'street' => !empty($row->strasse) ? $row->strasse : array(),
 				'telephoneNumber' => !empty($row->telefon_festnetz) ? $row->telefon_festnetz : array(),
@@ -211,6 +219,11 @@ if($result = $db->db_query($qry))
 				'extensionAttribute7' => $row->aktiv == 't' ? 'aktiv' : 'inaktiv',
 				'extensionAttribute8' => !empty($row->matr_nr) ? $row->matr_nr : array()
 			);
+
+			if($row->uid==$row->alias)
+				$data['proxyAddresses'] = array('SMTP:'.$row->alias.'@'.DOMAIN);
+			else
+				$data['proxyAddresses'] = array('smtp:'.$row->uid.'@'.DOMAIN, 'SMTP:'.$row->alias.'@'.DOMAIN);
 
 			if(!$ldap->Modify($ldapUserDN, $data))
 			{
