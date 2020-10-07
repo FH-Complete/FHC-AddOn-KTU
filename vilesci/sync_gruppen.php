@@ -291,7 +291,8 @@ function addMember($uid, $gruppe_kurzbz)
 	$data=array();
 	$data['member'][] = $user_dn;
 
-	ldap_mod_add ($ldap->ldap_conn, $group_dn, $data); 
+	if (!ldap_mod_add ($ldap->ldap_conn, $group_dn, $data))
+		echo "<br>LDAP Fehler " . ldap_errno($ldap->ldap_conn) . " aufgetreten: " . ldap_error($ldap->ldap_conn);
 
 	//$ldap->AddGroupMember($dn, $uid);
 }
@@ -312,7 +313,8 @@ function removeMember($uid, $gruppe_kurzbz)
 	$data=array();
 	$data['member'][] = $user_dn;
 
-	ldap_mod_del ($ldap->ldap_conn, $group_dn, $data);
+	if (!ldap_mod_del ($ldap->ldap_conn, $group_dn, $data))
+		echo "<br>LDAP Fehler " . ldap_errno($ldap->ldap_conn) . " aufgetreten: " . ldap_error($ldap->ldap_conn);
 
 	//$ldap->DeleteGroupMember($dn, $uid);
 }
