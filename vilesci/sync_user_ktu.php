@@ -203,7 +203,6 @@ if($result = $db->db_query($qry))
 				'sn' => $row->nachname,
 				'givenName' => $row->vorname,
 				'displayName' => $row->vorname." ".$row->nachname,
-				'name' => $row->vorname." ".$row->nachname,
 				'mail' => $row->alias.'@'.DOMAIN,
 				'extensionAttribute1' => $row->lektor == 't' ? 'Lehrender' : array(),
 				'extensionAttribute2' => $row->fixangestellt == 't' ? 'Bediensteter' : array(),
