@@ -102,7 +102,7 @@ if($result = $db->db_query($qry))
 			$data['mail'] = $row->alias.'@'.DOMAIN;
 			$data["sAMAccountName"] = $row->uid;
 			$data['userPrincipalName'] = $row->uid.'@'.DOMAIN;
-			if(empty($row->alias))
+			if(empty($row->alias) || $row->uid == $row->alias)
 				$data['proxyAddresses']=array('SMTP:'.$row->uid.'@'.DOMAIN);
 			else
 				$data['proxyAddresses']=array('smtp:'.$row->uid.'@'.DOMAIN, 'SMTP:'.$row->alias.'@'.DOMAIN);
@@ -219,7 +219,7 @@ if($result = $db->db_query($qry))
 				'extensionAttribute8' => !empty($row->matr_nr) ? $row->matr_nr : array()
 			);
 
-			if(empty($row->alias))
+			if(empty($row->alias) || $row->uid == $row->alias)
 				$data['proxyAddresses'] = array('SMTP:'.$row->uid.'@'.DOMAIN);
 			else
 				$data['proxyAddresses'] = array('smtp:'.$row->uid.'@'.DOMAIN, 'SMTP:'.$row->alias.'@'.DOMAIN);
