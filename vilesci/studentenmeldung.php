@@ -148,6 +148,13 @@ require_once('../../../include/bisio.class.php');
 			    $sart = "Typ nicht gefunden";
 			    break;
 		    }
+
+		    // manuelle Zuordnung der Studienart lt. Hr. Koller
+            if ($studiengang->studiengang_kz == 20 || $studiengang->studiengang_kz == 40)
+                $sArt = '2';
+            elseif ($studiengang->studiengang_kz == 990 || $studiengang->studiengang_kz == 90)
+                $sArt = '7';
+
 		    if($student->svnr === NULL && $student->ersatzkennzeichen === NULL)
 		    {
 			$temp = clone $student;
