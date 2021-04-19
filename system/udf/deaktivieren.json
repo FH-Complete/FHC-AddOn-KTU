@@ -1,10 +1,22 @@
 [
   {
-    "name":"udf_deaktivieren",
-    "sort":6,
-    "type":"textfield",
-    "title":"deaktivierenTitle",
-    "placeholder":"deaktivierenPlaceholder",
-    "defaultValue":""
+    "name": "udf_deaktivieren",
+    "sort": 6,
+    "type": "textfield",
+    "title": "deaktivierenTitle",
+    "placeholder": "deaktivierenPlaceholder",
+    "defaultValue": "",
+    "validation": {
+      "regex": [
+        {
+          "language": "php",
+          "expression": "/^(0[1-9]|[1-2][0-9]|3[0-1])\\.(0[1-9]|1[0-2])\\.[0-9]{4}$/"
+        },
+        {
+          "language": "js",
+          "expression": "/^(0[1-9]|[1-2][0-9]|3[0-1])\\.(0[1-9]|1[0-2])\\.[0-9]{4}$/"
+        }
+      ]
+    }
   }
 ]
