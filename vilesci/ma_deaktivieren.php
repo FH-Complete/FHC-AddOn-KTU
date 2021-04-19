@@ -23,16 +23,18 @@ require_once('../../../include/basis_db.class.php');
 
 ini_set('display_errors','1');
 error_reporting(E_ALL);
+$debug = false;
 
 $db = new basis_db();
 $personen = array();
 
-// Alle Benutzer holen, die deaktiviert werden müssen
+// Alle Mitarbeiter holen, die deaktiviert werden müssen
 $qry = "SELECT  
 			tbl_person.person_id
 		FROM
 			public.tbl_person
             JOIN public.tbl_benutzer USING(person_id)
+            JOIN public.tbl_mitarbeiter ON(uid = mitarbeiter_uid)
 		WHERE
 			uid NOT IN('administrator','_DummyLektor')
             AND tbl_benutzer.aktiv = TRUE
@@ -49,13 +51,18 @@ if($result = $db->db_query($qry)) {
 }
 
 // Benutzer deaktivieren
-$qry = "UPDATE 
-            public.tbl_benutzer
-        SET 
-            aktiv = FALSE, updateaktivam = NOW()
-        WHERE 
-            person_id IN(" . implode(',', $personen) . ")
+if(!empty($personen)) {
+    $qry = "UPDATE 
+                public.tbl_benutzer
+            SET 
+                aktiv = FALSE, updateaktivam = NOW()
+            WHERE 
+                person_id IN(" . implode(',', $personen) . ")
         ";
 
-if(!$db->db_query($qry))
-    echo "Fehler beim automatischen Deaktivieren der Mitarbeiter!";
+    if(!$db->db_query($qry))
+        echo "Fehler beim automatischen Deaktivieren der Mitarbeiter: " . $db->db_last_error();
+
+    if($debug)
+        echo $qry;
+}
