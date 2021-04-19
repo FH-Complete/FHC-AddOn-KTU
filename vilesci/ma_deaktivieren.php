@@ -55,7 +55,7 @@ if(!empty($personen)) {
     $qry = "UPDATE 
                 public.tbl_benutzer
             SET 
-                aktiv = FALSE, updateaktivam = NOW()
+                aktiv = FALSE, updateaktivvon = 'cronjob', updateaktivam = NOW()
             WHERE 
                 person_id IN(" . implode(',', $personen) . ")
         ";
