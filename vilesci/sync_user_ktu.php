@@ -57,7 +57,7 @@ $qry = "SELECT
             (SELECT strasse FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as strasse,
             (SELECT plz FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as plz,
             (SELECT ort FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as ort,
-            gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr
+            gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr, udf_values->>'udf_office365' as office365
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
@@ -134,6 +134,8 @@ if($result = $db->db_query($qry))
 				$data['l']=$row->ort;
 			if(!empty($row->matr_nr))
 				$data['extensionAttribute8']=$row->matr_nr;
+			if(!empty($row->office365))
+				$data['extensionAttribute9']=$row->office365;
 			
 			//Passwort und UserAccountControl kann nicht beim Anlegen direkt gesetzt werden
 			//Es muss nach dem Anlegen des Users gesetzt werden
@@ -216,7 +218,8 @@ if($result = $db->db_query($qry))
 				'extensionAttribute6' => !empty($row->geschlecht) ? $row->geschlecht : array(),
 				'l' => !empty($row->ort) ? $row->ort : array(),
 				'extensionAttribute7' => $row->aktiv == 't' ? 'aktiv' : 'inaktiv',
-				'extensionAttribute8' => !empty($row->matr_nr) ? $row->matr_nr : array()
+				'extensionAttribute8' => !empty($row->matr_nr) ? $row->matr_nr : array(),
+				'extensionAttribute9' => !empty($row->office365) ? $row->office365 : array()
 			);
 
 			if(empty($row->alias) || $row->uid == $row->alias)
