@@ -1,0 +1,20 @@
+[
+  {
+    "name":"udf_office365",
+    "sort":7,
+    "type":"dropdown",
+    "title":"office365Title",
+    "listValues":{
+      "enum":[
+        [
+          "A1",
+          "A1"
+        ],
+        [
+          "M3",
+          "M3"
+        ]
+      ]
+    }
+  }
+]
