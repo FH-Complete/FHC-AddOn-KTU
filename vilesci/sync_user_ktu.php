@@ -222,7 +222,7 @@ if($result = $db->db_query($qry))
 				'extensionAttribute9' => !empty($row->office365) ? $row->office365 : array()
 			);
 
-			if(empty($row->alias) || $row->uid == $row->alias)
+			if(empty($row->matrikelnr) || empty($row->alias) || $row->uid == $row->alias)
 				$data['proxyAddresses'] = array('SMTP:'.$row->uid.'@'.DOMAIN);
 			else
 				$data['proxyAddresses'] = array('smtp:'.$row->uid.'@'.DOMAIN, 'SMTP:'.$row->alias.'@'.DOMAIN);
