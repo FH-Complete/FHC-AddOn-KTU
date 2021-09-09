@@ -24,14 +24,14 @@
 require_once('../../config/cis.config.inc.php');
 require_once('../../include/authentication.class.php');
 
-// Benutzerdaten anpassen!
+// Benutzerdaten und Anzahl der Versuche anpassen!
 $username = '';
 $password = '';
+$attempts = 1;
 
 $auth = new authentication();
 
-for($x = 1; $x <= 20; $x++) {
+for($x = 1; $x <= $attempts; $x++) {
     $result = $auth->checkpassword($username, $password);
-
     var_dump($result);
 }
