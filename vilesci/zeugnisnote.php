@@ -71,7 +71,7 @@ if(isset($_POST['new']))
 $student = new student($_GET["uid"]);
 $prestudent = new prestudent();
 $prestudent->getFirstStatus($student->prestudent_id, 'Student');
-$prestudent->getLastStatus($student->prestudent_id, 'Student');
+$prestudent->getLastStatus($student->prestudent_id, '', 'Student');
 
 // Stammdaten der Noten und Studiensemester laden
 $noten = new note();
