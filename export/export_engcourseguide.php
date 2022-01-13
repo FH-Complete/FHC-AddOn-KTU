@@ -29,6 +29,7 @@ require_once('../../../include/organisationsform.class.php');
 require_once('../../../include/lehrform.class.php');
 require_once('../../../include/sprache.class.php');
 require_once('../../../include/studienplan.class.php');
+require_once('../../../include/lehreinheit.class.php');
 require_once('../../lvinfo/include/lvinfo.class.php');
 
 $uid = get_uid();
@@ -167,6 +168,12 @@ foreach($studiengang->result as $row_stg)
 
 			foreach($lv->lehrveranstaltungen as $row_lv)
 			{
+				// nur LVs mit Lehreinheiten beachten
+				$lehreinheit = new lehreinheit();
+				$lehreinheit->load_lehreinheiten($row_lv->lehrveranstaltung_id, $studiensemester_kurzbz);
+				if (empty($lehreinheit->lehreinheiten))
+					continue;
+
 				if ($art == 'englisch')
 				{
 					if($row_lv->sprache!='English')
@@ -260,9 +267,12 @@ foreach($studiengang->result as $row_stg)
 					$lvinfo_data = array();
 					foreach($lvinfo->result as $row_set)
 					{
-						if($row_set->lvinfo_set_typ=='text')
+						if($row_set->lvinfo_set_typ=='text' || $row_set->lvinfo_set_typ=='editor')
 						{
-							$lvinfo_data[$row_set->lvinfo_set_kurzbz]=$lvinfo_obj->data[$row_set->lvinfo_set_kurzbz];
+							if (isset($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]))
+								$lvinfo_data[$row_set->lvinfo_set_kurzbz]=html_entity_decode(strip_tags($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]));
+							else
+								$lvinfo_data[$row_set->lvinfo_set_kurzbz]='';
 						}
 						elseif($row_set->lvinfo_set_typ=='array')
 						{
