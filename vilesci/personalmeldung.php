@@ -53,7 +53,7 @@ $datumobj = new datum();
 			if(substr($sem->studiensemester_kurzbz, 0, 2) == "WS")
 			{
 			    $studienjahr = substr($sem->studiensemester_kurzbz,2)."/".substr($studiensemester->getStudienjahrStudiensemester($sem->studiensemester_kurzbz),4);
-			    echo "<option value='".$sem->studiensemester_kurzbz."'>".$studienjahr."</option>";
+			    echo "<option value='".$sem->studiensemester_kurzbz."'>".substr($studienjahr, 0, 4)."</option>";
 			}
 		    }
 		?>
