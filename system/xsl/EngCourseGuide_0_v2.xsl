@@ -425,7 +425,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
         <text:span text:style-name="T1">Master DEGREE PROGRAMS</text:span>
       </text:h>
 	<xsl:for-each select="studiengang">
-		<xsl:if test="typ='m'">
+		<xsl:if test="typ!='b'">
 		  <text:h text:style-name="P17" text:outline-level="2">
 		    <text:span text:style-name="T3"><xsl:value-of select="bezeichnung_english" /></text:span>
 		  </text:h>

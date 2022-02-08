@@ -153,8 +153,7 @@ foreach($studiengang->result as $row_stg)
 	$included_stpl=array();
 
 	// Bachelor, Master und ECI
-	if((($row_stg->studiengang_kz<10000 && $row_stg->studiengang_kz>0) || $row_stg->studiengang_kz==10006)
-		&& ($row_stg->typ=='b' || $row_stg->typ=='m' || $row_stg->studiengang_kz==10006))
+	if($row_stg->studiengang_kz<10000 && $row_stg->studiengang_kz>0)
 	{
 		// Aktuelle Studienplaene dazu holen
 		$studienplan = new studienplan();
