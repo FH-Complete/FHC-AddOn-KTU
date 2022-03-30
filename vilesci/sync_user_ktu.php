@@ -77,16 +77,23 @@ if($result = $db->db_query($qry))
 
 		if(!$ldapUserDN && $row->aktiv == 't')
 		{
+			$office365 = null;
+
 			if($row->matrikelnr=='')
 			{
 				//Mitarbeiter
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
+
+				if(!empty($row->office365))
+					$office365 = 'M3';
 			}
 			else
 			{
 				//Studierende
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
 
+				if(!empty($row->office365))
+					$office365 = 'A1';
 			}
 			
 			//Active Directory will das Passwort in doppelten Hochkomma und UTF16LE codiert
@@ -134,8 +141,8 @@ if($result = $db->db_query($qry))
 				$data['l']=$row->ort;
 			if(!empty($row->matr_nr))
 				$data['extensionAttribute8']=$row->matr_nr;
-			if(!empty($row->office365))
-				$data['extensionAttribute9']=$row->office365;
+			if(!empty($office365))
+				$data['extensionAttribute9']=$office365;
 			
 			//Passwort und UserAccountControl kann nicht beim Anlegen direkt gesetzt werden
 			//Es muss nach dem Anlegen des Users gesetzt werden
@@ -201,6 +208,10 @@ if($result = $db->db_query($qry))
 			if (!$ldapUserDN)
 				continue;
 
+			$office365 = null;
+			if(!empty($row->office365))
+				$office365 = $row->matrikelnr == '' ? 'M3' : 'A1';
+
 			$data = array(
 				'sn' => $row->nachname,
 				'givenName' => $row->vorname,
@@ -219,7 +230,7 @@ if($result = $db->db_query($qry))
 				'l' => !empty($row->ort) ? $row->ort : array(),
 				'extensionAttribute7' => $row->aktiv == 't' ? 'aktiv' : 'inaktiv',
 				'extensionAttribute8' => !empty($row->matr_nr) ? $row->matr_nr : array(),
-				'extensionAttribute9' => !empty($row->office365) ? $row->office365 : array()
+				'extensionAttribute9' => !empty($office365) ? $office365 : array()
 			);
 
 			if(empty($row->matrikelnr) || empty($row->alias) || $row->uid == $row->alias)
