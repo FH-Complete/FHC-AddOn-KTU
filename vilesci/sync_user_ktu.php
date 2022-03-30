@@ -85,7 +85,7 @@ if($result = $db->db_query($qry))
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
 
 				if(!empty($row->office365))
-					$office365 = 'M3';
+					$office365 = $row->office365;
 			}
 			else
 			{
@@ -210,7 +210,7 @@ if($result = $db->db_query($qry))
 
 			$office365 = null;
 			if(!empty($row->office365))
-				$office365 = $row->matrikelnr == '' ? 'M3' : 'A1';
+				$office365 = $row->matrikelnr == '' ? $row->office365 : 'A1';
 
 			$data = array(
 				'sn' => $row->nachname,
