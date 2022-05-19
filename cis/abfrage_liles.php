@@ -37,6 +37,12 @@ $p = new phrasen($sprache);
 if (! $db = new basis_db())
 	die($p->t('global/fehlerBeimOeffnenDerDatenbankverbindung'));
 
+$user = get_uid();
+$rechte = new benutzerberechtigung();
+$rechte->getBerechtigungen($user);
+if (!$rechte->isBerechtigt('admin'))
+	die($p->t('global/keineBerechtigungFuerDieseSeite'));
+
 if (isset($_GET['stsem']))
 	$stsem = $_GET['stsem'];
 else
@@ -108,23 +114,12 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www
 	</form>
 	<br>';
 
-$user = get_uid();
 $error = '';
 
 if (isset($_GET['matrnr']) && ctype_digit($_GET['matrnr']))
 {
-	// Administratoren duerfen die Matrikelnummer als Parameter uebergeben um die Notenliste
-	// von anderen Personen anzuzeigen
-	$rechte = new benutzerberechtigung();
-	$rechte->getBerechtigungen($user);
-	if ($rechte->isBerechtigt('admin'))
-	{
-		$user = $_GET['matrnr'];
-		$getParam = "&matrnr=" . $user;
-	}
-	else
-		$getParam = "";
-
+	$user = $_GET['matrnr'];
+	$getParam = "&matrnr=" . $user;
 	$datum_obj = new datum();
 
 	$qry = "SELECT vw_student.vorname, vw_student.nachname, vw_student.prestudent_id, tbl_studiengang.studiengang_kz, vw_student.uid
