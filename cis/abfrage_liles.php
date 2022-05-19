@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2008 Technikum-Wien
+ * Copyright (C) 2022 Technikum-Wien
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
@@ -12,10 +12,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
- * Authors: Christian Paminger <christian.paminger@technikum-wien.at>,
- * Andreas Oesterreicher <andreas.oesterreicher@technikum-wien.at>
- * Rudolf Hangl < rudolf.hangl@technikum-wien.at >
- * Gerald Simane-Sequens < gerald.simane-sequens@technikum-wien.at >
  */
 /*
  * Erstellt eine Liste mit den Noten des eingeloggten Studenten
@@ -104,48 +100,45 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www
 </head>
 
 <body>
-	<h1>' . $p->t('tools/leistungsbeurteilung') . '</h1>';
+	<h1>' . $p->t('tools/leistungsbeurteilung') . '</h1>
+	<form method="get">
+	  <input type="text" name="matrnr" placeholder="Matrikelnummer">
+	  <input type="hidden" name="stsem" value="alle">
+	  <input type="submit" value="suchen">
+	</form>
+	<br>';
 
 $user = get_uid();
+$error = '';
 
-if (isset($_GET['uid']))
+if (isset($_GET['matrnr']) && ctype_digit($_GET['matrnr']))
 {
-	// Administratoren duerfen die UID als Parameter uebergeben um die Notenliste
+	// Administratoren duerfen die Matrikelnummer als Parameter uebergeben um die Notenliste
 	// von anderen Personen anzuzeigen
-
 	$rechte = new benutzerberechtigung();
 	$rechte->getBerechtigungen($user);
 	if ($rechte->isBerechtigt('admin'))
 	{
-		$user = $_GET['uid'];
-		$getParam = "&uid=" . $user;
+		$user = $_GET['matrnr'];
+		$getParam = "&matrnr=" . $user;
 	}
 	else
 		$getParam = "";
-}
-else
-	$getParam = '';
 
-$datum_obj = new datum();
+	$datum_obj = new datum();
 
-$error = '';
+	$qry = "SELECT vw_student.vorname, vw_student.nachname, vw_student.prestudent_id, tbl_studiengang.studiengang_kz, vw_student.uid
+		FROM public.tbl_studiengang JOIN campus.vw_student USING (studiengang_kz) JOIN public.tbl_person USING (person_id)
+		WHERE public.tbl_person.matr_nr = " . $db->db_add_param($user) . ";";
 
-if (! check_student($user))
-{
-	$error .= $p->t('tools/mussAlsStudentEingeloggtSein');
-}
-else
-{
-	$qry = "SELECT vw_student.vorname, vw_student.nachname, vw_student.prestudent_id, tbl_studiengang.studiengang_kz
-		FROM public.tbl_studiengang JOIN campus.vw_student USING (studiengang_kz)
-		WHERE campus.vw_student.uid = " . $db->db_add_param($user) . ";";
+	$result = $db->db_query($qry);
+	$row = $db->db_fetch_object($result);
 
-	if (! $result = $db->db_query($qry))
+	if (empty($row))
 		die($p->t('tools/studentWurdeNichtGefunden'));
 	else
 	{
-		$row = $db->db_fetch_object($result);
-
+		$user = $row->uid;
 		$vorname = $row->vorname;
 		$nachname = $row->nachname;
 		$prestudent_id = $row->prestudent_id;
@@ -209,18 +202,18 @@ else
 	echo "<b>".$p->t('global/name').":</b> $vorname $nachname<br />";
 	echo "<b>".$p->t('global/studiengang').":</b>  $studiengang_bezeichnung<br />";
 	echo "<b>".$p->t('global/studiensemester')."</b> <SELECT name='stsem' onChange=\"MM_jumpMenu('self',this,0)\">";
-    echo "<OPTION value='notenliste.php?stsem=alle".$getParam."'>".$p->t('news/allesemester')."</OPTION>";
+    echo "<OPTION value='abfrage_liles.php?stsem=alle".$getParam."'>".$p->t('news/allesemester')."</OPTION>";
 	$notenImAktuellenStSem = false;
 	foreach ($stsem_obj->studiensemester as $semrow)
 	{
 		if ($stsem == $semrow->studiensemester_kurzbz)
 		{
-			echo "<OPTION value='notenliste.php?stsem=" . $semrow->studiensemester_kurzbz . $getParam . "' selected>$semrow->studiensemester_kurzbz</OPTION>";
+			echo "<OPTION value='abfrage_liles.php?stsem=" . $semrow->studiensemester_kurzbz . $getParam . "' selected>$semrow->studiensemester_kurzbz</OPTION>";
 			$notenImAktuellenStSem = true;
 		}
 		else
 		{
-			echo "<OPTION value='notenliste.php?stsem=" . $semrow->studiensemester_kurzbz . $getParam . "'>$semrow->studiensemester_kurzbz</OPTION>";
+			echo "<OPTION value='abfrage_liles.php?stsem=" . $semrow->studiensemester_kurzbz . $getParam . "'>$semrow->studiensemester_kurzbz</OPTION>";
 		}
 	}
 	echo "</SELECT><br />";
