@@ -108,7 +108,7 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www
 <body>
 	<h1>' . $p->t('tools/leistungsbeurteilung') . '</h1>
 	<form method="get">
-	  <input type="text" name="matrnr" placeholder="Matrikelnummer">
+	  <input type="text" name="search" placeholder="Matrikelnummer oder UID" size="30">
 	  <input type="hidden" name="stsem" value="alle">
 	  <input type="submit" value="suchen">
 	</form>
@@ -116,15 +116,20 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www
 
 $error = '';
 
-if (isset($_GET['matrnr']) && ctype_digit($_GET['matrnr']))
+if (isset($_GET['search']) && (ctype_digit($_GET['search']) || substr($_GET['search'], 0, 1) == 'p'))
 {
-	$user = $_GET['matrnr'];
-	$getParam = "&matrnr=" . $user;
+	$user = $_GET['search'];
+	$getParam = "&search=" . $user;
 	$datum_obj = new datum();
 
 	$qry = "SELECT vw_student.vorname, vw_student.nachname, vw_student.prestudent_id, tbl_studiengang.studiengang_kz, vw_student.uid
 		FROM public.tbl_studiengang JOIN campus.vw_student USING (studiengang_kz) JOIN public.tbl_person USING (person_id)
-		WHERE public.tbl_person.matr_nr = " . $db->db_add_param($user) . ";";
+		WHERE ";
+
+	if (ctype_digit($user))
+		$qry .= "public.tbl_person.matr_nr = " . $db->db_add_param($user) . ";";
+	else
+		$qry .= "campus.vw_student.uid = " . $db->db_add_param($user) . ";";
 
 	$result = $db->db_query($qry);
 	$row = $db->db_fetch_object($result);
