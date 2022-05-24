@@ -61,7 +61,22 @@ $qry = "GRANT SELECT, INSERT ON public.tbl_prestudentstatus TO web;";
 if(!$db->db_query($qry))
 	echo '<strong>Error: '.$db->db_last_error().'</strong>'; 
 else
-	echo 'Berechtigungen fuer User Web auf Tabelle Prestudentstatus erteilt'; 
+	echo 'Berechtigungen fuer User Web auf Tabelle Prestudentstatus erteilt';
+
+//Neue Berechtigung für das Addon hinzufügen
+if($result = $db->db_query("SELECT * FROM system.tbl_berechtigung WHERE berechtigung_kurzbz='addon/ku_lilesAbfrage'"))
+{
+	if($db->db_num_rows($result)==0)
+	{
+		$qry = "INSERT INTO system.tbl_berechtigung(berechtigung_kurzbz, beschreibung)
+				VALUES('addon/ku_lilesAbfrage','Abfrage der Noten für Mitarbeiter der LiLes');";
+
+		if(!$db->db_query($qry))
+			echo '<strong>Berechtigung: '.$db->db_last_error().'</strong><br>';
+		else
+			echo 'Neue Berechtigung addon/ku_lilesAbfrage hinzugefuegt!<br>';
+	}
+}
 
 echo '<br>Aktualisierung abgeschlossen<br><br>';
 echo '<h2>Gegenprüfung</h2>';
