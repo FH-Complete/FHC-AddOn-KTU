@@ -40,7 +40,7 @@ if (! $db = new basis_db())
 $user = get_uid();
 $rechte = new benutzerberechtigung();
 $rechte->getBerechtigungen($user);
-if (!$rechte->isBerechtigt('admin'))
+if (!$rechte->isBerechtigt('admin') && !$rechte->isBerechtigt('addon/ku_lilesAbfrage'))
 	die($p->t('global/keineBerechtigungFuerDieseSeite'));
 
 if (isset($_GET['stsem']))
