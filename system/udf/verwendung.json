@@ -43,6 +43,7 @@
           "Senior Lecturer (KV)"
         ]
       ]
-    }
+    },
+    "requiredPermissions": ["basis/person"]
   }
 ]

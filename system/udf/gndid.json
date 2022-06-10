@@ -4,6 +4,7 @@
     "sort":3,
     "type":"textfield",
     "title":"gndidTitle",
-    "defaultValue":""
+    "defaultValue":"",
+    "requiredPermissions": ["basis/person"]
   }
 ]

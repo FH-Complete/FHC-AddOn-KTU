@@ -26,6 +26,7 @@
         "islam.",
         "sonstige"
       ]
-    }
+    },
+    "requiredPermissions": ["basis/person"]
   }
 ]
