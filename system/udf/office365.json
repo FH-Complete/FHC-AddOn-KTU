@@ -15,6 +15,7 @@
           "M3"
         ]
       ]
-    }
+    },
+    "requiredPermissions": ["basis/person"]
   }
 ]

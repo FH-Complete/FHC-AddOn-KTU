@@ -5,6 +5,7 @@
     "type": "textfield",
     "title": "deaktivierenTitle",
     "placeholder": "deaktivierenPlaceholder",
-    "defaultValue": ""
+    "defaultValue": "",
+    "requiredPermissions": ["basis/person"]
   }
 ]

@@ -4,6 +4,7 @@
     "sort": 1,
     "type": "checkbox",
     "title": "strafregisterauszugTitle",
-    "defaultValue": false
+    "defaultValue": false,
+    "requiredPermissions": ["basis/person"]
   }
 ]
