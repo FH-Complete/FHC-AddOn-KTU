@@ -37,6 +37,7 @@ $qry = "SELECT
             JOIN public.tbl_mitarbeiter ON(uid = mitarbeiter_uid)
 		WHERE
 			uid NOT IN('administrator','_DummyLektor')
+		    AND udf_values->>'udf_deaktivieren' != ''
             AND tbl_benutzer.aktiv = TRUE
             AND TO_DATE(udf_values->>'udf_deaktivieren', 'DD.MM.YYYY') <= NOW()
 		";
