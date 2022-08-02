@@ -57,7 +57,11 @@ $qry = "SELECT
             (SELECT strasse FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as strasse,
             (SELECT plz FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as plz,
             (SELECT ort FROM public.tbl_adresse WHERE person_id=tbl_benutzer.person_id AND zustelladresse=true) as ort,
-            gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr, udf_values->>'udf_office365' as office365
+            gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr, 
+            CASE WHEN udf_values->>'udf_office365' = '1' THEN 'A1'
+			WHEN udf_values->>'udf_office365' = '2' THEN 'M3'
+			ELSE udf_values->>'udf_office365'
+			END AS office365
 		FROM
 			public.tbl_benutzer
 			JOIN public.tbl_person USING(person_id)
