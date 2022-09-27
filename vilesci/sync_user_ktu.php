@@ -88,16 +88,16 @@ if($result = $db->db_query($qry))
 				//Mitarbeiter
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
 
-				if(!empty($row->office365))
-					$office365 = $row->office365;
+				//alle MA erhalten Lizenz A1 außer es wird im FAS M3 ausgewählt
+				$office365 = empty($row->office365) ? 'A1' : $row->office365;
 			}
 			else
 			{
 				//Studierende
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
 
-				if(!empty($row->office365))
-					$office365 = 'A1';
+				//alle Studierende erhalten Lizenz A1
+				$office365 = 'A1';
 			}
 			
 			//Active Directory will das Passwort in doppelten Hochkomma und UTF16LE codiert
@@ -212,9 +212,11 @@ if($result = $db->db_query($qry))
 			if (!$ldapUserDN)
 				continue;
 
-			$office365 = null;
-			if(!empty($row->office365))
-				$office365 = $row->matrikelnr == '' ? $row->office365 : 'A1';
+			//alle Personen erhalten A1 außer Mitarbeiter, bei denen im FAS M3 ausgewählt ist
+			if ($row->matrikelnr == '')
+				$office365 = empty($row->office365) ? 'A1' : $row->office365;
+			else
+				$office365 = 'A1';
 
 			$data = array(
 				'sn' => $row->nachname,
