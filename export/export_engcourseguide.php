@@ -155,141 +155,129 @@ foreach($studiengang->result as $row_stg)
 	// Bachelor, Master und ECI
 	if($row_stg->studiengang_kz<10000 && $row_stg->studiengang_kz>0)
 	{
-		// Aktuelle Studienplaene dazu holen
-		$studienplan = new studienplan();
-		$studienplan->getStudienplaeneFromSem($row_stg->studiengang_kz, $studiensemester_kurzbz);
+		// Alle LVs mit Lehreinheiten holen
+		$lv=new lehrveranstaltung();
+		$lv->load_lva_le($row_stg->studiengang_kz, $studiensemester_kurzbz);
 
-		foreach($studienplan->result as $row_stpl)
+		foreach($lv->lehrveranstaltungen as $row_lv)
 		{
-			// Alle LVs in englisch holen
-			$lv=new lehrveranstaltung();
-			$lv->loadLehrveranstaltungStudienplan($row_stpl->studienplan_id, $row_stpl->semester, 'stpllv_sort, semester, sort');
-
-			foreach($lv->lehrveranstaltungen as $row_lv)
+			if ($art == 'englisch')
 			{
-				// nur LVs mit Lehreinheiten beachten
-				$lehreinheit = new lehreinheit();
-				$lehreinheit->load_lehreinheiten($row_lv->lehrveranstaltung_id, $studiensemester_kurzbz);
-				if (empty($lehreinheit->lehreinheiten))
+				if($row_lv->sprache!='English')
 					continue;
+				if($row_lv->lehrtyp_kurzbz!='lv')
+					continue;
+				if(!$row_lv->export)
+					continue;
+				if($row_lv->incoming==0 || $row_lv->incoming=='')
+					continue;
+			}
+			else
+			{
+				if($row_lv->lehrtyp_kurzbz!='lv')
+					continue;
+				if(!$row_lv->export)
+					continue;
+			}
 
-				if ($art == 'englisch')
-				{
-					if($row_lv->sprache!='English')
-						continue;
-					if($row_lv->lehrtyp_kurzbz!='lv')
-						continue;
-					if(!$row_lv->export)
-						continue;
-					if($row_lv->incoming==0 || $row_lv->incoming=='')
-						continue;
-				}
-				else
-				{
-					if($row_lv->lehrtyp_kurzbz!='lv')
-						continue;
-					if(!$row_lv->export)
-						continue;
-				}
-
-				if ($lvinfosprache == 'gleichlv')
+			if ($lvinfosprache == 'gleichlv')
+			{
+				$lvbezeichnung = $row_lv->bezeichnung;
+			}
+			else
+			{
+				if ($lvinfosprache == 'German')
 				{
 					$lvbezeichnung = $row_lv->bezeichnung;
 				}
-				else
+				elseif ($lvinfosprache == 'English')
 				{
-					if ($lvinfosprache == 'German')
+					if ($row_lv->bezeichnung_english != '')
 					{
-						$lvbezeichnung = $row_lv->bezeichnung;
-					}
-					elseif ($lvinfosprache == 'English')
-					{
-						if ($row_lv->bezeichnung_english != '')
-						{
-							$lvbezeichnung = $row_lv->bezeichnung_english;
-						}
-						else
-						{
-							$lvbezeichnung = $row_lv->bezeichnung;
-						}
-					}
-				}
-				$data[$i]['lehrveranstaltung']=array(
-					'lehrveranstaltung_id'=>$row_lv->lehrveranstaltung_id,
-					'kurzbz'=>$row_lv->kurzbz,
-					'bezeichnung'=>$lvbezeichnung,
-					'bezeichnung_englisch'=>$row_lv->bezeichnung_english,
-					'ects'=>$row_lv->ects,
-					'sws'=>$row_lv->sws,
-					'lehrtyp'=>$row_lv->lehrtyp_kurzbz,
-					'lehrform_kurzbz'=>$row_lv->lehrform_kurzbz,
-					'semester'=>$row_lv->semester,
-					'sprache'=>$row_lv->sprache,
-					'studienplan'=>$row_stpl->bezeichnung_studienplan,
-				);
-
-				$lvinfo_found=false;
-				$lvinfo = new lvinfo();
-				$lvinfo->loadLastLvinfo($row_lv->lehrveranstaltung_id,true);
-
-				foreach($lvinfo->result as $row_lvinfo)
-				{
-					if ($lvinfosprache == 'gleichlv')
-					{
-						if($row_lvinfo->sprache == $row_lv->sprache)
-						{
-							$lvinfo_obj = $row_lvinfo;
-							$lvinfo_found=true;
-							break;
-						}
+						$lvbezeichnung = $row_lv->bezeichnung_english;
 					}
 					else
 					{
-						if($row_lvinfo->sprache == $lvinfosprache)
-						{
-							$lvinfo_obj = $row_lvinfo;
-							$lvinfo_found=true;
-							break;
-						}
-						elseif ($row_lvinfo->sprache == $row_lv->sprache)
-						{
-							$lvinfo_obj = $row_lvinfo;
-							$lvinfo_found=true;
-							break;
-						}
+						$lvbezeichnung = $row_lv->bezeichnung;
 					}
 				}
-
-				if($lvinfo_found)
-				{
-					$lvinfo->load_lvinfo_set($lvinfo_obj->studiensemester_kurzbz);
-					$lvinfo_data = array();
-					foreach($lvinfo->result as $row_set)
-					{
-						if($row_set->lvinfo_set_typ=='text' || $row_set->lvinfo_set_typ=='editor')
-						{
-							if (isset($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]))
-								$lvinfo_data[$row_set->lvinfo_set_kurzbz]=html_entity_decode(strip_tags($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]));
-							else
-								$lvinfo_data[$row_set->lvinfo_set_kurzbz]='';
-						}
-						elseif($row_set->lvinfo_set_typ=='array')
-						{
-							$lvinfo_data[$row_set->lvinfo_set_kurzbz]['einleitungstext']=$row_set->einleitungstext[$row_lv->sprache];
-							if(isset($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]))
-							{
-								foreach($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz] as $row_lvinfo_element)
-									$lvinfo_data[$row_set->lvinfo_set_kurzbz]['elements'][]=array('element'=>$row_lvinfo_element);
-							}
-						}
-					}
-
-					// LV Informationen
-					$data[$i]['lehrveranstaltung']['lvinfo']=$lvinfo_data;
-				}
-				$i++;
 			}
+			$data[$i]['lehrveranstaltung']=array(
+				'lehrveranstaltung_id'=>$row_lv->lehrveranstaltung_id,
+				'kurzbz'=>$row_lv->kurzbz,
+				'bezeichnung'=>$lvbezeichnung,
+				'bezeichnung_englisch'=>$row_lv->bezeichnung_english,
+				'ects'=>$row_lv->ects,
+				'sws'=>$row_lv->sws,
+				'lehrtyp'=>$row_lv->lehrtyp_kurzbz,
+				'lehrform_kurzbz'=>$row_lv->lehrform_kurzbz,
+				'semester'=>$row_lv->semester,
+				'sprache'=>$row_lv->sprache,
+				'studienplan'=>'',
+			);
+
+			$lvinfo_found=false;
+			$lvinfo = new lvinfo();
+			$lvinfo->loadLastLvinfo($row_lv->lehrveranstaltung_id,true);
+
+			foreach($lvinfo->result as $row_lvinfo)
+			{
+				if ($lvinfosprache == 'gleichlv')
+				{
+					if($row_lvinfo->sprache == $row_lv->sprache)
+					{
+						$lvinfo_obj = $row_lvinfo;
+						$lvinfo_found=true;
+						break;
+					}
+				}
+				else
+				{
+					if($row_lvinfo->sprache == $lvinfosprache)
+					{
+						$lvinfo_obj = $row_lvinfo;
+						$lvinfo_found=true;
+						break;
+					}
+					elseif ($row_lvinfo->sprache == $row_lv->sprache)
+					{
+						$lvinfo_obj = $row_lvinfo;
+						$lvinfo_found=true;
+						break;
+					}
+				}
+			}
+
+			if($lvinfo_found)
+			{
+				$lvinfo->load_lvinfo_set($lvinfo_obj->studiensemester_kurzbz);
+				$lvinfo_data = array();
+				foreach($lvinfo->result as $row_set)
+				{
+					if($row_set->lvinfo_set_typ=='text' || $row_set->lvinfo_set_typ=='editor')
+					{
+						if (isset($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]))
+							$lvinfo_data[$row_set->lvinfo_set_kurzbz]=html_entity_decode(strip_tags($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]));
+						else
+							$lvinfo_data[$row_set->lvinfo_set_kurzbz]='';
+					}
+					elseif($row_set->lvinfo_set_typ=='array')
+					{
+						$lvinfo_data[$row_set->lvinfo_set_kurzbz]['einleitungstext']=$row_set->einleitungstext[$row_lv->sprache];
+						if(isset($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]))
+						{
+							foreach($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz] as $row_lvinfo_element)
+								$lvinfo_data[$row_set->lvinfo_set_kurzbz]['elements'][]=array('element'=>$row_lvinfo_element);
+						}
+					}
+				}
+
+				// LV Informationen
+				$data[$i]['lehrveranstaltung']['lvinfo']=$lvinfo_data;
+			}
+			$i++;
 		}
+
 		if(count($data)>0)
 		{
 			$stg_arr[]=array('studiengang'=>array(
