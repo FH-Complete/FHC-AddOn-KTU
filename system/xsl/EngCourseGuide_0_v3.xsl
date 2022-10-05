@@ -228,17 +228,17 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
       </text:sequence-decls>
       <text:h text:style-name="P18" text:outline-level="2"/>
       <text:p text:style-name="P8">
-        <text:span text:style-name="T5">UAS Technikum Wien</text:span>
+        <text:span text:style-name="T5">Katholische Privat-Universität Linz</text:span>
         <text:span text:style-name="T4"> </text:span>
       </text:p>
       <text:p text:style-name="P12"/>
       <text:p text:style-name="P12"/>
       <text:p text:style-name="P12"/>
       <text:p text:style-name="P13">
-        <text:span text:style-name="T6">COURSE GUIDE <xsl:value-of select="studiensemester_kurzbz" /></text:span>
+        <text:span text:style-name="T6">Lehrveranstaltungsverzeichnis</text:span>
       </text:p>
       <text:p text:style-name="P13">
-        <text:span text:style-name="T6">COURSES OFFERED IN ENGLISH</text:span>
+        <text:span text:style-name="T6"><xsl:value-of select="studiensemester_kurzbz" /></text:span>
       </text:p>
       <text:p text:style-name="P10"/>
       <text:p text:style-name="P9"/>
@@ -255,46 +255,18 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
         <text:span text:style-name="T7">
           <text:s/>
         </text:span>
-        <text:span text:style-name="T8"></text:span>
+        <text:span text:style-name="T8"></text:span>
       </text:p>
       <text:p text:style-name="P2"/>
       <text:p text:style-name="P15"/>
       <text:p text:style-name="Standard"/>
-      <text:p text:style-name="Standard">
-        <text:span text:style-name="T9">Please note:</text:span>
-      </text:p>
-      <text:p text:style-name="Standard">
-        <text:span text:style-name="T9">Incoming students have the possibility to combine courses from different study programs. The</text:span>
-      </text:p>
-      <text:p text:style-name="Standard">
-        <text:span text:style-name="T9">number of places available for Incoming students in each course may vary or be limited to a certain number.</text:span>
-      </text:p>
-      <text:p text:style-name="P5">
-        <text:span text:style-name="T9">Please be aware, that incoming students are obliged to generate at least 9 ECTS from the Campus International.</text:span>
-      </text:p>
-      <text:p text:style-name="Standard"/>
-      <text:p text:style-name="P6">
-        <text:span text:style-name="T9">At the beginning of each semester an Orientation Week is held for all Incoming students as well as for all Double Degree students.</text:span>
-      </text:p>
-      <text:p text:style-name="Standard">
-        <text:span text:style-name="T9">The Orientation Week takes usually place in  the 2nd week of September resp. 2nd week of February.</text:span>
-      </text:p>
-      <text:p text:style-name="P5">
-        <text:span text:style-name="T9">Please take into consideration that this course guide may be subject to change!</text:span>
-      </text:p>
-      <text:p text:style-name="P4">
-        <text:span text:style-name="T9">Last update: </text:span>
-        <text:span text:style-name="T9">
-          <text:date style:data-style-name="N37" text:date-value="2016-06-28T16:54:58.014652426">28.06.16</text:date>
-        </text:span>
-      </text:p>
       <text:p text:style-name="P4"/>
       <text:p text:style-name="P9"/>
       <text:p text:style-name="P11"/>
       <text:p text:style-name="P14"/>
       <text:p text:style-name="P27">
         <text:bookmark-start text:name="__RefHeading__113_1821690943"/>
-        <text:span text:style-name="T2">OVERVIEW OF COURSES OFFERED ENTIRELY IN ENGLISH</text:span>
+        <text:span text:style-name="T2"></text:span>
         <text:bookmark-end text:name="__RefHeading__113_1821690943"/>
       </text:p>
       <text:p text:style-name="Standard"/>
@@ -399,7 +371,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 
 <xsl:template match="studiengaenge">
       <text:p text:style-name="Standard"/>
-      <text:h text:style-name="P19" text:outline-level="1">
+      <!--<text:h text:style-name="P19" text:outline-level="1">
         <text:span text:style-name="T1">CAMPUS INTERNATIONAL</text:span>
       </text:h>
 	<xsl:for-each select="studiengang">
@@ -409,9 +381,9 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 		  </text:h>
 		<xsl:apply-templates select="lehrveranstaltungen" />
 		</xsl:if>
-	</xsl:for-each>
+	</xsl:for-each>-->
       <text:h text:style-name="P19" text:outline-level="1">
-        <text:span text:style-name="T1">BACHELOR DEGREE PROGRAMS</text:span>
+        <text:span text:style-name="T1">BACHELOR STUDIENGÄNGE</text:span>
       </text:h>
 	<xsl:for-each select="studiengang">
 		<xsl:if test="typ='b'">
@@ -422,7 +394,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 		</xsl:if>
 	</xsl:for-each>
       <text:h text:style-name="P19" text:outline-level="1">
-        <text:span text:style-name="T1">Master DEGREE PROGRAMS</text:span>
+        <text:span text:style-name="T1">MASTER STUDIENGÄNGE</text:span>
       </text:h>
 	<xsl:for-each select="studiengang">
 		<xsl:if test="typ!='b'">
@@ -446,54 +418,54 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
       <table:table table:name="Tabelle1" table:style-name="Tabelle1">
         <table:table-column table:style-name="Tabelle1.A"/>
         <table:table-column table:style-name="Tabelle1.B"/>
-        <table:table-row>
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle1.A1" office:value-type="string">
-            <text:p text:style-name="P24">Degree programme</text:p>
+            <text:p text:style-name="P24">Studiengang</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle1.B1" office:value-type="string">
             <text:p text:style-name="P23"><text:span text:style-name="T11"><xsl:value-of select="../../kuerzel" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
-        <table:table-row>
+        </table:table-row>-->
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle1.A2" office:value-type="string">
             <text:p text:style-name="P24">Semester</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle1.B2" office:value-type="string">
             <text:p text:style-name="P23"><text:span text:style-name="T11"><xsl:value-of select="semester" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
+        </table:table-row>-->
         <table:table-row>
-          <table:table-cell table:style-name="Tabelle1.A2" office:value-type="string">
-            <text:p text:style-name="P24">Course methods</text:p>
+          <table:table-cell table:style-name="Tabelle1.A1" office:value-type="string">
+            <text:p text:style-name="P24">Lehrtyp</text:p>
           </table:table-cell>
-          <table:table-cell table:style-name="Tabelle1.B2" office:value-type="string">
+          <table:table-cell table:style-name="Tabelle1.B1" office:value-type="string">
             <text:p text:style-name="P23"><text:span text:style-name="T11"><xsl:value-of select="lehrform_kurzbz" /></text:span></text:p>
           </table:table-cell>
         </table:table-row>
-        <table:table-row>
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle1.A2" office:value-type="string">
-            <text:p text:style-name="P24">Language</text:p>
+            <text:p text:style-name="P24">Sprache</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle1.B2" office:value-type="string">
             <text:p text:style-name="P23"><text:span text:style-name="T11"><xsl:value-of select="sprache" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
-        <table:table-row>
+        </table:table-row>-->
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle1.A2" office:value-type="string">
             <text:p text:style-name="P24">ECTS Credits</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle1.B2" office:value-type="string">
             <text:p text:style-name="P23"><text:span text:style-name="T11"><xsl:value-of select="ects" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
-        <table:table-row>
+        </table:table-row>-->
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle1.A2" office:value-type="string">
-            <text:p text:style-name="P24">Incoming places</text:p>
+            <text:p text:style-name="P24">Incoming Plätze</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle1.B2" office:value-type="string">
             <text:p text:style-name="P23">Limited</text:p>
           </table:table-cell>
-        </table:table-row>
+        </table:table-row>-->
       </table:table>
       <text:p text:style-name="P7"/>
 	<xsl:apply-templates select="lvinfo" />
@@ -503,19 +475,19 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
       <table:table table:name="Tabelle2" table:style-name="Tabelle2">
         <table:table-column table:style-name="Tabelle2.A"/>
         <table:table-column table:style-name="Tabelle2.B"/>
-        <table:table-row>
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
             <text:p text:style-name="P24">Literatur</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle2.B1" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="lit" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
+        </table:table-row>-->
         <table:table-row>
-          <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
+          <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
             <text:p text:style-name="P24">Hinweise zu Prüfungs-/Beurteilungsmodalitäten</text:p>
           </table:table-cell>
-          <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
+          <table:table-cell table:style-name="Tabelle2.B1" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="hiprbe" /></text:span></text:p>
           </table:table-cell>
         </table:table-row>
@@ -535,30 +507,30 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="kzbs" /></text:span></text:p>
           </table:table-cell>
         </table:table-row>
-        <table:table-row>
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
             <text:p text:style-name="P24">Lernergebnisse</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="lergb" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
-        <table:table-row>
+        </table:table-row>-->
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
-            <text:p text:style-name="P24">Attendance</text:p>
+            <text:p text:style-name="P24">Anwesenheit</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="anwesenheit" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
-        <table:table-row>
+        </table:table-row>-->
+        <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
-            <text:p text:style-name="P24">Comments</text:p>
+            <text:p text:style-name="P24">Kommentare</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="anmerkungen" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>
+        </table:table-row>-->
       </table:table>
       <text:p text:style-name="P7">
         <text:span text:style-name="T1"/>

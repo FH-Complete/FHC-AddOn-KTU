@@ -1930,20 +1930,18 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
   <office:master-styles>
     <style:master-page style:name="Standard" style:page-layout-name="Mpm1">
       <style:header>
-           <text:p text:style-name="MP1">
-          <!--<draw:frame draw:style-name="Mfr1" draw:name="A4 hoch" text:anchor-type="char" svg:x="-1.965cm" svg:y="-1.207cm" svg:width="20.92cm" svg:height="29.563cm" draw:z-index="0">-->
+        <!--<text:p text:style-name="MP1">
 		  <draw:frame draw:style-name="Mfr3" draw:name="Bild3" text:anchor-type="paragraph" svg:x="13.919cm" svg:y="0.035cm" svg:width="4.498m" svg:height="1.555cm" draw:z-index="6">
             <draw:image xlink:href="Pictures/10000000000009B000000DB464F54548.jpg" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
           </draw:frame>
-        </text:p>
+        </text:p>-->
       </style:header>
       <style:header-first>
-        <text:p text:style-name="MP1">
-          <!--<draw:frame draw:style-name="Mfr1" draw:name="A4 hoch" text:anchor-type="char" svg:x="-1.965cm" svg:y="-1.207cm" svg:width="20.92cm" svg:height="29.563cm" draw:z-index="0">-->
-		  <draw:frame draw:style-name="Mfr3" draw:name="Bild4" text:anchor-type="paragraph" svg:x="13.919cm" svg:y="0.035cm" svg:width="4.498cm" svg:height="1.555cm" draw:z-index="6">			  
+        <!--<text:p text:style-name="MP1">
+          <draw:frame draw:style-name="Mfr3" draw:name="Bild4" text:anchor-type="paragraph" svg:x="13.919cm" svg:y="0.035cm" svg:width="4.498cm" svg:height="1.555cm" draw:z-index="6">
             <draw:image xlink:href="Pictures/10000000000009B000000DB464F54548.jpg" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
           </draw:frame>
-        </text:p>
+        </text:p>-->
       </style:header-first>
       <style:footer>
         <text:p text:style-name="MP2">
@@ -1965,24 +1963,24 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
     </style:master-page>
     <style:master-page style:name="Konvert_20_1" style:display-name="Konvert 1" style:page-layout-name="Mpm2">
       <style:header>
-        <text:p text:style-name="Header">
+        <!--<text:p text:style-name="Header">
           <draw:frame draw:style-name="Mfr3" draw:name="Bild2" text:anchor-type="paragraph" svg:x="13.919cm" svg:y="0.035cm" svg:width="3.156cm" svg:height="1.637cm" draw:z-index="6">
             <draw:image xlink:href="Pictures/10000000000000FA00000082B053F5EF.jpg" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
           </draw:frame>
-        </text:p>
+        </text:p>-->
       </style:header>
       <style:header-first>
-        <text:p text:style-name="Standard">
+        <!--<text:p text:style-name="Standard">
           <draw:frame draw:style-name="Mfr3" draw:name="Bild1" text:anchor-type="paragraph" svg:x="13.919cm" svg:y="0.035cm" svg:width="3.156cm" svg:height="1.637cm" draw:z-index="2">
             <draw:image xlink:href="Pictures/10000000000000FA00000082B053F5EF.jpg" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad"/>
           </draw:frame>
-        </text:p>
+        </text:p>-->
       </style:header-first>
       <style:footer>
-        <text:p text:style-name="MP3"><draw:frame draw:style-name="Mfr2" draw:name="Rahmen2" text:anchor-type="paragraph" svg:y="0.002cm" draw:z-index="4"><draw:text-box fo:min-height="0.058cm" fo:min-width="0cm"><text:p text:style-name="Footer"/></draw:text-box></draw:frame>UAS Technikum Wien<text:tab/><text:tab/><text:tab/>English Course Guide<text:tab/><text:tab/><text:tab/><text:page-number text:select-page="current">0</text:page-number> of <text:page-count>4</text:page-count></text:p>
+        <text:p text:style-name="MP3"><draw:frame draw:style-name="Mfr2" draw:name="Rahmen2" text:anchor-type="paragraph" svg:y="0.002cm" draw:z-index="4"><draw:text-box fo:min-height="0.058cm" fo:min-width="0cm"><text:p text:style-name="Footer"/></draw:text-box></draw:frame>KU Linz<text:tab/><text:tab/><text:tab/>Lehrveranstaltungsverzeichnis<text:tab/><text:tab/><text:tab/><text:page-number text:select-page="current">0</text:page-number> von <text:page-count>4</text:page-count></text:p>
       </style:footer>
       <style:footer-first>
-        <text:p text:style-name="MP4">UAS Technikum Wien<text:tab/><text:tab/><text:tab/>English Course Guide<text:tab/><text:tab/><text:tab/><text:page-number text:select-page="current">0</text:page-number> of <text:page-count>4</text:page-count></text:p>
+        <text:p text:style-name="MP4">KU Linz<text:tab/><text:tab/><text:tab/>Lehrveranstaltungsverzeichnis<text:tab/><text:tab/><text:tab/><text:page-number text:select-page="current">0</text:page-number> von <text:page-count>4</text:page-count></text:p>
       </style:footer-first>
     </style:master-page>
   </office:master-styles>
