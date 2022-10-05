@@ -75,12 +75,12 @@ else
 	echo '
 	<html>
 	<head>
-		<title>English Course Guide</title>
+		<title>Lehrveranstaltungsverzeichnis</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	</head>
 	<body>
-	<h1>English Course Guide</h1>
-	Bitte wähle ein Studiensemester für das du den CourseGuide erstellen willst:<br>
+	<h1>Lehrveranstaltungsverzeichnis</h1>
+	Bitte wähle ein Studiensemester, für das du das Lehrveranstaltungsverzeichnis erstellen willst:<br>
 	<form method="GET">
 	<select name="studiensemester_kurzbz">';
 	foreach($stsem->studiensemester as $row)
@@ -89,7 +89,7 @@ else
 	}
 	echo '</select>
 	<br><br>
-	Bitte wähle optional einen Studiengang für den du den CourseGuide erstellen willst:<br>
+	Bitte wähle optional einen Studiengang, für den du das Lehrveranstaltungsverzeichnis erstellen willst:<br>
 	<select name="studiengang_kz">';
 	echo '<option value="" selected>-- Keine Auswahl --</option>';
 	foreach($studiengaenge->result as $row)
@@ -99,13 +99,13 @@ else
 	echo '</select>
 	<br><br>
 	<b>Dateiformat:</b><br>
-	<input type="radio" name="output" value="pdf" checked> PDF<br>
+	<input type="radio" name="output" value="pdf"> PDF<br>
 	<input type="radio" name="output" value="odt"> LibreOffice<br>
-	<input type="radio" name="output" value="doc"> Word<br>
+	<input type="radio" name="output" value="doc" checked> Word<br>
 	<br>
 	<b>Art des Exports:</b><br>
-	<input type="radio" name="art" value="englisch" checked>Nur englischsprachige LVs<br>
-	<input type="radio" name="art" value="alle">Alle LVs<br>
+	<input type="radio" name="art" value="englisch">Nur englischsprachige LVs<br>
+	<input type="radio" name="art" value="alle" checked>Alle LVs<br>
 	<br>
 	<b>Sprache der LV-Infos</b><br>
 	<input type="radio" name="lvinfosprache" value="gleichlv" checked>Gleich der Sprache der LV<br>
@@ -263,7 +263,7 @@ foreach($studiengang->result as $row_stg)
 					}
 					elseif($row_set->lvinfo_set_typ=='array')
 					{
-						$lvinfo_data[$row_set->lvinfo_set_kurzbz]['einleitungstext']=$row_set->einleitungstext[$row_lv->sprache];
+						$lvinfo_data[$row_set->lvinfo_set_kurzbz]['einleitungstext']=isset($row_set->einleitungstext[$row_lv->sprache]) ? $row_set->einleitungstext[$row_lv->sprache] : '';
 						if(isset($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz]))
 						{
 							foreach($lvinfo_obj->data[$row_set->lvinfo_set_kurzbz] as $row_lvinfo_element)
