@@ -818,7 +818,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">1.1</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P26">Family name(s)</text:p>
+						<text:p text:style-name="P26">Last name(s)</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P9"><xsl:value-of select="nachname"/></text:p>
@@ -829,7 +829,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">1.2</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P26">Given name(s)</text:p>
+						<text:p text:style-name="P26">First name(s)</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P9">
@@ -857,7 +857,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">1.4</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P19">Student identification number</text:p>
+						<text:p text:style-name="P19">Student identification number or code</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P9"><xsl:value-of select="matrikelnummer"/></text:p>
@@ -877,7 +877,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">2.1</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P26">Name of qualification, title conferred <text:s/>*</text:p>
+						<text:p text:style-name="P26">Name of qualification and (if applicable) title conferred <text:s/>*</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P9"><xsl:value-of select="titel_en"/></text:p>
@@ -932,7 +932,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P11">3</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" table:number-columns-spanned="2" office:value-type="string">
-						<text:h text:style-name="P45" text:outline-level="5">Information on the level of the qualification</text:h>
+						<text:h text:style-name="P45" text:outline-level="5">Information on the level and duration of the qualification</text:h>
 					</table:table-cell>
 					<table:covered-table-cell/>
 				</table:table-row>
@@ -941,7 +941,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">3.1</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P26">Level of qualification</text:p>
+						<text:p text:style-name="P26">Level of the qualification</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P9"><xsl:value-of select="niveau_englisch"/></text:p>
@@ -952,7 +952,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">3.2</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P26">Official length of programme</text:p>
+						<text:p text:style-name="P26">Official duration of programme in ECTS credits and/or years</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P41"><xsl:value-of select="semester"/> semester</text:p>
@@ -976,7 +976,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P11">4</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P30">Information on the contents and results gained</text:p>
+						<text:p text:style-name="P30">Information on the programme completed and the results obtained</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 				</table:table-row>
@@ -996,13 +996,10 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">4.2</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P19">Programme requirements</text:p>
+						<text:p text:style-name="P19">Programme learning outcomes</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
-						<text:p text:style-name="P24">See curriculum Diplomstudium Katholische Theologie </text:p>
-						<text:p text:style-name="P24">
-							<text:span text:style-name="T4">http://www.ktu-linz.ac.at/cms/media/Pdf-Folder/studienplan_diplomstudium_kaththeologie.pdf</text:span>
-						</text:p>
+						<text:p text:style-name="P24">See curriculum <xsl:value-of select="studiengang_bezeichnung_englisch"/></text:p>
 					</table:table-cell>
 				</table:table-row>
 				<table:table-row>
@@ -1010,7 +1007,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">4.3</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.A2" office:value-type="string">
-						<text:p text:style-name="P28">Programme details (courses, modules or units studied, individual grades obtained)</text:p>
+						<text:p text:style-name="P28">Programme details, individual ECTS credits gained and grades/marks obtained</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
 						<text:p text:style-name="P29">See enclosed transcript of records</text:p>
@@ -1028,66 +1025,16 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">4.4</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.A1" office:value-type="string">
-						<text:p text:style-name="P28">Grading scheme, grade translation and grade distribution guidance</text:p>
+						<text:p text:style-name="P28">Grading system and, if available, grade distribution table</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C1" table:number-columns-spanned="2" office:value-type="string">
-						<table:table table:name="Tabelle6" table:style-name="Tabelle6">
-							<table:table-column table:style-name="Tabelle6.A"/>
-							<table:table-column table:style-name="Tabelle6.B"/>
-							<table:table-row>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P14">Austrian Grading:</text:p>
-								</table:table-cell>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P14">Assessment:</text:p>
-								</table:table-cell>
-							</table:table-row>
-							<table:table-row>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P6">„<text:span text:style-name="T11">excellent“ (1)</text:span>
-									</text:p>
-								</table:table-cell>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P8">Excellent performance</text:p>
-								</table:table-cell>
-							</table:table-row>
-							<table:table-row>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P6">„<text:span text:style-name="T11">good“ (2)</text:span>
-									</text:p>
-								</table:table-cell>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P8">Generally good, some mistakes</text:p>
-								</table:table-cell>
-							</table:table-row>
-							<table:table-row>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P6">„<text:span text:style-name="T11">satisfactory“ (3)</text:span>
-									</text:p>
-								</table:table-cell>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P8">Balanced, number of substantial mistakes</text:p>
-								</table:table-cell>
-							</table:table-row>
-							<table:table-row>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P6">„<text:span text:style-name="T11">sufficient“ (4)</text:span>
-									</text:p>
-								</table:table-cell>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P8">Performance corresponding to minimal cirteria</text:p>
-								</table:table-cell>
-							</table:table-row>
-							<table:table-row>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P6">„<text:span text:style-name="T11">unsatisfactory“ (5)</text:span>
-									</text:p>
-								</table:table-cell>
-								<table:table-cell table:style-name="Tabelle6.A1" office:value-type="string">
-									<text:p text:style-name="P8">Substantial improvement necessary; requirement of further work</text:p>
-								</table:table-cell>
-							</table:table-row>
-						</table:table>
+						<text:p text:style-name="P26">„excellent“, „very good“ (1)
+							„good“ (2)
+							„satisfactory“ (3)
+							„sufficient“ (4)
+							„insufficient“ (5)
+							„participated with success“, „completed“
+						</text:p>
 						<text:p text:style-name="P40"/>
 					</table:table-cell>
 					<table:covered-table-cell/>
@@ -1100,9 +1047,9 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P26">Overall classification of the qualification *</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P38">„mit Auszeichnung bestanden“ in case of excellent performance</text:p>
-						<text:p text:style-name="P31">„bestanden“ in case of positive assessment;</text:p>
-						<text:p text:style-name="P38">„nicht bestanden“ in case of negative assessment;</text:p>
+						<text:p text:style-name="P38">„mit Auszeichnung bestanden“: in case of excellent performance</text:p>
+						<text:p text:style-name="P31">„bestanden“: in case of positive assessment;</text:p>
+						<text:p text:style-name="P38">„nicht bestanden“: in case of negative assessment;</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 				</table:table-row>
@@ -1133,10 +1080,10 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P4">5.2</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.A2" office:value-type="string">
-						<text:p text:style-name="P26">Profession status conferred</text:p>
+						<text:p text:style-name="P26">Access to a regulated profession</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P26">Access to academic professions according to the professional regulations; diploma in the sense of directive 89/48/EEC</text:p>
+						<text:p text:style-name="P26">Access to academic professions according to the professional regulations; diploma in the meaning of Art. 11 lit. c/d/e of the directive on the recognition of professional qualifications, 2005/36/EC</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 				</table:table-row>
@@ -1171,7 +1118,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="2" office:value-type="string">
 						<text:p text:style-name="P19">
-							<text:span text:style-name="T4">http://www.ktu-linz.ac.at</text:span>
+							<text:span text:style-name="T4">https://www.ku-linz.at</text:span>
 						</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
@@ -1229,7 +1176,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P11">8</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="3" office:value-type="string">
-						<text:h text:style-name="P44" text:outline-level="6">Information on the Austrian higher education system</text:h>
+						<text:h text:style-name="P44" text:outline-level="6">Information on the national higher education system</text:h>
 					</table:table-cell>
 					<table:covered-table-cell/>
 					<table:covered-table-cell/>
@@ -1237,7 +1184,10 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 				<table:table-row>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="4" office:value-type="string">
 						<text:p text:style-name="P18">
-							<text:span text:style-name="T4">http://www.bmbwk.gv.at/universitaeten/diplomasupplement</text:span>
+							<text:span text:style-name="T4">Up-to-date information on the Austrian higher education system is available on the following websites:
+								–	Bildungssystem.at [https://www.bildungssystem.at/en/tertiary-education]
+								–	Eurydice (European education information network) [https://eacea.ec.europa.eu/national-policies/eurydice/content/higher-education-1_en]
+							</text:span>
 						</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
