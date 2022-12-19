@@ -619,13 +619,12 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P20">Notensystem und, wenn verfügbar, ECTS-Einstufungstabelle</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle2.C1" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P22">„sehr gut“ (1)
-							„gut“ (2)
-							„befriedigend“ (3)
-							„genügend“ (4)
-							„nicht genügend“ (5)
-							„mit Erfolg teilgenommen“, „absolviert“
-						</text:p>
+						<text:p text:style-name="P22">„sehr gut“ (1)</text:p>
+						<text:p text:style-name="P22">„gut“ (2)</text:p>
+						<text:p text:style-name="P22">„befriedigend“ (3)</text:p>
+						<text:p text:style-name="P22">„genügend“ (4)</text:p>
+						<text:p text:style-name="P22">„nicht genügend“ (5)</text:p>
+						<text:p text:style-name="P22">„mit Erfolg teilgenommen“, „absolviert“</text:p>
 						<text:p text:style-name="P39"/>
 					</table:table-cell>
 					<table:covered-table-cell/>
@@ -774,12 +773,9 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 				</table:table-row>
 				<table:table-row>
 					<table:table-cell table:style-name="Tabelle2.C2" table:number-columns-spanned="4" office:value-type="string">
-						<text:p text:style-name="P17">
-							<text:span text:style-name="T4">Aktuelle Informationen zum österreichischen Hochschulsystem sind auf folgenden Internetseiten abrufbar:
-								–	Bildungssystem.at [https://www.bildungssystem.at/hochschule]
-								–	Eurydice (Europäisches Bildungsinformationsnetz) [https://eacea.ec.europa.eu/national-policies/eurydice/content/higher-education-1_en]
-							</text:span>
-						</text:p>
+						<text:p text:style-name="P17">Aktuelle Informationen zum österreichischen Hochschulsystem sind auf folgenden Internetseiten abrufbar:</text:p>
+						<text:p text:style-name="P17">– Bildungssystem.at [https://www.bildungssystem.at/hochschule]</text:p>
+						<text:p text:style-name="P17">– Eurydice (Europäisches Bildungsinformationsnetz) [https://eacea.ec.europa.eu/national-policies/eurydice/content/higher-education-1_en]</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 					<table:covered-table-cell/>
@@ -999,7 +995,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P19">Programme learning outcomes</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
-						<text:p text:style-name="P24">See curriculum <xsl:value-of select="studiengang_bezeichnung_englisch"/></text:p>
+						<text:p text:style-name="P24">See curriculum <xsl:value-of select="studiengang_bezeichnung_deutsch"/></text:p>
 					</table:table-cell>
 				</table:table-row>
 				<table:table-row>
@@ -1028,13 +1024,12 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P28">Grading system and, if available, grade distribution table</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C1" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P26">„excellent“, „very good“ (1)
-							„good“ (2)
-							„satisfactory“ (3)
-							„sufficient“ (4)
-							„insufficient“ (5)
-							„participated with success“, „completed“
-						</text:p>
+						<text:p text:style-name="P26">„excellent“, „very good“ (1)</text:p>
+						<text:p text:style-name="P26">„good“ (2)</text:p>
+						<text:p text:style-name="P26">„satisfactory“ (3)</text:p>
+						<text:p text:style-name="P26">„sufficient“ (4)</text:p>
+						<text:p text:style-name="P26">„insufficient“ (5)</text:p>
+						<text:p text:style-name="P26">„participated with success“, „completed“</text:p>
 						<text:p text:style-name="P40"/>
 					</table:table-cell>
 					<table:covered-table-cell/>
@@ -1183,12 +1178,9 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 				</table:table-row>
 				<table:table-row>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="4" office:value-type="string">
-						<text:p text:style-name="P18">
-							<text:span text:style-name="T4">Up-to-date information on the Austrian higher education system is available on the following websites:
-								–	Bildungssystem.at [https://www.bildungssystem.at/en/tertiary-education]
-								–	Eurydice (European education information network) [https://eacea.ec.europa.eu/national-policies/eurydice/content/higher-education-1_en]
-							</text:span>
-						</text:p>
+						<text:p text:style-name="P18">Up-to-date information on the Austrian higher education system is available on the following websites:</text:p>
+						<text:p text:style-name="P18">–	Bildungssystem.at [https://www.bildungssystem.at/en/tertiary-education]</text:p>
+						<text:p text:style-name="P18">–	Eurydice (European education information network) [https://eacea.ec.europa.eu/national-policies/eurydice/content/higher-education-1_en]</text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 					<table:covered-table-cell/>
