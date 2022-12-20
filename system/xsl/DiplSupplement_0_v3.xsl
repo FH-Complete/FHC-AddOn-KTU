@@ -559,7 +559,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P16">Zulassungsvoraussetzung(en)</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle1.C2" office:value-type="string">
-						<text:p text:style-name="P1"><xsl:value-of select="niveau_code"/></text:p>
+						<text:p text:style-name="P1"><xsl:value-of select="zulassungsvoraussetzungen_code"/></text:p>
 					</table:table-cell>
 				</table:table-row>
 				<table:table-row>
@@ -661,7 +661,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P16">Zugang zu weiterführenden Studien</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle2.C2" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P22">(<xsl:value-of select="niveau_code"/>)</text:p>
+						<text:p text:style-name="P22"><xsl:value-of select="zugangsberechtigung_code"/></text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 				</table:table-row>
@@ -964,7 +964,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P26">Access requirement(s)</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle4.C2" office:value-type="string">
-						<text:p text:style-name="P9">(<xsl:value-of select="niveau_code"/>)</text:p>
+						<text:p text:style-name="P9"><xsl:value-of select="zulassungsvoraussetzungen_code"/></text:p>
 					</table:table-cell>
 				</table:table-row>
 				<table:table-row>
@@ -1066,7 +1066,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P26">Access to further study</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle5.C2" table:number-columns-spanned="2" office:value-type="string">
-						<text:p text:style-name="P29">(<xsl:value-of select="niveau_code"/>)</text:p>
+						<text:p text:style-name="P29"><xsl:value-of select="zugangsberechtigung_code"/></text:p>
 					</table:table-cell>
 					<table:covered-table-cell/>
 				</table:table-row>
