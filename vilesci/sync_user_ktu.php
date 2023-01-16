@@ -60,6 +60,7 @@ $qry = "SELECT
             gebdatum, geschlecht, tbl_benutzer.aktiv, tbl_person.matr_nr, 
             CASE WHEN udf_values->>'udf_office365' = '1' THEN 'A1'
 			WHEN udf_values->>'udf_office365' = '2' THEN 'M3'
+			WHEN udf_values->>'udf_office365' = '3' THEN 'A0'
 			ELSE udf_values->>'udf_office365'
 			END AS office365
 		FROM
@@ -88,7 +89,7 @@ if($result = $db->db_query($qry))
 				//Mitarbeiter
 				$dn = "CN=$row->uid,OU=FHComplete,DC=ktu,DC=local";
 
-				//alle MA erhalten Lizenz A1 außer es wird im FAS M3 ausgewählt
+				//alle MA erhalten Lizenz A1 außer es wird im FAS eine andere Option ausgewählt
 				$office365 = empty($row->office365) ? 'A1' : $row->office365;
 			}
 			else
@@ -212,7 +213,7 @@ if($result = $db->db_query($qry))
 			if (!$ldapUserDN)
 				continue;
 
-			//alle Personen erhalten A1 außer Mitarbeiter, bei denen im FAS M3 ausgewählt ist
+			//alle Personen erhalten A1 außer Mitarbeiter, bei denen im FAS eine andere Option ausgewählt ist
 			if ($row->matrikelnr == '')
 				$office365 = empty($row->office365) ? 'A1' : $row->office365;
 			else
