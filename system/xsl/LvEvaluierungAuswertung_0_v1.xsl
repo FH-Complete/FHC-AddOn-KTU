@@ -66,6 +66,30 @@
                 <style:font-face style:name="SimSun" svg:font-family="SimSun" style:font-family-generic="system" style:font-pitch="variable"/>
             </office:font-face-decls>
             <office:automatic-styles>
+                <style:style style:name="Auswertung_5f_horizontal" style:display-name="Auswertung_horizontal" style:family="table">
+                    <style:table-properties style:width="17cm" table:align="margins"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.A" style:display-name="Auswertung_horizontal.A" style:family="table-column">
+                    <style:table-column-properties style:column-width="3.5cm" style:rel-column-width="13490*"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.B" style:display-name="Auswertung_horizontal.B" style:family="table-column">
+                    <style:table-column-properties style:column-width="1.461cm" style:rel-column-width="5630*"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.H" style:display-name="Auswertung_horizontal.H" style:family="table-column">
+                    <style:table-column-properties style:column-width="2.699cm" style:rel-column-width="10405*"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.1" style:display-name="Auswertung_horizontal.1" style:family="table-row">
+                    <style:table-row-properties style:min-row-height="2.498cm"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.A1" style:display-name="Auswertung_horizontal.A1" style:family="table-cell">
+                    <style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="0.5pt solid #000000" fo:border-bottom="0.5pt solid #000000"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.B1" style:display-name="Auswertung_horizontal.B1" style:family="table-cell">
+                    <style:table-cell-properties style:vertical-align="bottom" fo:padding="0.097cm" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="0.5pt solid #000000" fo:border-bottom="0.5pt solid #000000"/>
+                </style:style>
+                <style:style style:name="Auswertung_5f_horizontal.H1" style:display-name="Auswertung_horizontal.H1" style:family="table-cell">
+                    <style:table-cell-properties fo:padding="0.097cm" fo:border="0.5pt solid #000000"/>
+                </style:style>
                 <style:style style:name="LV_5f_Metadaten" style:display-name="LV_Metadaten" style:family="table">
                     <style:table-properties style:width="17cm" table:align="margins" style:shadow="none"/>
                 </style:style>
@@ -144,10 +168,10 @@
                     </text:list-level-style-bullet>
                 </text:list-style>
                 <style:style style:name="gr1" style:family="graphic">
-                    <style:graphic-properties draw:fill-color="#7693FF" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.499cm" fo:min-width="7.999cm" style:run-through="background" style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top" style:vertical-rel="paragraph" style:horizontal-pos="from-left" style:horizontal-rel="char"/>
+                    <style:graphic-properties draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.501cm" fo:min-width="0.642cm" style:run-through="background" style:wrap="run-through" style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top" style:vertical-rel="paragraph" style:horizontal-pos="from-left" style:horizontal-rel="paragraph" draw:wrap-influence-on-position="once-concurrent" loext:allow-overlap="true" style:flow-with-text="false"/>
                 </style:style>
                 <style:style style:name="gr2" style:family="graphic">
-                    <style:graphic-properties draw:fill-color="#dddddd" draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="0.499cm" fo:min-width="7.999cm" style:run-through="background" style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top" style:vertical-rel="paragraph" style:horizontal-pos="from-left" style:horizontal-rel="char"/>
+                    <style:graphic-properties draw:textarea-horizontal-align="justify" draw:textarea-vertical-align="middle" draw:auto-grow-height="false" fo:min-height="1.501cm" fo:min-width="0.642cm" style:run-through="background" style:wrap="run-through" style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top" style:vertical-rel="paragraph" style:horizontal-pos="from-left" style:horizontal-rel="paragraph" draw:wrap-influence-on-position="once-concurrent" loext:allow-overlap="true" style:flow-with-text="false"/>
                 </style:style>
             </office:automatic-styles>
             <office:body>
@@ -288,12 +312,25 @@
             <xsl:when test="frage_typ='singleresponse'">
                 <text:p text:style-name="P5"/>
                 <table:table table:name="Tabelle1" table:style-name="Tabelle1">
-                    <table:table-column table:style-name="Tabelle1.A"/>
-                    <table:table-column table:style-name="Tabelle1.B"/>
-                    <table:table-column table:style-name="Tabelle1.C"/>
+                    <table:table-column table:style-name="Auswertung_5f_horizontal.A"/>
+                    <table:table-column table:style-name="Auswertung_5f_horizontal.B" table:number-columns-repeated="7"/>
+                    <table:table-column table:style-name="Auswertung_5f_horizontal.A"/>
+                    <table:table-column table:style-name="Auswertung_5f_horizontal.H"/>
 
-                    <xsl:apply-templates select="antwort" mode="singleresponse"/>
+                    <table:table-row table:style-name="Auswertung_5f_horizontal.1">
+                        <table:table-cell table:style-name="Auswertung_5f_horizontal.A1" office:value-type="string">
+                            <text:p text:style-name="P3">stimme zu</text:p>
+                        </table:table-cell>
 
+                        <xsl:apply-templates select="antwort" mode="singleresponse"/>
+
+                        <table:table-cell table:style-name="Auswertung_5f_horizontal.A1" office:value-type="string">
+                            <text:p text:style-name="P3">stimme nicht zu</text:p>
+                        </table:table-cell>
+                        <table:table-cell table:style-name="Auswertung_5f_horizontal.H1" office:value-type="string">
+                            <text:p text:style-name="P4"><xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
+                        </table:table-cell>
+                    </table:table-row>
                 </table:table>
                 <text:p text:style-name="P4">
                     <text:s/>
@@ -322,11 +359,11 @@
     </xsl:template>
 
     <xsl:template match="antwort" mode="singleresponse">
-        <!-- Maximalbreite der Balken (in cm) definieren -->
-        <xsl:variable select="10" name="balkenbreite_max"/>
+        <!-- Maximalhöhe der Balken (in cm) definieren -->
+        <xsl:variable select="1.5" name="balkenhoehe_max"/>
         <xsl:variable select="anzahl" name="anzahl"/>
         <xsl:variable select="../anzahl_alle" name="anzahl_alle"/>
-        <xsl:variable select="format-number(($balkenbreite_max div $anzahl_alle * $anzahl), '#.00')" name="balkenbreite"/>
+        <xsl:variable select="format-number(($balkenhoehe_max div $anzahl_alle * $anzahl), '#.00')" name="balkenhoehe"/>
         <xsl:variable select="position()" name="number"/>
 
         <xsl:variable name="balkenstyle">
@@ -336,29 +373,13 @@
             </xsl:choose>
         </xsl:variable>
 
-        <table:table-row>
-            <table:table-cell table:style-name="Tabelle1.A1" office:value-type="string">
-                <text:p text:style-name="P4"><xsl:value-of select="bezeichnung"/></text:p>
-            </table:table-cell>
-            <table:table-cell table:style-name="Tabelle1.A1" office:value-type="string">
-                <text:p text:style-name="P4">
-                    <xsl:if test="wert != 0">
-                        <xsl:value-of select="wert"/>
-                    </xsl:if>
-                </text:p>
-            </table:table-cell>
-            <table:table-cell table:style-name="Tabelle1.A1" office:value-type="string">
-                <text:p text:style-name="P4">
-                    <xsl:if test="anzahl > 0">
-                        <draw:custom-shape text:anchor-type="char" draw:z-index="0" draw:name="Form{$number}" draw:style-name="{$balkenstyle}" draw:text-style-name="P12" svg:width="{$balkenbreite}cm" svg:height="0.4cm" svg:x="0cm" svg:y="0cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <xsl:text> </xsl:text><xsl:value-of select="anzahl"/>
-                    </xsl:if>
-                </text:p>
-            </table:table-cell>
-        </table:table-row>
+        <table:table-cell table:style-name="Auswertung_5f_horizontal.B1" office:value-type="string">
+            <text:p text:style-name="P2">
+                <draw:custom-shape text:anchor-type="paragraph" draw:z-index="0" draw:name="Form{$number}" draw:style-name="{$balkenstyle}" draw:text-style-name="P12" svg:width="0.643cm" svg:height="{$balkenhoehe}cm" svg:x="0.25cm" svg:y="-{$balkenhoehe}cm">
+                    <text:p/>
+                    <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
+                </draw:custom-shape><xsl:value-of select="wert"/></text:p>
+        </table:table-cell>
     </xsl:template>
     <!--
     <xsl:template match="antwort" mode="text">
