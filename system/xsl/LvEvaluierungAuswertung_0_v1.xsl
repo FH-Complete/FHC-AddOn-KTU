@@ -70,10 +70,10 @@
                     <style:table-properties style:width="17cm" table:align="margins"/>
                 </style:style>
                 <style:style style:name="Auswertung_5f_horizontal.A" style:display-name="Auswertung_horizontal.A" style:family="table-column">
-                    <style:table-column-properties style:column-width="3.5cm" style:rel-column-width="13490*"/>
+                    <style:table-column-properties style:column-width="1.5cm"/>
                 </style:style>
                 <style:style style:name="Auswertung_5f_horizontal.B" style:display-name="Auswertung_horizontal.B" style:family="table-column">
-                    <style:table-column-properties style:column-width="1.461cm" style:rel-column-width="5630*"/>
+                    <style:table-column-properties style:column-width="1.746cm"/>
                 </style:style>
                 <style:style style:name="Auswertung_5f_horizontal.H" style:display-name="Auswertung_horizontal.H" style:family="table-column">
                     <style:table-column-properties style:column-width="2.699cm" style:rel-column-width="10405*"/>
