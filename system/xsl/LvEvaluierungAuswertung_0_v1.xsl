@@ -79,7 +79,7 @@
                     <style:table-column-properties style:column-width="2.699cm" style:rel-column-width="10405*"/>
                 </style:style>
                 <style:style style:name="Auswertung_5f_horizontal.1" style:display-name="Auswertung_horizontal.1" style:family="table-row">
-                    <style:table-row-properties style:min-row-height="2.498cm"/>
+                    <style:table-row-properties style:min-row-height="1.498cm"/>
                 </style:style>
                 <style:style style:name="Auswertung_5f_horizontal.A1" style:display-name="Auswertung_horizontal.A1" style:family="table-cell">
                     <style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.5pt solid #000000" fo:border-right="none" fo:border-top="0.5pt solid #000000" fo:border-bottom="0.5pt solid #000000"/>
@@ -140,25 +140,25 @@
                 </style:style>
                 <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
                     <style:paragraph-properties style:page-number="auto" fo:keep-with-next="always"/>
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" fo:font-weight="bold" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" fo:font-weight="bold" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
                 </style:style>
                 <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard">
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <style:style style:name="P5" style:family="paragraph" style:parent-style-name="Standard">
                     <style:paragraph-properties style:page-number="auto" fo:keep-with-next="always"/>
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <style:style style:name="P6" style:family="paragraph" style:parent-style-name="Standard">
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
                 </style:style>
                 <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="">
                     <loext:graphic-properties draw:fill="none" draw:fill-color="#dddddd" draw:fill-image-width="0cm" draw:fill-image-height="0cm"/>
                     <style:paragraph-properties fo:margin-top="0.101cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" style:page-number="auto" fo:background-color="transparent" fo:padding="0.049cm" fo:border="0.06pt solid #999999" style:shadow="none" style:join-border="false"/>
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="10pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <style:style style:name="P12" style:family="paragraph">
-                    <style:text-properties fo:font-size="12pt"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <text:list-style style:name="L1">
                     <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols" text:bullet-char="-">
@@ -310,32 +310,22 @@
 
         <xsl:choose>
             <xsl:when test="frage_typ='singleresponse'">
-                <text:p text:style-name="P5"/>
                 <table:table table:name="Tabelle1" table:style-name="Tabelle1">
-                    <table:table-column table:style-name="Auswertung_5f_horizontal.A"/>
                     <table:table-column table:style-name="Auswertung_5f_horizontal.B" table:number-columns-repeated="7"/>
                     <table:table-column table:style-name="Auswertung_5f_horizontal.A"/>
-                    <table:table-column table:style-name="Auswertung_5f_horizontal.H"/>
 
                     <table:table-row table:style-name="Auswertung_5f_horizontal.1">
-                        <table:table-cell table:style-name="Auswertung_5f_horizontal.A1" office:value-type="string">
-                            <text:p text:style-name="P3">stimme zu</text:p>
-                        </table:table-cell>
 
                         <xsl:apply-templates select="antwort" mode="singleresponse"/>
 
-                        <table:table-cell table:style-name="Auswertung_5f_horizontal.A1" office:value-type="string">
-                            <text:p text:style-name="P3">stimme nicht zu</text:p>
-                        </table:table-cell>
                         <table:table-cell table:style-name="Auswertung_5f_horizontal.H1" office:value-type="string">
-                            <text:p text:style-name="P4"><xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
+                            <text:p text:style-name="P4">Ø <xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
                         </table:table-cell>
                     </table:table-row>
                 </table:table>
                 <text:p text:style-name="P4">
                     <text:s/>
                 </text:p>
-                <text:p text:style-name="P4">Durchschnittsbewertung: <xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
                 <text:p text:style-name="P4"/>
             </xsl:when>
             <xsl:when test="frage_typ='text'">
@@ -360,7 +350,7 @@
 
     <xsl:template match="antwort" mode="singleresponse">
         <!-- Maximalhöhe der Balken (in cm) definieren -->
-        <xsl:variable select="1.5" name="balkenhoehe_max"/>
+        <xsl:variable select="1" name="balkenhoehe_max"/>
         <xsl:variable select="anzahl" name="anzahl"/>
         <xsl:variable select="../anzahl_alle" name="anzahl_alle"/>
         <xsl:variable select="format-number(($balkenhoehe_max div $anzahl_alle * $anzahl), '#.00')" name="balkenhoehe"/>
@@ -374,11 +364,12 @@
         </xsl:variable>
 
         <table:table-cell table:style-name="Auswertung_5f_horizontal.B1" office:value-type="string">
-            <text:p text:style-name="P2">
+            <text:p text:style-name="P12"><xsl:value-of select="bezeichnung"/></text:p>
+            <text:p text:style-name="P12">
                 <draw:custom-shape text:anchor-type="paragraph" draw:z-index="0" draw:name="Form{$number}" draw:style-name="{$balkenstyle}" draw:text-style-name="P12" svg:width="0.643cm" svg:height="{$balkenhoehe}cm" svg:x="0.25cm" svg:y="-{$balkenhoehe}cm">
                     <text:p/>
                     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                </draw:custom-shape><xsl:value-of select="wert"/></text:p>
+                </draw:custom-shape></text:p>
         </table:table-cell>
     </xsl:template>
     <!--
