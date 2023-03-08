@@ -352,7 +352,7 @@ $datumobj = new datum();
 	    }
 	    else
 	    {
-		echo "<span>Datenfeld Verwendung: OK</span>";
+		echo "<span>Datenfeld Verwendung: OK</span><br/>";
 	    }
 	    
 	    if(!empty($funktionFehler))
@@ -368,7 +368,7 @@ $datumobj = new datum();
 	    }
 	    else
 	    {
-		echo "<span>Datenfeld Funktion: OK</span>";
+		echo "<span>Datenfeld Funktion: OK</span><br/>";
 	    }
 	    
 	    //TODO
