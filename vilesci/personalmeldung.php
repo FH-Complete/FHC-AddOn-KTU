@@ -130,7 +130,7 @@ $datumobj = new datum();
 		    $plausiFehler = true;
 		}
 		
-		if(!(($m->ba1code <= 5) && ($m->ba1code >= 1) && (is_numeric($m->ba1code))))
+		if(!(($m->ba1code <= 7) && ($m->ba1code >= 1) && (is_numeric($m->ba1code))))
 		{
 		    array_push($ba1Fehler, $m);
 		    $plausiFehler = true;
@@ -294,7 +294,7 @@ $datumobj = new datum();
 	    if(!empty($ba1Fehler))
 	    {
 		echo '<h4>Die "Beschäfitungsart 1" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ba1Fehler).'):</h4>';
-		echo '<span>Bedingung: nur 1 - 5 zulässig</span>';
+		echo '<span>Bedingung: nur 1 - 7 zulässig</span>';
 		echo "<ul>";
 		foreach($ba1Fehler as $f)
 		{
