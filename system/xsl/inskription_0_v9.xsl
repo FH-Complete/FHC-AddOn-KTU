@@ -327,7 +327,7 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 					<xsl:value-of select="studiengang_bezeichnung_sto" />
 				</xsl:otherwise>
 			</xsl:choose>
-			 im
+			 (Kennzahl <xsl:value-of select="studiengang_kz" />) im
 			<xsl:text> </xsl:text><xsl:value-of select="semester" />. Semester gemeldet.
 		</text:p>
 		<text:p text:style-name="P1"/>
