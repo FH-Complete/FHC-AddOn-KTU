@@ -140,25 +140,29 @@
                 </style:style>
                 <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
                     <style:paragraph-properties style:page-number="auto" fo:keep-with-next="always"/>
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" fo:font-weight="bold" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" fo:font-weight="bold" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
                 </style:style>
                 <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard">
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <style:style style:name="P5" style:family="paragraph" style:parent-style-name="Standard">
                     <style:paragraph-properties style:page-number="auto" fo:keep-with-next="always"/>
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <style:style style:name="P6" style:family="paragraph" style:parent-style-name="Standard">
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
                 </style:style>
                 <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="">
                     <loext:graphic-properties draw:fill="none" draw:fill-color="#dddddd" draw:fill-image-width="0cm" draw:fill-image-height="0cm"/>
                     <style:paragraph-properties fo:margin-top="0.101cm" fo:margin-bottom="0.101cm" loext:contextual-spacing="false" style:page-number="auto" fo:background-color="transparent" fo:padding="0.049cm" fo:border="0.06pt solid #999999" style:shadow="none" style:join-border="false"/>
-                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="8pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
                 </style:style>
                 <style:style style:name="P12" style:family="paragraph">
                     <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                </style:style>
+                <style:style style:name="P13" style:family="paragraph">
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" officeooo:rsid="000d8fb4" officeooo:paragraph-rsid="000d8fb4"/>
+                    <style:paragraph-properties fo:margin-top="0pt"/>
                 </style:style>
                 <text:list-style style:name="L1">
                     <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols" text:bullet-char="-">
@@ -300,7 +304,6 @@
         <xsl:choose>
             <xsl:when test="frage_typ='labelsub'">
                 <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
-                <text:p text:style-name="P4"/>
             </xsl:when>
             <xsl:otherwise>
                 <text:p text:style-name="P3"><xsl:value-of select="frage_text"/></text:p>
@@ -323,9 +326,6 @@
                         </table:table-cell>
                     </table:table-row>
                 </table:table>
-                <text:p text:style-name="P4">
-                    <text:s/>
-                </text:p>
                 <text:p text:style-name="P4"/>
             </xsl:when>
             <xsl:when test="frage_typ='text'">
@@ -364,12 +364,13 @@
         </xsl:variable>
 
         <table:table-cell table:style-name="Auswertung_5f_horizontal.B1" office:value-type="string">
-            <text:p text:style-name="P12"><xsl:value-of select="bezeichnung"/></text:p>
             <text:p text:style-name="P12">
-                <draw:custom-shape text:anchor-type="paragraph" draw:z-index="0" draw:name="Form{$number}" draw:style-name="{$balkenstyle}" draw:text-style-name="P12" svg:width="0.643cm" svg:height="{$balkenhoehe}cm" svg:x="0.25cm" svg:y="-{$balkenhoehe}cm">
+                <draw:custom-shape text:anchor-type="as-char" draw:z-index="0" draw:name="Form{$number}" draw:style-name="{$balkenstyle}" draw:text-style-name="P12" svg:width="0.643cm" svg:height="{$balkenhoehe}cm" svg:x="0.25cm" svg:y="-{$balkenhoehe}cm">
                     <text:p/>
                     <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle" draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                </draw:custom-shape></text:p>
+                </draw:custom-shape>
+            </text:p>
+            <text:p text:style-name="P13"><xsl:value-of select="bezeichnung"/></text:p>
         </table:table-cell>
     </xsl:template>
     <!--
