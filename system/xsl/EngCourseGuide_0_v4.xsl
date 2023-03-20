@@ -485,17 +485,9 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
         </table:table-row>-->
         <table:table-row>
           <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
-            <text:p text:style-name="P24">Hinweise zu Prüfungs-/Beurteilungsmodalitäten</text:p>
-          </table:table-cell>
-          <table:table-cell table:style-name="Tabelle2.B1" office:value-type="string">
-            <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="hiprbe" /></text:span></text:p>
-          </table:table-cell>
-        </table:table-row>
-        <table:table-row>
-          <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
             <text:p text:style-name="P24">Konkreter LV-Titel (falls vorhanden)</text:p>
           </table:table-cell>
-          <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
+          <table:table-cell table:style-name="Tabelle2.B1" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="klvt" /></text:span></text:p>
           </table:table-cell>
         </table:table-row>
@@ -507,14 +499,30 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="kzbs" /></text:span></text:p>
           </table:table-cell>
         </table:table-row>
-        <!--<table:table-row>
+        <table:table-row>
           <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
             <text:p text:style-name="P24">Lernergebnisse</text:p>
           </table:table-cell>
           <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
             <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="lergb" /></text:span></text:p>
           </table:table-cell>
-        </table:table-row>-->
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
+            <text:p text:style-name="P24">Literatur</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
+            <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="lit" /></text:span></text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
+            <text:p text:style-name="P24">Hinweise zu Prüfungs-/Beurteilungsmodalitäten</text:p>
+          </table:table-cell>
+          <table:table-cell table:style-name="Tabelle2.B2" office:value-type="string">
+            <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T10"><xsl:value-of select="hiprbe" /></text:span></text:p>
+          </table:table-cell>
+        </table:table-row>
         <!--<table:table-row>
           <table:table-cell table:style-name="Tabelle2.A2" office:value-type="string">
             <text:p text:style-name="P24">Anwesenheit</text:p>
@@ -574,4 +582,3 @@ xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn
 </xsl:template>
 
 </xsl:stylesheet>
-
