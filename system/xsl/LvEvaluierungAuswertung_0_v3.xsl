@@ -425,7 +425,56 @@
                     <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
                         <xsl:choose>
                             <xsl:when test="frage_typ='singleresponse'">
-
+                                <table:table table:name="Tabelle3" table:style-name="Tabelle3">
+                                    <table:table-column table:style-name="Tabelle3.A"
+                                                        table:number-columns-repeated="7"/>
+                                    <table:table-row table:style-name="Tabelle3.1">
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.G1" office:value-type="string">
+                                            <text:p text:style-name="P10"/>
+                                        </table:table-cell>
+                                    </table:table-row>
+                                    <table:table-row table:style-name="Tabelle3.2">
+                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                        <table:table-cell table:style-name="Tabelle3.G2" office:value-type="string">
+                                            <text:p text:style-name="P11">#Beschreibung</text:p>
+                                        </table:table-cell>
+                                    </table:table-row>
+                                </table:table>
                             </xsl:when>
                             <xsl:when test="frage_typ='text'">
 
