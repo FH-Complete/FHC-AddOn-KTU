@@ -122,7 +122,7 @@
                     <style:table-column-properties style:column-width="8.5cm" style:rel-column-width="32767*"/>
                 </style:style>
                 <style:style style:name="Tabelle2.1" style:family="table-row">
-                    <style:table-row-properties style:min-row-height="1.909cm"/>
+                    <!--<style:table-row-properties style:min-row-height="1.909cm"/>-->
                 </style:style>
                 <style:style style:name="Tabelle2.A1" style:family="table-cell">
                     <style:table-cell-properties fo:padding="0.097cm" fo:border="none"/>
@@ -389,132 +389,66 @@
                             </table:table-cell>
                         </table:table-row>
                     </table:table>
-                    <text:p text:style-name="P4">
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="0" draw:name="Form 1"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="8.915cm"
-                                           svg:y="0.434cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="1" draw:name="Form 2"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="10.126cm"
-                                           svg:y="0.434cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="2" draw:name="Form 3"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="11.333cm"
-                                           svg:y="0.434cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="3" draw:name="Form 4"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="12.492cm"
-                                           svg:y="0.439cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="4" draw:name="Form 5"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="13.672cm"
-                                           svg:y="0.434cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="5" draw:name="Form 6"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="14.878cm"
-                                           svg:y="0.434cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                        <draw:custom-shape text:anchor-type="paragraph" draw:z-index="6" draw:name="Form 7"
-                                           draw:style-name="gr1" svg:width="0.511cm" svg:height="1.116cm"
-                                           svg:x="16.043cm"
-                                           svg:y="0.445cm">
-                            <text:p/>
-                            <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
-                                                    draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
-                        </draw:custom-shape>
-                    </text:p>
+
                     <table:table table:name="Tabelle2" table:style-name="Tabelle2">
                         <table:table-column table:style-name="Tabelle2.A" table:number-columns-repeated="2"/>
-                        <table:table-row table:style-name="Tabelle2.1">
-                            <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
-                                <text:p text:style-name="P9">#Frage
-                                    <text:span text:style-name="T2">Singleresponse</text:span>
-                                </text:p>
-                            </table:table-cell>
-                            <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
-                                <table:table table:name="Tabelle3" table:style-name="Tabelle3">
-                                    <table:table-column table:style-name="Tabelle3.A"
-                                                        table:number-columns-repeated="7"/>
-                                    <table:table-row table:style-name="Tabelle3.1">
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.G1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                    </table:table-row>
-                                    <table:table-row table:style-name="Tabelle3.2">
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.G2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                    </table:table-row>
-                                </table:table>
-                                <text:p text:style-name="P6"/>
-                            </table:table-cell>
-                        </table:table-row>
+
+                        <xsl:apply-templates select="frage"/>
+
                     </table:table>
-                    <text:p text:style-name="P4"/>
-                    <text:p text:style-name="P5">#FrageText</text:p>
-                    <text:p text:style-name="P5">#AntwortText</text:p>
                 </office:text>
             </office:body>
         </office:document-content>
+    </xsl:template>
+
+    <xsl:template match="frage">
+        <xsl:choose>
+            <xsl:when test="frage_typ='labelsub'">
+                <table:table-row table:style-name="Tabelle2.1">
+                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                        <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
+                    </table:table-cell>
+                </table:table-row>
+            </xsl:when>
+            <xsl:when test="frage_typ='label'">
+                <table:table-row table:style-name="Tabelle2.1">
+                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                        <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
+                    </table:table-cell>
+                </table:table-row>
+            </xsl:when>
+            <xsl:otherwise>
+                <table:table-row table:style-name="Tabelle2.1">
+                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                        <text:p text:style-name="P9"><xsl:value-of select="frage_text"/></text:p>
+                    </table:table-cell>
+                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                        <xsl:choose>
+                            <xsl:when test="frage_typ='singleresponse'">
+
+                            </xsl:when>
+                            <xsl:when test="frage_typ='text'">
+
+                                    <xsl:apply-templates select="antwort" mode="text"/>
+
+                            </xsl:when>
+                            <xsl:when test="frage_typ='label'">
+
+                            </xsl:when>
+                            <xsl:when test="frage_typ='labelsub'">
+
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <text:p text:style-name="P11">Unknown type</text:p>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </table:table-cell>
+                </table:table-row>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template match="antwort" mode="text">
+        <text:p text:style-name="P11"><xsl:value-of select="text"/></text:p>
     </xsl:template>
 </xsl:stylesheet>
