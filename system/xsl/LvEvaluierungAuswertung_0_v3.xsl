@@ -138,7 +138,7 @@
                 </style:style>
                 <style:style style:name="Tabelle3.A1" style:family="table-cell">
                     <style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.5pt solid #000000"
-                                                 fo:border-right="none" fo:border-top="0.5pt solid #000000"
+                                                 fo:border-right="0.5pt solid #000000" fo:border-top="0.5pt solid #000000"
                                                  fo:border-bottom="0.5pt solid #000000"/>
                 </style:style>
                 <style:style style:name="Tabelle3.G1" style:family="table-cell">
@@ -149,7 +149,7 @@
                 </style:style>
                 <style:style style:name="Tabelle3.A2" style:family="table-cell">
                     <style:table-cell-properties fo:padding="0.097cm" fo:border-left="0.5pt solid #000000"
-                                                 fo:border-right="none" fo:border-top="none"
+                                                 fo:border-right="0.5pt solid #000000" fo:border-top="none"
                                                  fo:border-bottom="0.5pt solid #000000"/>
                 </style:style>
                 <style:style style:name="Tabelle3.G2" style:family="table-cell">
@@ -275,7 +275,21 @@
                                               style:run-through="foreground" style:wrap="run-through"
                                               style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top"
                                               style:vertical-rel="paragraph" style:horizontal-pos="from-left"
-                                              style:horizontal-rel="paragraph"/>
+                                              style:horizontal-rel="paragraph"
+                                              draw:wrap-influence-on-position="once-concurrent"
+                                              loext:allow-overlap="true" style:flow-with-text="false"/>
+                </style:style>
+                <style:style style:name="gr2" style:family="graphic">
+                    <style:graphic-properties draw:textarea-horizontal-align="justify"
+                                              draw:textarea-vertical-align="middle"
+                                              draw:auto-grow-height="false" fo:min-height="1.501cm"
+                                              fo:min-width="0.642cm"
+                                              style:run-through="background" style:wrap="run-through"
+                                              style:number-wrapped-paragraphs="no-limit" style:vertical-pos="from-top"
+                                              style:vertical-rel="paragraph" style:horizontal-pos="from-left"
+                                              style:horizontal-rel="paragraph"
+                                              draw:wrap-influence-on-position="once-concurrent"
+                                              loext:allow-overlap="true" style:flow-with-text="false"/>
                 </style:style>
             </office:automatic-styles>
             <office:body>
@@ -404,18 +418,28 @@
     <xsl:template match="frage">
         <xsl:choose>
             <xsl:when test="frage_typ='labelsub'">
-                <table:table-row table:style-name="Tabelle2.1">
-                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
-                        <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
-                    </table:table-cell>
-                </table:table-row>
+                <xsl:variable select="frage_text" name="fragetext"/>
+                <xsl:choose>
+                    <xsl:when test="$fragetext!=''">
+                        <table:table-row table:style-name="Tabelle2.1">
+                            <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                                <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
+                            </table:table-cell>
+                        </table:table-row>
+                    </xsl:when>
+                </xsl:choose>
             </xsl:when>
             <xsl:when test="frage_typ='label'">
-                <table:table-row table:style-name="Tabelle2.1">
-                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
-                        <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
-                    </table:table-cell>
-                </table:table-row>
+                <xsl:variable select="frage_text" name="fragetext"/>
+                <xsl:choose>
+                    <xsl:when test="$fragetext!=''">
+                        <table:table-row table:style-name="Tabelle2.1">
+                            <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                                <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
+                            </table:table-cell>
+                        </table:table-row>
+                    </xsl:when>
+                </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
                 <table:table-row table:style-name="Tabelle2.1">
@@ -429,50 +453,14 @@
                                     <table:table-column table:style-name="Tabelle3.A"
                                                         table:number-columns-repeated="7"/>
                                     <table:table-row table:style-name="Tabelle3.1">
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.G1" office:value-type="string">
-                                            <text:p text:style-name="P10"/>
-                                        </table:table-cell>
+
+                                        <xsl:apply-templates select="antwort" mode="singleresponse"/>
+
                                     </table:table-row>
                                     <table:table-row table:style-name="Tabelle3.2">
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
-                                        <table:table-cell table:style-name="Tabelle3.G2" office:value-type="string">
-                                            <text:p text:style-name="P11">#Beschreibung</text:p>
-                                        </table:table-cell>
+
+                                        <xsl:apply-templates select="antwort" mode="singleresponsebeschreibung"/>
+
                                     </table:table-row>
                                 </table:table>
                             </xsl:when>
@@ -495,6 +483,41 @@
                 </table:table-row>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+
+    <xsl:template match="antwort" mode="singleresponse">
+        <!-- Maximalhöhe der Balken (in cm) definieren -->
+        <xsl:variable select="1" name="balkenhoehe_max"/>
+        <xsl:variable select="anzahl" name="anzahl"/>
+        <xsl:variable select="../anzahl_alle" name="anzahl_alle"/>
+        <xsl:variable select="format-number(($balkenhoehe_max div $anzahl_alle * $anzahl), '#.00')" name="balkenhoehe"/>
+        <xsl:variable select="position()" name="number"/>
+
+        <xsl:variable name="balkenstyle">
+            <xsl:choose>
+                <xsl:when test="wert=0 or wert=''">gr2</xsl:when>
+                <xsl:otherwise>gr1</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
+            <text:p text:style-name="P4">
+                <draw:custom-shape text:anchor-type="paragraph" draw:z-index="0" draw:name="Form{$number}"
+                                   draw:style-name="{$balkenstyle}" svg:width="0.511cm" svg:height="-{$balkenhoehe}cm"
+                                   svg:x="0.25cm"
+                                   svg:y="1cm">
+                    <text:p/>
+                    <draw:enhanced-geometry svg:viewBox="0 0 21600 21600" draw:type="rectangle"
+                                            draw:enhanced-path="M 0 0 L 21600 0 21600 21600 0 21600 0 0 Z N"/>
+                </draw:custom-shape>
+            </text:p>
+        </table:table-cell>
+    </xsl:template>
+
+    <xsl:template match="antwort" mode="singleresponsebeschreibung">
+        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
+            <text:p text:style-name="P11"><xsl:value-of select="bezeichnung"/></text:p>
+        </table:table-cell>
     </xsl:template>
 
     <xsl:template match="antwort" mode="text">
