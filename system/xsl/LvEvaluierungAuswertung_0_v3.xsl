@@ -456,6 +456,9 @@
 
                                         <xsl:apply-templates select="antwort" mode="singleresponse"/>
 
+                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string" table:number-rows-spanned="2">
+                                            <text:p text:style-name="P4">Ø <xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
+                                        </table:table-cell>
                                     </table:table-row>
                                     <table:table-row table:style-name="Tabelle3.2">
 
@@ -502,6 +505,7 @@
 
         <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string">
             <text:p text:style-name="P4">
+                <xsl:value-of select="anzahl"/>
                 <draw:custom-shape text:anchor-type="paragraph" draw:z-index="0" draw:name="Form{$number}"
                                    draw:style-name="{$balkenstyle}" svg:width="0.511cm" svg:height="-{$balkenhoehe}cm"
                                    svg:x="0.25cm"
