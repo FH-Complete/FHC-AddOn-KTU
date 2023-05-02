@@ -451,7 +451,7 @@
                             <xsl:when test="frage_typ='singleresponse'">
                                 <table:table table:name="Tabelle3" table:style-name="Tabelle3">
                                     <table:table-column table:style-name="Tabelle3.A"
-                                                        table:number-columns-repeated="7"/>
+                                                        table:number-columns-repeated="8"/>
                                     <table:table-row table:style-name="Tabelle3.1">
 
                                         <xsl:apply-templates select="antwort" mode="singleresponse"/>
@@ -460,11 +460,11 @@
                                             <text:p text:style-name="P4">Ø <xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
                                         </table:table-cell>
                                     </table:table-row>
-                                    <table:table-row table:style-name="Tabelle3.2">
+                                    <!--<table:table-row table:style-name="Tabelle3.2">
 
                                         <xsl:apply-templates select="antwort" mode="singleresponsebeschreibung"/>
 
-                                    </table:table-row>
+                                    </table:table-row>-->
                                 </table:table>
                             </xsl:when>
                             <xsl:when test="frage_typ='text'">
