@@ -296,7 +296,9 @@
                             <text:tab/>Seite <text:page-number text:select-page="current">1</text:page-number>/
                             <text:page-count>1</text:page-count>
                         </text:p>
-                        <text:p text:style-name="MP1"><xsl:value-of select="studiensemester" /></text:p>
+                        <text:p text:style-name="MP1">
+                            <xsl:value-of select="studiensemester" /> / Evaluierung ID: <xsl:value-of select="lvevaluierung_id" />
+                        </text:p>
                     </style:header>
                 </style:master-page>
             </office:master-styles>
