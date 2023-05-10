@@ -261,6 +261,13 @@
                                            officeooo:paragraph-rsid="0019652e" style:font-size-asian="5.25pt"
                                            style:font-size-complex="6pt"/>
                 </style:style>
+                <style:style style:name="P12" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+                    <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+                    <style:text-properties style:font-name="Liberation Sans" fo:font-size="6pt" fo:font-style="italic"
+                                           officeooo:rsid="0018bd3b"
+                                           officeooo:paragraph-rsid="0018bd3b" style:font-size-asian="5.25pt" style:font-style-asian="italic"
+                                           style:font-size-complex="6pt" style:font-style-complex="italic"/>
+                </style:style>
                 <style:style style:name="T1" style:family="text">
                     <style:text-properties officeooo:rsid="00175d2a"/>
                 </style:style>
@@ -445,6 +452,11 @@
                 <table:table-row table:style-name="Tabelle2.1">
                     <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
                         <text:p text:style-name="P9"><xsl:value-of select="frage_text"/></text:p>
+                        <xsl:choose>
+                            <xsl:when test="frage_typ!='text'">
+                                <text:p text:style-name="P12">Legende: <xsl:apply-templates select="antwort" mode="singleresponsebeschreibung"/></text:p>
+                            </xsl:when>
+                        </xsl:choose>
                     </table:table-cell>
                     <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
                         <xsl:choose>
@@ -519,9 +531,17 @@
     </xsl:template>
 
     <xsl:template match="antwort" mode="singleresponsebeschreibung">
-        <table:table-cell table:style-name="Tabelle3.A2" office:value-type="string">
-            <text:p text:style-name="P11"><xsl:value-of select="bezeichnung"/></text:p>
-        </table:table-cell>
+        <xsl:variable select="position()" name="count_loop"/>
+        <xsl:variable select="bezeichnung" name="bezeichnung"/>
+
+        <xsl:choose>
+            <xsl:when test="$bezeichnung!=''">
+                <xsl:choose>
+                    <xsl:when test="$count_loop=1"><xsl:value-of select="bezeichnung"/></xsl:when>
+                    <xsl:otherwise>, <xsl:value-of select="bezeichnung"/></xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="antwort" mode="text">
