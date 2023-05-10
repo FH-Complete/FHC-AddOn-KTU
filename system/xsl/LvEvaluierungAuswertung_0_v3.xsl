@@ -468,9 +468,14 @@
 
                                         <xsl:apply-templates select="antwort" mode="singleresponse"/>
 
-                                        <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string" table:number-rows-spanned="2">
-                                            <text:p text:style-name="P4">Ø <xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
-                                        </table:table-cell>
+                                        <xsl:variable select="durchschnitt" name="durchschnitt"/>
+                                        <xsl:choose>
+                                            <xsl:when test="$durchschnitt!=0">
+                                                <table:table-cell table:style-name="Tabelle3.A1" office:value-type="string" table:number-rows-spanned="2">
+                                                    <text:p text:style-name="P4">Ø <xsl:value-of select="format-number(durchschnitt, '#.00')"/></text:p>
+                                                </table:table-cell>
+                                            </xsl:when>
+                                        </xsl:choose>
                                     </table:table-row>
                                     <!--<table:table-row table:style-name="Tabelle3.2">
 
