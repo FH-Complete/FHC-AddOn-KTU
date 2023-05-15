@@ -451,7 +451,7 @@ xmlns:date="http://exslt.org/dates-and-times" extension-element-prefixes="date" 
 						<text:p text:style-name="P2">Matrikelnummer oder Code zur Identifizierung der/des Studierenden</text:p>
 					</table:table-cell>
 					<table:table-cell table:style-name="Tabelle1.C2" office:value-type="string">
-						<text:p text:style-name="P1"><xsl:value-of select="matrikelnummer"/></text:p>
+						<text:p text:style-name="P1"><xsl:value-of select="matr_nr"/></text:p>
 					</table:table-cell>
 				</table:table-row>
 				<table:table-row>

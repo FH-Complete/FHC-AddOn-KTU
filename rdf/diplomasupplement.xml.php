@@ -60,9 +60,11 @@ if (isset($_REQUEST["xmlformat"]) && $_REQUEST["xmlformat"] == "xml")
 						vw_student.matrikelnr, vw_student.prestudent_id,
 						tbl_studiengang.bezeichnung, tbl_studiengang.english, tbl_studiengang.studiengang_kz,
 						tbl_studiengang.typ, tbl_studiengang.mischform, tbl_studiengang.max_semester,
-						tbl_studiengang.orgform_kurzbz
+						tbl_studiengang.orgform_kurzbz, tbl_person.matr_nr
 				  FROM
-						campus.vw_student JOIN public.tbl_studiengang USING(studiengang_kz)
+						campus.vw_student 
+						JOIN public.tbl_studiengang USING(studiengang_kz)
+				        JOIN public.tbl_person USING(person_id)
 				  WHERE
 						uid = ".$db->db_add_param($uid_arr[$i]);
 
@@ -97,6 +99,7 @@ if (isset($_REQUEST["xmlformat"]) && $_REQUEST["xmlformat"] == "xml")
 		echo '		<name><![CDATA['.$row->vorname.' '.$row->nachname.']]></name>';
 		echo '		<geburtsdatum><![CDATA['.$datum->convertISODate($row->gebdatum).']]></geburtsdatum>';
 		echo '		<matrikelnummer>'.TRIM($row->matrikelnr).'</matrikelnummer>';
+        echo '		<matr_nr>'.TRIM($row->matr_nr).'</matr_nr>';
 		echo '		<studiengang_kz>'.$studiengang_kz.'</studiengang_kz>';
 
 		$prestudent = new prestudent($row->prestudent_id);
