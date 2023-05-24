@@ -195,5 +195,15 @@
     "requiredPermissions": [
       "basis/person"
     ]
+  },
+  {
+    "name": "udf_phdl",
+    "sort": 8,
+    "type": "checkbox",
+    "title": "phdlTitle",
+    "defaultValue": false,
+    "requiredPermissions": [
+      "basis/person"
+    ]
   }
 ]
