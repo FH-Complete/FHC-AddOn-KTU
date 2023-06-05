@@ -424,6 +424,14 @@
 
     <xsl:template match="frage">
         <xsl:choose>
+            <xsl:when test="frage_typ='comment'">
+                <table:table-row table:style-name="Tabelle2.1">
+                    <table:table-cell></table:table-cell>
+                    <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
+                        <text:p text:style-name="P4"><xsl:value-of select="frage_text"/></text:p>
+                    </table:table-cell>
+                </table:table-row>
+            </xsl:when>
             <xsl:when test="frage_typ='labelsub'">
                 <xsl:variable select="frage_text" name="fragetext"/>
                 <xsl:choose>
@@ -452,11 +460,11 @@
                 <table:table-row table:style-name="Tabelle2.1">
                     <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
                         <text:p text:style-name="P9"><xsl:value-of select="frage_text"/></text:p>
-                        <xsl:choose>
+                        <!--<xsl:choose>
                             <xsl:when test="frage_typ!='text'">
                                 <text:p text:style-name="P12">Legende: <xsl:apply-templates select="antwort" mode="singleresponsebeschreibung"/></text:p>
                             </xsl:when>
-                        </xsl:choose>
+                        </xsl:choose>-->
                     </table:table-cell>
                     <table:table-cell table:style-name="Tabelle2.A1" office:value-type="string">
                         <xsl:choose>
