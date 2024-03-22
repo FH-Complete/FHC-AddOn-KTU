@@ -43,5 +43,6 @@ if(!$rechte->isBerechtigt('basis/addon'))
 echo '<a href="../dbcheck.php">Update Datenkbank</a></br>';
 echo '<a href="./auswertung_oehBeitrag.php">Auswertung ÖH-Beitrag</a></br>';
 echo '<a href="./studentenmeldung.php">Studentenmeldung</a></br>';
-echo '<a href="./personalmeldung.php">Personalmeldung</a>';
+echo '<a href="./personalmeldung.php">Personalmeldung</a><br />';
+echo '<a href="./phdlexport.php">PHDL Noten Export</a>';
 ?>
