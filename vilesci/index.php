@@ -44,5 +44,6 @@ echo '<a href="../dbcheck.php">Update Datenkbank</a></br>';
 echo '<a href="./auswertung_oehBeitrag.php">Auswertung ÖH-Beitrag</a></br>';
 echo '<a href="./studentenmeldung.php">Studentenmeldung</a></br>';
 echo '<a href="./personalmeldung.php">Personalmeldung</a><br />';
-echo '<a href="./phdlexport.php">PHDL Noten Export</a>';
+echo '<a href="./phdlexport.php">PHDL Noten Export</a><br />';
+echo '<a href="./kuwiexport.php">KuWi Noten Export</a><br />';
 ?>

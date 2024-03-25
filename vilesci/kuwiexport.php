@@ -48,11 +48,11 @@ else
 	require_once('../../../include/meta/jquery.php');
 	require_once('../../../include/meta/jquery-tablesorter.php');
 	?>
-	    <title>PHDL Noten Export</title>
+	    <title>KuWi Noten Export</title>
     </head>
     <body>
-	<h1>PHDL Noten Export</h1>
-	<span>Es werden alle Noten von PHDL Studierenden angezeigt die seit dem angegebenem Datum geändert oder hinzugefügt wurden.</span><br /><br />
+	<h1>KuWi - Kulturwissenschaften Noten Export</h1>
+	<span>Es werden alle Noten von KuWi Studierenden angezeigt die seit dem angegebenem Datum geändert oder hinzugefügt wurden.</span><br /><br />
 	<form method="POST">
 	    <span>Stichtag: (Format: JJJJ-MM-TT) </span><input id="stichtag" type="text" name="stichtag" value="<?php echo (!is_null($stichtag)?$stichtag:date('Y-m-d'));?>" size="10"/>
 	    <input type="submit" value="Daten laden"/>
@@ -85,7 +85,7 @@ else
 				OR
 				tbl_zeugnisnote.updateamum>=".$db->db_add_param($stichtag)."
 				)
-				AND tbl_person.udf_values->>'udf_phdl'='true'
+				AND tbl_student.studiengang_kz='555'
 			";
 
 
