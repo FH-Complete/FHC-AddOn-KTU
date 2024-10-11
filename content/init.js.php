@@ -90,11 +90,14 @@ addon.push(
 		element.setAttribute("hidden",true);
 
 		//Menüpunkt zum Druck des Honorarvertrages angzeigen
-		var ele = document.getElementById("mitarbeiter-vertrag-tree-popup");
-		var menuitem = document.createElement("menuitem");
-		menuitem.setAttribute("label", "Honorarvertrag erstellen");
-		menuitem.setAttribute("oncommand", "AddonKTUMitarbeiterHonorarvertragErstellen()");
-		ele.appendChild(menuitem);
+		if(document.getElementById("mitarbeiter-vertrag-tree-popup"))
+		{
+			var ele = document.getElementById("mitarbeiter-vertrag-tree-popup");
+			var menuitem = document.createElement("menuitem");
+			menuitem.setAttribute("label", "Honorarvertrag erstellen");
+			menuitem.setAttribute("oncommand", "AddonKTUMitarbeiterHonorarvertragErstellen()");
+			ele.appendChild(menuitem);
+		}
 
 		var label = document.getElementById("lehrveranstaltung-lehreinheitmitarbeiter-label-semesterstunden");
 		label.value = "Aufwandspunkte: ";
