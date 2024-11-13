@@ -32,15 +32,22 @@ require_once('../../../include/prestudent.class.php');
 require_once('../../../include/adresse.class.php');
 require_once('../../../include/person.class.php');
 require_once('../../../include/bisio.class.php');
+require_once('../../../include/benutzerberechtigung.class.php');
+require_once('../../../include/functions.inc.php');
+require_once('../../../include/kennzeichen.class.php');
 
-
+$uid = get_uid();
+$rechte = new benutzerberechtigung();
+$rechte->getBerechtigungen($uid);
+if(!$rechte->isBerechtigt('assistenz'))
+	die('Sie haben keine Berechtigung für diese Seite');
 ?>
 <html>
     <head>
         <meta charset="UTF-8">
 	<link rel="stylesheet" href="../../../skin/vilesci.css" type="text/css">
 	<script type="text/javascript" src="../../../include/js/datecheck.js"></script>
-	<script type="text/javascript" src="../../../include/js/jquery1.9.min.js"></script>	
+	<script type="text/javascript" src="../../../include/js/jquery1.9.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../../skin/jquery-ui-1.9.2.custom.min.css"/>
 	<script type="text/javascript">
 	    var year = (new Date).getFullYear();
@@ -69,7 +76,7 @@ require_once('../../../include/bisio.class.php');
 		$student = new student();
 		$studiensemester = new studiensemester();
 		$aktStdSem = $studiensemester->getakt();
-		
+
 		$previousStdSem = $studiensemester->getPreviousFrom($aktStdSem);
 		$beforePreviousStdSem = $studiensemester->getPreviousFrom($previousStdSem);
 		$studiensemester->getTimestamp($aktStdSem);
@@ -88,7 +95,7 @@ require_once('../../../include/bisio.class.php');
 		$firstStatus = new prestudent();
 		$studiengang = new studiengang();
 		$bisio = new bisio();
-		
+
 		// Arrays zum sammeln fehlerhafter Datensätze
 		$svnr_fehler = array();
 		$gebdat_fehler = array();
@@ -105,8 +112,10 @@ require_once('../../../include/bisio.class.php');
 		$absart_fehler = array();
 		$matrnr_fehler = array();
 		$bisio_fehler = array();
-		
-		$datei = "MATRNR;SVNR;EKZ;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;MOBPROG;MOBPROG_LAND;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
+		$vbpkAs_fehler = array();
+		$vbpkBf_fehler = array();
+
+		$datei = "MATRNR;SVNR;EKZ;VBPKBF;VBPKAS;GEBDAT;SEX;STAAT;NATION;PLZ;ORT;MOBPROG;MOBPROG_LAND;SART;SBEZ;SBEG;STATUS;ABSCHLUSS;ABSART;\n";
 		foreach($uids as $uid)
 		{
             $person->getPersonFromBenutzer($uid);
@@ -114,6 +123,7 @@ require_once('../../../include/bisio.class.php');
 		    $studiengang->load($student->studiengang_kz);
 		    $adresse->load_pers($student->person_id);
 		    $heimatadresse;
+
 		    foreach($adresse->result as $adr)
 		    {
 			if($adr->heimatadresse === true)
@@ -121,12 +131,31 @@ require_once('../../../include/bisio.class.php');
 			    $heimatadresse = $adr;
 			}
 		    }
+
+			$kennzeichen = new kennzeichen();
+			$kennzeichen->load_pers($person->person_id, array('vbpkBf','vbpkAs'));
+
+			$vbpkBf = '';
+			$vbpkAs = '';
+			foreach($kennzeichen->result as $row_kennzeichen)
+			{
+				switch($row_kennzeichen->kennzeichentyp_kurzbz)
+				{
+					case 'vbpkBf':
+						$vbpkBf = $row_kennzeichen->inhalt;
+						break;
+					case 'vbpkAs':
+						$vbpkAs = $row_kennzeichen->inhalt;
+						break;
+				}
+			}
+
 		    $student->load_person($student->person_id, $student->studiengang_kz);
 		    $firstStatus->getFirstStatus($student->prestudent_id, "Student");
 		    $lastStatus->getLastStatus($student->prestudent_id);
 		    $bisio->result = array(); // reset old results
 		    $bisio->getIOForPeriod($uid, $zeitraumStart, $zeitraumEnde);
-		    
+
 		    switch($studiengang->typ)
 		    {
 			case 'b':
@@ -148,6 +177,20 @@ require_once('../../../include/bisio.class.php');
 			    $sart = "Typ nicht gefunden";
 			    break;
 		    }
+
+			if($vbpkBf=='')
+			{
+				$temp = clone $student;
+				array_push($vbpkBf_fehler, $temp);
+				$plausiFehler = true;
+			}
+
+			if($vbpkAs=='')
+			{
+				$temp = clone $student;
+				array_push($vbpkAs_fehler, $temp);
+				$plausiFehler = true;
+			}
 
 		    // manuelle Zuordnung der Studienart lt. Hr. Koller
             if ($studiengang->studiengang_kz == 20 || $studiengang->studiengang_kz == 40)
@@ -171,14 +214,14 @@ require_once('../../../include/bisio.class.php');
 			array_push($gebdat_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    if($student->geschlecht != 'm' && $student->geschlecht != "w")
 		    {
 			$temp = clone $student;
 			array_push($geschlecht_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    if($student->staatsbuergerschaft == NULL || $student->staatsbuergerschaft == "")
 		    {
 			$temp = clone $student;
@@ -191,7 +234,7 @@ require_once('../../../include/bisio.class.php');
 			array_push($nation_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    if($heimatadresse->plz == NULL || $heimatadresse->plz == "")
 		    {
 			$heimatadresse->plz = "XXXX";
@@ -199,30 +242,30 @@ require_once('../../../include/bisio.class.php');
 			array_push($plz_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    if($heimatadresse->ort == NULL || $heimatadresse->ort == "")
 		    {
 			$temp = clone $student;
 			array_push($ort_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    if(!($sArt <= 7 && $sArt >= 1))
 		    {
 			$temp = clone $student;
 			array_push($sart_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    $sBez = "UP001".str_pad($student->studiengang_kz."", 3, "0", STR_PAD_LEFT);
-		    
+
 		    if(strlen($sBez) != 8)
 		    {
 			$temp = clone $student;
 			array_push($sbez_fehler, $temp);
 			$plausiFehler = true;
 		    }
-		    
+
 		    if(!$datum->between($student->gebdatum, $zeitraumEnde, $firstStatus->datum))
 		    {
 			$temp = clone $student;
@@ -247,6 +290,8 @@ require_once('../../../include/bisio.class.php');
 		    $datei .= $person->matr_nr.";"
                 .($student->svnr === NULL ? "" : $student->svnr).";"
 			    .($student->svnr === NULL ? $student->ersatzkennzeichen : "").";"
+				.$vbpkBf.";"
+				.$vbpkAs.";"
 			    .str_replace("-", "", $student->gebdatum).";"
 			    .$student->geschlecht.";"
 			    .$student->staatsbuergerschaft.";"
@@ -258,10 +303,10 @@ require_once('../../../include/bisio.class.php');
 			    .$sArt.";"
 			    .$sBez.";"
 			    .str_replace("-","",$firstStatus->datum).";";
-			    
+
 		    $rollen = new prestudent();
 		    $rollen->getPrestudentRolle($student->prestudent_id, "Aufgenommener");
-		    
+
 		    if($datum->between($zeitraumStart, $zeitraumEnde, $lastStatus->datum))
 		    {
 			if(isset($rollen->result[0]) && ($rollen->result[0]->studiensemester_kurzbz == $aktStdSem || $rollen->result[0]->studiensemester_kurzbz == $previousStdSem || $rollen->result[0]->studiensemester_kurzbz == $beforePreviousStdSem))
@@ -335,7 +380,7 @@ require_once('../../../include/bisio.class.php');
 //			    . "ABSCHLUSS;"
 //			    . "ABSART;\n";
 		}
-		
+
 		if(!empty($svnr_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben weder eine SVNR noch ein Ersatzkennzeichen ('.  count($svnr_fehler).'):</h4>';
@@ -346,7 +391,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($gebdat_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben ein unplausibles Geburtsdatum ('.  count($gebdat_fehler).'):</h4>';
@@ -358,7 +403,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($geschlecht_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben ein unplausibles Geschlecht ('.  count($geschlecht_fehler).'):</h4>';
@@ -369,7 +414,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($staat_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben keine Staatsbürgerschaft ('.  count($staat_fehler).'):</h4>';
@@ -391,7 +436,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($plz_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben keine PLZ ('.  count($plz_fehler).'):</h4>';
@@ -402,7 +447,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($ort_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben keinen Ort bei ihrer Heimatadresse ('.  count($ort_fehler).'):</h4>';
@@ -424,7 +469,7 @@ require_once('../../../include/bisio.class.php');
             }
             echo "</ul>";
         }
-		
+
 		if(!empty($sart_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben eine unplausible Studienart ('.  count($sart_fehler).'):</h4>';
@@ -435,7 +480,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($sbez_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben eine unplausible Studiumsbezeichnung ('.  count($sbez_fehler).'):</h4>';
@@ -447,7 +492,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($sbeg_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben einen unplausiblen Studienbeginn ('.  count($sbeg_fehler).'):</h4>';
@@ -458,7 +503,7 @@ require_once('../../../include/bisio.class.php');
 		    }
 		    echo "</ul>";
 		}
-		
+
 		if(!empty($abschluss_fehler))
 		{
 		    echo '<h4>Folgende Studenten haben ein unplausibles Studienende (Datum) ('.  count($abschluss_fehler).'):</h4>';
@@ -480,7 +525,29 @@ require_once('../../../include/bisio.class.php');
             }
             echo "</ul>";
         }
-		
+
+		if(!empty($vbpkBf_fehler))
+		{
+			echo '<h4>Folgende Studenten haben kein VBpkBf ('.  count($vbpkBf_fehler).'):</h4>';
+			echo '<ul>';
+			foreach($vbpkBf_fehler as $student)
+			{
+				echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			}
+			echo "</ul>";
+		}
+
+		if(!empty($vbpkAs_fehler))
+		{
+			echo '<h4>Folgende Studenten haben kein VBpkAs ('.  count($vbpkAs_fehler).'):</h4>';
+			echo '<ul>';
+			foreach($vbpkAs_fehler as $student)
+			{
+				echo "<li>".$student->vorname." ".$student->nachname." (".$student->uid.")</li>";
+			}
+			echo "</ul>";
+		}
+
 		$dateiname = "UP001_STUD.csv";
 		$id = uniqid();
 		$dir = "/tmp/".$id;
@@ -489,8 +556,8 @@ require_once('../../../include/bisio.class.php');
 		fputs($dateiausgabe, $bom =( chr(0xEF) . chr(0xBB) . chr(0xBF) ));
 		fwrite($dateiausgabe,$datei);
 		fclose($dateiausgabe);
-		echo "<a href='./personalmeldung.php?download=UP001_STUD&dir=".$id."'>Download</a>";
-		
+		echo "<a href='./studentenmeldung.php?download=UP001_STUD&dir=".$id."'>Download</a>";
+
 	    }
 	    echo "</body></html>";
 }
@@ -504,7 +571,7 @@ else
     header('Content-type: text/csv');
     header('Content-Disposition: attachment; filename="'.$dateiname);
     header('Content-Length: '.$fsize);
-    while (!feof($handle)) 
+    while (!feof($handle))
     {
 	echo fread($handle, 8192);
     }

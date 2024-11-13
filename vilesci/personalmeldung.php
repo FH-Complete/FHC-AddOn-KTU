@@ -31,7 +31,14 @@ require_once('../../../include/datum.class.php');
 require_once('../../../include/funktion.class.php');
 require_once('../../../include/benutzerfunktion.class.php');
 require_once('../../../include/bisverwendung.class.php');
+require_once('../../../include/benutzerberechtigung.class.php');
+require_once('../../../include/functions.inc.php');
 
+$uid = get_uid();
+$rechte = new benutzerberechtigung();
+$rechte->getBerechtigungen($uid);
+if(!$rechte->isBerechtigt('mitarbeiter'))
+	die('Sie haben keine Berechtigung für diese Seite');
 
 $studiensemester = new studiensemester();
 $studiensemester->getAll();
@@ -61,7 +68,7 @@ $datumobj = new datum();
 	    <input type="submit" value="Senden"/>
 	</form>
 	<?php
-	    
+
 
 	echo "<h2>Plausiprüfungen</h2>";
 //	var_dump($_POST);
@@ -75,12 +82,12 @@ $datumobj = new datum();
 	    //$meldungEnde=date("Y-m-d",  mktime(0, 0, 0, 9, 1, $jahr+1));
         $meldungBeginn = date("Y-m-d",  mktime(0, 0, 0, 1, 1, $jahr));
         $meldungEnde = date("Y-m-d",  mktime(23, 59, 59, 12, 31, $jahr));
-	    
+
 	    $mitarbeiter = new mitarbeiter();
 	    $personal = $mitarbeiter->getMitarbeiter();
-	    
-	    
-	    
+
+
+
 	    $plausiFehler = false;
 	    $geschlechtFehler = array();
 	    $geburtsjahrFehler = array();
@@ -106,7 +113,7 @@ $datumobj = new datum();
 		}
 	    }
 	    $mitarbeiter->getMitarbeiterforMeldung($meldungBeginn, $meldungEnde);
-	    
+
 	    foreach($mitarbeiter->result as $m)
 	    {
 		if(($m->geschlecht !== "m") && ($m->geschlecht !== "w"))
@@ -114,7 +121,7 @@ $datumobj = new datum();
 		    array_push($geschlechtFehler, $m);
 		    $plausiFehler = true;
 		}
-		
+
 		$gebYear = substr($m->gebdatum,0,4);
 		$gebYear = (int) $gebYear;
 		$value = $year - $gebYear;
@@ -123,25 +130,25 @@ $datumobj = new datum();
 		    array_push($geburtsjahrFehler, $m);
 		    $plausiFehler = true;
 		}
-		
+
 		if((!(($m->ausbildungcode <= 11) && ($m->ausbildungcode >= 1) && (is_numeric($m->ausbildungcode)))) || (is_null($m->ausbildungcode)))
 		{
 		    array_push($ausbildungFehler, $m);
 		    $plausiFehler = true;
 		}
-		
+
 		if(!(($m->ba1code <= 7) && ($m->ba1code >= 1) && (is_numeric($m->ba1code))))
 		{
 		    array_push($ba1Fehler, $m);
 		    $plausiFehler = true;
 		}
-		
+
 		if(!(($m->ba2code <= 2) && ($m->ba2code >= 1) && (is_numeric($m->ba2code))))
 		{
 		    array_push($ba2Fehler, $m);
 		    $plausiFehler = true;
 		}
-		
+
 		if(!is_null($m->vertragsstunden) && is_numeric($m->vertragsstunden))
 		{
 		    $fte = (int)(($m->vertragsstunden / 37.5)*100);
@@ -169,15 +176,15 @@ $datumobj = new datum();
 		    array_push($fteFehler, $m);
 		    $plausiFehler = true;
 		}
-		
-		
+
+
 		if(!(($m->verwendung_code <= 7) && ($m->verwendung_code >= 1) && (is_numeric($m->verwendung_code))))
 		{
 		    array_push($verwendungFehler, $m);
 		    $plausiFehler = true;
 		}
-		
-			   
+
+
 		//TODO FKT
 		$funktion = new funktion();
 		$funktion->getAll($m->uid);
@@ -211,7 +218,7 @@ $datumobj = new datum();
             $plausiFehler = true;
         }
 	    }
-	    
+
 	    if(!empty($verwendungFehlt))
 	    {
 		echo "<h4>Die Verwendung fehlt bei folgenden Mitarbeitern (".  count($verwendungFehlt)."):</h4>";
@@ -242,7 +249,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Geschlecht: OK</span><br/>";
 	    }
-	    
+
 	    if(!empty($geburtsjahrFehler))
 	    {
 		echo "<h4>Das Geburtsjahr bei folgenden Mitarbeitern ist nicht korrekt (".  count($geburtsjahrFehler)."):</h4>";
@@ -274,7 +281,7 @@ $datumobj = new datum();
         {
             echo "<span>Datenfeld Staatsbürgerschaft: OK</span><br/>";
         }
-	    
+
 	    if(!empty($ausbildungFehler))
 	    {
 		echo '<h4>Die "höchste abgeschlossene Ausbildung" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ausbildungFehler).'):</h4>';
@@ -290,7 +297,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Ausbildung: OK</span><br/>";
 	    }
-	    
+
 	    if(!empty($ba1Fehler))
 	    {
 		echo '<h4>Die "Beschäfitungsart 1" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ba1Fehler).'):</h4>';
@@ -306,7 +313,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Beschäftigungsart 1: OK</span><br/>";
 	    }
-	    
+
 	    if(!empty($ba2Fehler))
 	    {
 		echo '<h4>Die "Beschäfitungsart 2" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ba2Fehler).'):</h4>';
@@ -322,7 +329,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Beschäftigungsart 2: OK</span><br/>";
 	    }
-	    
+
 	    if(!empty($fteFehler))
 	    {
 		echo '<h4>Das Beschäftigungsausmaß bei folgenden Mitarbeitern ist nicht korrekt ('.  count($fteFehler).'):</h4>';
@@ -338,7 +345,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld FTE: OK</span><br/>";
 	    }
-	    
+
 	    if(!empty($verwendungFehler))
 	    {
 		echo '<h4>Die Verwendung bei folgenden Mitarbeitern ist nicht korrekt ('.  count($verwendungFehler).'):</h4>';
@@ -354,7 +361,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Verwendung: OK</span><br/>";
 	    }
-	    
+
 	    if(!empty($funktionFehler))
 	    {
 		echo '<h4>Die Funktion bei folgenden Mitarbeitern ist nicht korrekt ('.  count($funktionFehler).'):</h4>';
@@ -370,7 +377,7 @@ $datumobj = new datum();
 	    {
 		echo "<span>Datenfeld Funktion: OK</span><br/>";
 	    }
-	    
+
 	    //TODO
 //	    if(!$plausiFehler)
 	    if(true)
@@ -410,11 +417,10 @@ else
     header('Content-type: text/csv');
     header('Content-Disposition: attachment; filename="'.$dateiname);
     header('Content-Length: '.$fsize);
-    while (!feof($handle)) 
+    while (!feof($handle))
     {
 	echo fread($handle, 8192);
     }
     fclose($handle);
 }
 ?>
-    
