@@ -269,7 +269,7 @@ function draw_studienerfolg($uid, $studiensemester_kurzbz)
 				$anrechnung->getAnrechnungPrestudent($student->prestudent_id, null, $row->lehrveranstaltung_id);
 
 				$lehrveranstaltung_id_kompatibel = "";
-				if(count($anrechnung->result) === 1)
+				if(numberOfElements($anrechnung->result) === 1)
 				{
 					$lehrveranstaltung_id_kompatibel = $anrechnung->result[0]->lehrveranstaltung_id;
 				}

@@ -86,7 +86,7 @@ foreach($gruppen as $row_gruppen)
 	}
 }
 //var_dump($liste);
-//echo 'anzahl:'.count($liste);
+//echo 'anzahl:'.numberOfElements($liste);
 if($result = $db->db_query($qry))
 {
 	while($row = $db->db_fetch_object($result))

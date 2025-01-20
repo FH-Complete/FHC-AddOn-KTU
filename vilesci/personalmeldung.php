@@ -221,7 +221,7 @@ $datumobj = new datum();
 
 	    if(!empty($verwendungFehlt))
 	    {
-		echo "<h4>Die Verwendung fehlt bei folgenden Mitarbeitern (".  count($verwendungFehlt)."):</h4>";
+		echo "<h4>Die Verwendung fehlt bei folgenden Mitarbeitern (".  numberOfElements($verwendungFehlt)."):</h4>";
 		echo "<ul>";
 		foreach($verwendungFehlt as $f)
 		{
@@ -236,7 +236,7 @@ $datumobj = new datum();
 
 	    if(!empty($geschlechtFehler))
 	    {
-		echo "<h4>Das Geschlecht bei folgenden Mitarbeitern ist nicht korrekt (".  count($geschlechtFehler)."):</h4>";
+		echo "<h4>Das Geschlecht bei folgenden Mitarbeitern ist nicht korrekt (".  numberOfElements($geschlechtFehler)."):</h4>";
 		echo "<span>Bedingung: m oder w</span>";
 		echo "<ul>";
 		foreach($geschlechtFehler as $f)
@@ -252,7 +252,7 @@ $datumobj = new datum();
 
 	    if(!empty($geburtsjahrFehler))
 	    {
-		echo "<h4>Das Geburtsjahr bei folgenden Mitarbeitern ist nicht korrekt (".  count($geburtsjahrFehler)."):</h4>";
+		echo "<h4>Das Geburtsjahr bei folgenden Mitarbeitern ist nicht korrekt (".  numberOfElements($geburtsjahrFehler)."):</h4>";
 		echo "<span>Bedingung: Kalenderjahr - Geburtsjahr kleiner 99 und größer 20.</span>";
 		echo "<ul>";
 		foreach($geburtsjahrFehler as $f)
@@ -268,7 +268,7 @@ $datumobj = new datum();
 
         if(!empty($staatsbuergerschaftFehler))
         {
-            echo "<h4>Die Staatsbürgerschaft bei folgenden Mitarbeitern ist nicht korrekt (".  count($staatsbuergerschaftFehler)."):</h4>";
+            echo "<h4>Die Staatsbürgerschaft bei folgenden Mitarbeitern ist nicht korrekt (".  numberOfElements($staatsbuergerschaftFehler)."):</h4>";
             echo "<span>Bedingung: Eingabe zwingend.</span>";
             echo "<ul>";
             foreach($staatsbuergerschaftFehler as $f)
@@ -284,7 +284,7 @@ $datumobj = new datum();
 
 	    if(!empty($ausbildungFehler))
 	    {
-		echo '<h4>Die "höchste abgeschlossene Ausbildung" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ausbildungFehler).'):</h4>';
+		echo '<h4>Die "höchste abgeschlossene Ausbildung" bei folgenden Mitarbeitern ist nicht korrekt ('.  numberOfElements($ausbildungFehler).'):</h4>';
 		echo '<span>Bedingung: nur 1 - 11 zulässig</span>';
 		echo "<ul>";
 		foreach($ausbildungFehler as $f)
@@ -300,7 +300,7 @@ $datumobj = new datum();
 
 	    if(!empty($ba1Fehler))
 	    {
-		echo '<h4>Die "Beschäfitungsart 1" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ba1Fehler).'):</h4>';
+		echo '<h4>Die "Beschäfitungsart 1" bei folgenden Mitarbeitern ist nicht korrekt ('.  numberOfElements($ba1Fehler).'):</h4>';
 		echo '<span>Bedingung: nur 1 - 7 zulässig</span>';
 		echo "<ul>";
 		foreach($ba1Fehler as $f)
@@ -316,7 +316,7 @@ $datumobj = new datum();
 
 	    if(!empty($ba2Fehler))
 	    {
-		echo '<h4>Die "Beschäfitungsart 2" bei folgenden Mitarbeitern ist nicht korrekt ('.  count($ba2Fehler).'):</h4>';
+		echo '<h4>Die "Beschäfitungsart 2" bei folgenden Mitarbeitern ist nicht korrekt ('.  numberOfElements($ba2Fehler).'):</h4>';
 		echo '<span>Bedingung: nur 1 - 2 zulässig</span>';
 		echo "<ul>";
 		foreach($ba2Fehler as $f)
@@ -332,7 +332,7 @@ $datumobj = new datum();
 
 	    if(!empty($fteFehler))
 	    {
-		echo '<h4>Das Beschäftigungsausmaß bei folgenden Mitarbeitern ist nicht korrekt ('.  count($fteFehler).'):</h4>';
+		echo '<h4>Das Beschäftigungsausmaß bei folgenden Mitarbeitern ist nicht korrekt ('.  numberOfElements($fteFehler).'):</h4>';
 		echo '<span>Bedingung: nur 000 - 100 zulässig</span>';
 		echo "<ul>";
 		foreach($fteFehler as $f)
@@ -348,7 +348,7 @@ $datumobj = new datum();
 
 	    if(!empty($verwendungFehler))
 	    {
-		echo '<h4>Die Verwendung bei folgenden Mitarbeitern ist nicht korrekt ('.  count($verwendungFehler).'):</h4>';
+		echo '<h4>Die Verwendung bei folgenden Mitarbeitern ist nicht korrekt ('.  numberOfElements($verwendungFehler).'):</h4>';
 		echo "<span>Bedingung: nur 1 - 7 zulässig.</span>";
 		echo "<ul>";
 		foreach($verwendungFehler as $f)
@@ -364,7 +364,7 @@ $datumobj = new datum();
 
 	    if(!empty($funktionFehler))
 	    {
-		echo '<h4>Die Funktion bei folgenden Mitarbeitern ist nicht korrekt ('.  count($funktionFehler).'):</h4>';
+		echo '<h4>Die Funktion bei folgenden Mitarbeitern ist nicht korrekt ('.  numberOfElements($funktionFehler).'):</h4>';
 		echo "<span>Bedingung: nur 0 - 7 zulässig.</span>";
 		echo "<ul>";
 		foreach($funktionFehler as $f)

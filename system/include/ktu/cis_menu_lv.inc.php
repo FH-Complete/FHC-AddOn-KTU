@@ -24,6 +24,8 @@
  * diese Datei wird von /cis/private/lehre/lesson.php inkludiert
  */
 
+require_once('../../../../../include/functions.inc.php');
+
 echo '
 <table class="tabcontent" id="lvmenue">
 	<tr>';
@@ -57,7 +59,7 @@ function checkZeilenUmbruch()
 		$lehrveranstaltung_obj = new lehrveranstaltung();
 		$result = $lehrveranstaltung_obj->getLehreinheitenOfLv($lvid, $user, $angezeigtes_stsem);
 
-		if(count($result)>0)
+		if(numberOfElements($result)>0)
 		    $angemeldet = true;
 	}
 
@@ -464,7 +466,7 @@ function checkZeilenUmbruch()
 		{
 			$lvangebot = new lvangebot();
 			$gruppen = $lvangebot->AbmeldungMoeglich($lvid, $angezeigtes_stsem, $user);
-			if(count($gruppen)>0)
+			if(numberOfElements($gruppen)>0)
 			{
 				$menu[]=array
 				(
@@ -483,7 +485,7 @@ function checkZeilenUmbruch()
 	$lehretools = new lehre_tools();
 	if($lehretools->getTools($lvid, $angezeigtes_stsem))
 	{
-		if(count($lehretools->result)>0)
+		if(numberOfElements($lehretools->result)>0)
 		{
 			foreach($lehretools->result as $row)
 			{
@@ -508,7 +510,7 @@ function checkZeilenUmbruch()
 	$addon_obj = new addon();
 	if($addon_obj->loadAddons())
 	{
-		if(count($addon_obj->result)>0)
+		if(numberOfElements($addon_obj->result)>0)
 		{
 			foreach($addon_obj->result as $row)
 			{

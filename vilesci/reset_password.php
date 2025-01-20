@@ -56,7 +56,7 @@ if (isset($_POST["uid"], $_POST["password"]) && $_POST["uid"] != "" && $_POST["p
     $password = $_POST["password"];
 
     // Verbindung zur DB und Benutzer prüfen
-    $sql = "select count(*) from tbl_benutzer where uid = " . $db->db_add_param($uid);
+    $sql = "select numberOfElements(*) from tbl_benutzer where uid = " . $db->db_add_param($uid);
 
     if (!$res = $db->db_query($sql))
         $err_str = 'Verbindung zur Datenbank nicht möglich.';

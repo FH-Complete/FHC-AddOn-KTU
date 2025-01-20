@@ -278,7 +278,7 @@ foreach($studiengang->result as $row_stg)
 			$i++;
 		}
 
-		if(count($data)>0)
+		if(numberOfElements($data)>0)
 		{
 			$stg_arr[]=array('studiengang'=>array(
 				'bezeichnung'=>$row_stg->bezeichnung,

@@ -179,7 +179,7 @@ if (isset($_GET['search']) && (ctype_digit($_GET['search']) || substr($_GET['sea
 	$prestudent = new prestudent();
 	// Wenn Incoming, dann Incomingstatus laden, sonst Studentenstatus
 	$prestudent->getPrestudentRolle($prestudent_id, 'Incoming');
-	if(count($prestudent->result) > 0)
+	if(numberOfElements($prestudent->result) > 0)
 	{
 		$prestudent->getFirstStatus($prestudent_id, 'Incoming');
 		$firstStudiensemester = $prestudent->studiensemester_kurzbz;
@@ -347,7 +347,7 @@ if (isset($_GET['search']) && (ctype_digit($_GET['search']) || substr($_GET['sea
 			$pruefung = new pruefung();
 			$pruefung->getPruefungen($user, null, $row->lehrveranstaltung_id, $stsem);
 
-			if (count($pruefung->result) > 0)
+			if (numberOfElements($pruefung->result) > 0)
 			{
 				$freigabedatum = $row->uebernahmedatum;
 				$tblBody .= '<td>';

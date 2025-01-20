@@ -280,7 +280,7 @@ if(!$rechte->isBerechtigt('assistenz'))
             $plausiFehler = true;
             }
 
-            if(count($bisio->result) > 1)
+            if(numberOfElements($bisio->result) > 1)
             {
                 $temp = clone $student;
                 array_push($bisio_fehler, $temp);
@@ -383,7 +383,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($svnr_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben weder eine SVNR noch ein Ersatzkennzeichen ('.  count($svnr_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben weder eine SVNR noch ein Ersatzkennzeichen ('.  numberOfElements($svnr_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($svnr_fehler as $student)
 		    {
@@ -394,7 +394,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($gebdat_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben ein unplausibles Geburtsdatum ('.  count($gebdat_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben ein unplausibles Geburtsdatum ('.  numberOfElements($gebdat_fehler).'):</h4>';
 		    echo '<span style="font-size:10px;">(Kalenderjahr - Geubrtsjahr < 80 und > 15)</span>';
 		    echo '<ul>';
 		    foreach($gebdat_fehler as $student)
@@ -406,7 +406,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($geschlecht_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben ein unplausibles Geschlecht ('.  count($geschlecht_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben ein unplausibles Geschlecht ('.  numberOfElements($geschlecht_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($geschlecht_fehler as $student)
 		    {
@@ -417,7 +417,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($staat_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben keine Staatsbürgerschaft ('.  count($staat_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben keine Staatsbürgerschaft ('.  numberOfElements($staat_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($staat_fehler as $student)
 		    {
@@ -428,7 +428,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($nation_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben keine Nation bei Ihrer Heimatadresse ('.  count($nation_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben keine Nation bei Ihrer Heimatadresse ('.  numberOfElements($nation_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($nation_fehler as $student)
 		    {
@@ -439,7 +439,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($plz_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben keine PLZ ('.  count($plz_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben keine PLZ ('.  numberOfElements($plz_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($plz_fehler as $student)
 		    {
@@ -450,7 +450,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($ort_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben keinen Ort bei ihrer Heimatadresse ('.  count($ort_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben keinen Ort bei ihrer Heimatadresse ('.  numberOfElements($ort_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($ort_fehler as $student)
 		    {
@@ -461,7 +461,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
         if(!empty($bisio_fehler))
         {
-            echo '<h4>Folgende Studenten haben mehr als 1 Mobilitätsprogramm absolviert ('.  count($bisio_fehler).'):</h4>';
+            echo '<h4>Folgende Studenten haben mehr als 1 Mobilitätsprogramm absolviert ('.  numberOfElements($bisio_fehler).'):</h4>';
             echo '<ul>';
             foreach($bisio_fehler as $student)
             {
@@ -472,7 +472,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($sart_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben eine unplausible Studienart ('.  count($sart_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben eine unplausible Studienart ('.  numberOfElements($sart_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($sart_fehler as $student)
 		    {
@@ -483,7 +483,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($sbez_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben eine unplausible Studiumsbezeichnung ('.  count($sbez_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben eine unplausible Studiumsbezeichnung ('.  numberOfElements($sbez_fehler).'):</h4>';
 		    echo '<span style="font-size:10px;">Bereichscode + Studiengang-Code; max 8 Zeichen</span>';
 		    echo '<ul>';
 		    foreach($sbez_fehler as $student)
@@ -495,7 +495,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($sbeg_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben einen unplausiblen Studienbeginn ('.  count($sbeg_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben einen unplausiblen Studienbeginn ('.  numberOfElements($sbeg_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($sbeg_fehler as $student)
 		    {
@@ -506,7 +506,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($abschluss_fehler))
 		{
-		    echo '<h4>Folgende Studenten haben ein unplausibles Studienende (Datum) ('.  count($abschluss_fehler).'):</h4>';
+		    echo '<h4>Folgende Studenten haben ein unplausibles Studienende (Datum) ('.  numberOfElements($abschluss_fehler).'):</h4>';
 		    echo '<ul>';
 		    foreach($abschluss_fehler as $student)
 		    {
@@ -517,7 +517,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
         if(!empty($matrnr_fehler))
         {
-            echo '<h4>Folgende Studenten haben keine Matrikelnummer ('.  count($matrnr_fehler).'):</h4>';
+            echo '<h4>Folgende Studenten haben keine Matrikelnummer ('.  numberOfElements($matrnr_fehler).'):</h4>';
             echo '<ul>';
             foreach($matrnr_fehler as $student)
             {
@@ -528,7 +528,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($vbpkBf_fehler))
 		{
-			echo '<h4>Folgende Studenten haben kein VBpkBf ('.  count($vbpkBf_fehler).'):</h4>';
+			echo '<h4>Folgende Studenten haben kein VBpkBf ('.  numberOfElements($vbpkBf_fehler).'):</h4>';
 			echo '<ul>';
 			foreach($vbpkBf_fehler as $student)
 			{
@@ -539,7 +539,7 @@ if(!$rechte->isBerechtigt('assistenz'))
 
 		if(!empty($vbpkAs_fehler))
 		{
-			echo '<h4>Folgende Studenten haben kein VBpkAs ('.  count($vbpkAs_fehler).'):</h4>';
+			echo '<h4>Folgende Studenten haben kein VBpkAs ('.  numberOfElements($vbpkAs_fehler).'):</h4>';
 			echo '<ul>';
 			foreach($vbpkAs_fehler as $student)
 			{
